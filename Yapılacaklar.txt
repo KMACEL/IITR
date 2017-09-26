@@ -1,0 +1,31 @@
+Function :
+  1. Mode ismine göre mode code - default policy code geri döndürmesi
+  2. Policy ismine göre policy code döndürülmesi
+  3. Mail servisinin yazılması
+  4. Raporları isimlendirip ortak bir alana konulması
+    4.1. Raporları Local Ağda yayınlanması
+  5. csvLib düzenlenmesi
+
+Runtime :
+  1. Gelen responseID sine göre mesajın durum kontrolü
+  2.
+
+User :
+  1. Dışarıdan user bilgileri girişi.
+  2. User karşılama ekranı
+  3. Console tasarım
+  4. Otomatik case oluşturma
+  5. Status kontrol
+
+Açıklamalar :
+  1. Fonksiyon ve Package açıklamaları
+
+Cases :
+  1. Cihaz kontrol + Alarm
+
+Error :
+  1. Error Center oluşturulması
+         ErrConnectionClosed = errors.New("nats: connection closed")
+
+Variable :
+  1. Visual Flag Bool Yap
