@@ -40,9 +40,9 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 	var packageHeader string
 	for i, packageHeaderName := range setControlPackage {
 		if i == 0 {
-			packageHeader = packageHeaderName
+			packageHeader = packageHeaderName + "," + packageHeaderName
 		} else {
-			packageHeader = packageHeaderName + "," + packageHeader
+			packageHeader = packageHeaderName + "," + packageHeaderName + "," + packageHeader
 		}
 	}
 
@@ -73,71 +73,104 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 			json.Unmarshal(query, &deviceCode)
 
 			for i, deviceCoding := range deviceCode.Extras {
-				//TODO : Device Code boş olma durumuna bak
-				var (
-					applicationsStatus string
-					presence           string
-					lastOnlineTime     string
-					profile            string
-					policy             string
-					dromSize           int
-					workingGroup       string
-				)
+				if deviceCoding.DeviceID != "" {
 
-				// GoRutines Message Chanall
-				chApplicationsStatus := make(chan string)
-				chPresence := make(chan string)
-				chLastOnlineTime := make(chan string)
-				chProfile := make(chan string)
-				chPolicy := make(chan string)
-				chDromSize := make(chan int)
-				chWorkingGroup := make(chan string)
+					var (
+						applicationsStatus string
+						presence           string
+						lastOnlineTime     string
+						profile            string
+						policy             string
+						dromSize           int
+						workingGroup       string
+					)
 
-				// Start GoRutines
-				go d.applicationStatus(deviceCoding.DeviceCode, setControlPackage, chApplicationsStatus)
-				go d.presenceStatus(deviceCoding.DeviceID, chPresence, chLastOnlineTime)
-				go d.profilePolicy(deviceCoding.DeviceID, chProfile, chPolicy)
-				go d.submittedDromSize(deviceCoding.DeviceCode, chDromSize)
-				go d.workingGroup(deviceCoding.DeviceID, chWorkingGroup)
+					// GoRutines Message Chanall
+					// chApplicationsStatus: The channel in the string type that gives application information.
+					// chPresence: Online - The channel in the string type that provides offline information.
+					// chLastOnlineTime: The channel in the string type that gives the time to be last online.
+					// chProfile: The channel in string type that gives active mode information.
+					// chPolicy: The channel in string type that provides active policy information.
+					// chDromSize is the integer type channel that reports the number of droms
+					// chWorkingGroup: The channel in the string type that reports the group.
+					chApplicationsStatus := make(chan string)
+					chPresence := make(chan string)
+					chLastOnlineTime := make(chan string)
+					chProfile := make(chan string)
+					chPolicy := make(chan string)
+					chDromSize := make(chan int)
+					chWorkingGroup := make(chan string)
 
-				// Recieve Message
-				applicationsStatus = <-chApplicationsStatus
-				presence = <-chPresence
-				lastOnlineTime = <-chLastOnlineTime
-				profile = <-chProfile
-				policy = <-chPolicy
-				dromSize = <-chDromSize
-				workingGroup = <-chWorkingGroup
+					// Start GoRutines.
+					// applicationStatus: Returns the application status and block status of applications that are initially given a package name.
+					// presenceStatus: The status of the device is online - offline. If offline, it will tell you when it was last online.
+					// profilePolicy: Provides the mode and policy information of the device.
+					// submittedDromSize: How many DROMs are sent to the device.
+					// workingGroup: Tells us if there is a group on the device.
+					go d.applicationStatus(deviceCoding.DeviceID, setControlPackage, chApplicationsStatus)
+					go d.presenceStatus(deviceCoding.DeviceID, chPresence, chLastOnlineTime)
+					go d.profilePolicy(deviceCoding.DeviceID, chProfile, chPolicy)
+					go d.submittedDromSize(deviceCoding.DeviceCode, chDromSize)
+					go d.workingGroup(deviceCoding.DeviceID, chWorkingGroup)
 
-			control:
-				//TODO : dromSize bak
-				if applicationsStatus != "" || presence != "" || lastOnlineTime != "" || profile != "" || policy != "" || workingGroup != "" {
-					d.writeCsvArray = append(d.writeCsvArray,
-						deviceCoding.DeviceID,
-						applicationsStatus,
-						strconv.Itoa(dromSize),
-						presence,
-						profile,
-						policy,
-						deviceCoding.Latitude,
-						deviceCoding.Longitude,
-						lastOnlineTime, time.Now().String(),
-						workingGroup,
-						"\n")
+					// This section writes the messages from the channels in the go routines to the variables.
+					applicationsStatus = <-chApplicationsStatus
+					presence = <-chPresence
+					lastOnlineTime = <-chLastOnlineTime
+					profile = <-chProfile
+					policy = <-chPolicy
+					dromSize = <-chDromSize
+					workingGroup = <-chWorkingGroup
 
-				} else {
-					goto control
+					//This place is bigger. Control of messages from the channels is done here. If the channel has not yet received data, it will look at it again.
+				control:
+					if applicationsStatus != "" || presence != "" || lastOnlineTime != "" || profile != "" || policy != "" || workingGroup != "" {
+
+						// Here, array is written. After all the data is complete, the array is saved. Then '\ n' is passed to the next batch.
+						//				This process is processed for all devices. The tabloda order to be created is as follows.
+						//deviceCoding.DeviceID: Get the ID of this device.
+						// applicationsStatus: This will retrieve the application information as previously set.
+						// strConv.Itoa (dromSize): Changes the number of drom numbers to string type and returns the information inside.
+						// Presence: brings the device 's online - offline information.
+						// profile: gets active mode information.
+						// policy: retrieves active policy information.
+						// deviceCoding.Latitude: Get position information in latitude type.
+						// deviceCoding.Longitude: Get position information in longitude type.
+						// lastOnlineTime, time.Now (). String (): Writes the time the data is read. The longer the process, the longer it is given.
+						// 				In some cases momentary time is very important. This gives the time of the recorded data.
+						// workingGroup: The devices give us information in any group.
+						d.writeCsvArray = append(d.writeCsvArray,
+							deviceCoding.DeviceID,
+							applicationsStatus,
+							strconv.Itoa(dromSize),
+							presence,
+							profile,
+							policy,
+							deviceCoding.Latitude,
+							deviceCoding.Longitude,
+							lastOnlineTime, time.Now().String(),
+							workingGroup,
+							"\n")
+
+					} else {
+						goto control
+					}
+
+					// The display shows the sequence and the duration of the operation. Every 100 devices will give us information.
+					if i%100 == 0 {
+						log.Println(i, "/", len(deviceCode.Extras))
+					}
+
 				}
-
-				if i%100 == 0 {
-					log.Println(i, "/", len(deviceCode.Extras))
-				}
-
 			}
 		}
 	} else {
 		log.Println("Querry Error ...")
 	}
+
+	//The data sent to the array sends the necessary information to the function that performs the write operation.
+	//There is something that needs attention. All the data are collected and then sent for registration.
+	//This is set in this way to gain speed. If you do not want to risk it, check out the other functions in the 'writefile' library.
 	d.writeCSVType(fileName, d.writeCsvArray, packageHeader)
 	log.Println("Finish Read ...")
 }
@@ -150,62 +183,81 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 ██║  ██║██║     ██║     ███████╗██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║    ███████║   ██║   ██║  ██║   ██║   ╚██████╔╝███████║
 ╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 */
-func (d DetailReport) applicationStatus(deviceCode string, setControlPackage []string, chApplicationsStatus chan string) string {
-	var statusGlobal string
+// This function takes the external deviceID, setControlPackage, chApplicationsStatus data. These.
+// deviceID: The number of the device to be controlled. String type. one is sent. So you can only look at one device at a time. The entire query is carried out using this ID number.
+// setControlPackage: Contains packages to be checked. The String is of type Array. It checks all the packets if they are entered.
+// chApplicationsStatus: Go creates a message channel for the routine
+func (d DetailReport) applicationStatus(deviceID string, setControlPackage []string, chApplicationsStatus chan string) string {
+	// statusGlobal: variable that contains the Runnig or NotRunning state
+	// blockedControl: The variable that hosts the Blocked or NotBlocked state.
+	// findControl: If the application in the loop matches, the variable is incremented. This will be told in the place where it is used.
+	// notFindControl: If the application package name is not found in the loop, the variable is incremented by one. This will be told in the place where it is used.
+	var (
+		statusGlobal   string
+		blockedControl string
+		findControl    int
+		notFindControl int
+	)
+
+	//Host the Running state and Blocked state of the referenced application Array
 	packageStatus := make([]string, 0)
 
-	appliacationQuery := d.devices.GetDownloadedList(deviceCode, rest.NOMarshal, rest.Invisible)
+	//It makes the ApplicationInfo query with the given deviceID. This query returns all application data of the device backwards.
+	appliacationQuery := d.devices.ApplicationInfo(deviceID, rest.NOMarshal, rest.Invisible)
 	if appliacationQuery != nil {
 		if string(appliacationQuery) != rest.ResponseNotFound {
 
-			deviceApplication := device.DownloadedApplicationListJSON{}
+			deviceApplication := device.ApplicationInfoJSON{}
 			json.Unmarshal(appliacationQuery, &deviceApplication)
 
 			// Looking at the situation will return to the desired application.
 			for _, controlPackages := range setControlPackage {
-				controlApp := false
 
 				// Related device applications
-				for _, downloadedApp := range deviceApplication {
-
+				for _, downloadedApp := range deviceApplication.Data {
 					// First check. Compare these applications with installed applications.
 					if downloadedApp.PackageName == controlPackages {
 						// Checked
-						controlApp = true
 
 						// the working status of the relevant application came up
-						running := downloadedApp.Running
-						if running {
-							statusGlobal = "Running"
-							packageStatus = append(packageStatus, statusGlobal)
+
+						if downloadedApp.Running {
+							statusGlobal = rest.Running
 						} else {
-							statusGlobal = "Not Running"
-							packageStatus = append(packageStatus, statusGlobal)
+							statusGlobal = rest.NotRunning
 						}
+
+						if downloadedApp.Blocked == -1 {
+							blockedControl = rest.UnKnow
+						} else if downloadedApp.Blocked == 0 {
+							blockedControl = rest.NotBlocked
+						} else if downloadedApp.Blocked == 1 {
+							blockedControl = rest.Blocked
+						}
+						packageStatus = append(packageStatus, statusGlobal, blockedControl)
+						findControl++
 						break
+					} else {
+						notFindControl++
 					}
 				}
-
 				// Absence of application
-				if controlApp == false {
-					statusGlobal = "No Application"
-					packageStatus = append(packageStatus, statusGlobal)
+				if notFindControl > 0 && findControl == 0 {
+					packageStatus = append(packageStatus, rest.NoApplication, rest.NoApplication)
 				}
 			}
 
 			// If 404 Not Found is
 		} else {
 			for j := 0; j < len(setControlPackage); j++ {
-				statusGlobal = rest.ResponseNotFound
-				packageStatus = append(packageStatus, statusGlobal)
+				packageStatus = append(packageStatus, rest.ResponseNotFound, rest.ResponseNotFound)
 			}
 		}
 
 		// If Nil is
 	} else {
 		for j := 0; j < len(setControlPackage); j++ {
-			statusGlobal = rest.ResponseNil
-			packageStatus = append(packageStatus, statusGlobal)
+			packageStatus = append(packageStatus, rest.ResponseNil, rest.ResponseNil)
 		}
 	}
 
@@ -216,6 +268,10 @@ func (d DetailReport) applicationStatus(deviceCode string, setControlPackage []s
 				applications = applicationLo
 			} else {
 				applications = applicationLo + "," + applications
+			}
+		} else {
+			for j := 0; j < len(setControlPackage); j++ {
+				packageStatus = append(packageStatus, rest.ResponseNil, rest.ResponseNil)
 			}
 		}
 	}

@@ -13,10 +13,18 @@ func Start() {
 
 //LoginTenant is
 func LoginTenant() {
-	var username string
-	var password string
-retry:
+	var (
+		username string
+		password string
+	)
 
+	fmt.Println("********************************************************************************")
+	fmt.Println("Welcome to IITR...")
+	fmt.Println("IITR is an Ardic project. This project was written to receive reports and test the devices from Ardic platform IoT-Ignite.")
+	fmt.Println("To log in, enter the 'username' and 'password' of your IoT-Ignite account you want to process ...")
+	fmt.Println("********************************************************************************")
+
+retry:
 	fmt.Print("Username : ")
 	fmt.Scan(&username)
 
@@ -24,6 +32,9 @@ retry:
 	fmt.Print("\033[8m") // Hide input
 	fmt.Scan(&password)
 	fmt.Print("\033[28m")
+
+	fmt.Println("********************************************************************************")
+	fmt.Println("********************************************************************************")
 
 	responseConnect := rest.Connect(username, password)
 	if responseConnect {

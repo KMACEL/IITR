@@ -53,6 +53,16 @@ const (
 	Offline = "OFFLINE"
 )
 
+//
+const (
+	NoApplication = "NOAPPLICATION"
+	Running       = "RUNNING"
+	NotRunning    = "NOTRUNNING"
+	Blocked       = "BLOCKED"
+	NotBlocked    = "NOTBLOCKED"
+	UnKnow        = "UNKNOW"
+)
+
 /*
      ██╗███████╗ ██████╗ ███╗   ██╗
      ██║██╔════╝██╔═══██╗████╗  ██║

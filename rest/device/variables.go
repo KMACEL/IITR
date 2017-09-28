@@ -135,7 +135,7 @@ type ApplicationInfoJSON struct {
 		SdcardSize     float64 `json:"sdcardSize"`
 		Builtin        float64 `json:"builtin"`
 		Name           string  `json:"name"`
-		Blocked        int     `json:"blocked"`
+		Blocked        float64 `json:"blocked"`
 		UUID           float64 `json:"uuid"`
 		TotalSize      float64 `json:"totalSize"`
 		UpdatedBuiltin float64 `json:"updatedBuiltin,omitempty"`
@@ -183,6 +183,7 @@ type DownloadedApplicationListJSON []struct {
 	DeviceID     string        `json:"deviceId"`
 	TotalSize    int           `json:"totalSize"`
 	Running      bool          `json:"running"`
+	Blocked      int           `json:"blocked"`
 	SdcardSize   int           `json:"sdcardSize"`
 	UsbStoreSize int           `json:"usbStoreSize"`
 	UUID         int           `json:"uuid"`

@@ -26,6 +26,3 @@ Cases :
 Error :
   1. Error Center oluşturulması
          ErrConnectionClosed = errors.New("nats: connection closed")
-
-Variable :
-  1. Visual Flag Bool Yap

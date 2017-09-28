@@ -19,7 +19,15 @@ import (
 func test() {
 
 	var testOperation string
+	fmt.Println("\n\n********************************************************************************")
+	fmt.Println("********************************************************************************\n ")
 	log.Println("Test ...")
+	fmt.Println("new | add : Create New Test Case")
+	fmt.Println("cl  | cases-list : Get Cases Test Case List")
+	fmt.Println("sc  | start-cases : Start Test Cases")
+	fmt.Println("\n\n********************************************************************************")
+	fmt.Println("********************************************************************************\n ")
+
 	fmt.Print("Operation : ")
 	fmt.Scan(&testOperation)
 

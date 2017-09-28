@@ -15,6 +15,15 @@ import (
 func report() {
 	var reportOperation string
 
+	fmt.Println("\n\n********************************************************************************")
+	fmt.Println("********************************************************************************\n ")
+	fmt.Println("Report Screen :")
+	fmt.Println("adr / alldevicereport : Take the package names of the applications to be looked at from you and control all devices that are tenant\n ")
+	fmt.Println("dr / devicereport : I want a way from you. he requests a json format file on the road. it generates a report according to the device and information in that file\n ")
+	fmt.Println("br / blockedreport : make devices blocked")
+	fmt.Println("\n********************************************************************************")
+	fmt.Println("********************************************************************************\n ")
+
 	fmt.Print("Entry Report Operation Parameter : ")
 	fmt.Scan(&reportOperation)
 
