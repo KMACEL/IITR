@@ -52,13 +52,19 @@ func (d Device) WorkingGroupControl(setDeviceID string, vasualFlag bool) string 
 			summaryWorkingGroup := SummaryJSON{}
 			json.Unmarshal(query, &summaryWorkingGroup)
 			var workingGroupString string
-			for _, workingGroup := range summaryWorkingGroup.Content[0].Groups {
-				workingGroupString = workingGroup.Name + workingGroupString
-			}
 
-			return workingGroupString
+			if summaryWorkingGroup.Content != nil {
+				if summaryWorkingGroup.Content[0].Groups != nil {
+					for _, workingGroup := range summaryWorkingGroup.Content[0].Groups {
+						workingGroupString = workingGroup.Name + workingGroupString
+					}
+					return workingGroupString
+				}
+				return rest.ResponseNotFound
+			}
+			return rest.ResponseNil
 		}
-		return rest.ResponseNotFound
+		return rest.ResponseNil
 	}
 	return rest.ResponseNil
 }

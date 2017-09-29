@@ -183,7 +183,7 @@ type DownloadedApplicationListJSON []struct {
 	DeviceID     string        `json:"deviceId"`
 	TotalSize    int           `json:"totalSize"`
 	Running      bool          `json:"running"`
-	Blocked      int           `json:"blocked"`
+	Blocked      float64       `json:"blocked"`
 	SdcardSize   int           `json:"sdcardSize"`
 	UsbStoreSize int           `json:"usbStoreSize"`
 	UUID         int           `json:"uuid"`

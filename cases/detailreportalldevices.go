@@ -233,7 +233,10 @@ func (d DetailReport) applicationStatus(deviceID string, setControlPackage []str
 							blockedControl = rest.NotBlocked
 						} else if downloadedApp.Blocked == 1 {
 							blockedControl = rest.Blocked
+						} else {
+							blockedControl = rest.ResponseNil
 						}
+
 						packageStatus = append(packageStatus, statusGlobal, blockedControl)
 						findControl++
 						break
@@ -407,6 +410,11 @@ func (d DetailReport) submittedDromSize(deviceCode string, chDromSize chan int) 
 */
 func (d DetailReport) workingGroup(deviceID string, chWorkingGroup chan string) string {
 	workingGroup := d.devices.WorkingGroupControl(deviceID, rest.Invisible)
+
+	if workingGroup == "" {
+		workingGroup = rest.ResponseNil
+	}
+
 	chWorkingGroup <- workingGroup
 	close(chWorkingGroup)
 	return workingGroup
