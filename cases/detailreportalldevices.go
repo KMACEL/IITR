@@ -93,6 +93,7 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 					// chPolicy: The channel in string type that provides active policy information.
 					// chDromSize is the integer type channel that reports the number of droms
 					// chWorkingGroup: The channel in the string type that reports the group.
+
 					chApplicationsStatus := make(chan string)
 					chPresence := make(chan string)
 					chLastOnlineTime := make(chan string)
@@ -113,32 +114,100 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 					go d.submittedDromSize(deviceCoding.DeviceCode, chDromSize)
 					go d.workingGroup(deviceCoding.DeviceID, chWorkingGroup)
 
+					for getItemApplicationsStatus, status := <-chApplicationsStatus; status; getItemApplicationsStatus, status = <-chApplicationsStatus {
+						applicationsStatus = getItemApplicationsStatus
+						if status {
+							break
+						}
+					}
+
+					for getItemPresence, status := <-chPresence; status; getItemPresence, status = <-chPresence {
+						presence = getItemPresence
+						if status {
+							break
+						}
+					}
+
+					for getItemLastOnlineTime, status := <-chLastOnlineTime; status; getItemLastOnlineTime, status = <-chLastOnlineTime {
+						lastOnlineTime = getItemLastOnlineTime
+						if status {
+							break
+						}
+					}
+
+					for getItemProfile, status := <-chProfile; status; getItemProfile, status = <-chProfile {
+						profile = getItemProfile
+						if status {
+							break
+						}
+					}
+
+					for getItemPolicy, status := <-chPolicy; status; getItemPolicy, status = <-chPolicy {
+						policy = getItemPolicy
+						if status {
+							break
+						}
+					}
+
+					for getItemDromSize, status := <-chDromSize; status; getItemDromSize, status = <-chDromSize {
+						dromSize = getItemDromSize
+						if status {
+							break
+						}
+					}
+
+					for getItemWorkingGroup, status := <-chWorkingGroup; status; getItemWorkingGroup, status = <-chWorkingGroup {
+						workingGroup = getItemWorkingGroup
+						if status {
+							break
+						}
+					}
+
 					// This section writes the messages from the channels in the go routines to the variables.
-					applicationsStatus = <-chApplicationsStatus
-					presence = <-chPresence
-					lastOnlineTime = <-chLastOnlineTime
-					profile = <-chProfile
-					policy = <-chPolicy
-					dromSize = <-chDromSize
-					workingGroup = <-chWorkingGroup
-
+					/*
+						applicationsStatus = <-chApplicationsStatus
+						presence = <-chPresence
+						lastOnlineTime = <-chLastOnlineTime
+						profile = <-chProfile
+						policy = <-chPolicy
+						dromSize = <-chDromSize
+						workingGroup = <-chWorkingGroup
+					*/
 					//This place is bigger. Control of messages from the channels is done here. If the channel has not yet received data, it will look at it again.
-				control:
-					if applicationsStatus != "" || presence != "" || lastOnlineTime != "" || profile != "" || policy != "" || workingGroup != "" {
-
-						// Here, array is written. After all the data is complete, the array is saved. Then '\ n' is passed to the next batch.
-						//				This process is processed for all devices. The tabloda order to be created is as follows.
-						//deviceCoding.DeviceID: Get the ID of this device.
-						// applicationsStatus: This will retrieve the application information as previously set.
-						// strConv.Itoa (dromSize): Changes the number of drom numbers to string type and returns the information inside.
-						// Presence: brings the device 's online - offline information.
-						// profile: gets active mode information.
-						// policy: retrieves active policy information.
-						// deviceCoding.Latitude: Get position information in latitude type.
-						// deviceCoding.Longitude: Get position information in longitude type.
-						// lastOnlineTime, time.Now (). String (): Writes the time the data is read. The longer the process, the longer it is given.
-						// 				In some cases momentary time is very important. This gives the time of the recorded data.
-						// workingGroup: The devices give us information in any group.
+					//control:
+					switch {
+					// Here, array is written. After all the data is complete, the array is saved. Then '\ n' is passed to the next batch.
+					//				This process is processed for all devices. The tabloda order to be created is as follows.
+					//deviceCoding.DeviceID: Get the ID of this device.
+					// applicationsStatus: This will retrieve the application information as previously set.
+					// strConv.Itoa (dromSize): Changes the number of drom numbers to string type and returns the information inside.
+					// Presence: brings the device 's online - offline information.
+					// profile: gets active mode information.
+					// policy: retrieves active policy information.
+					// deviceCoding.Latitude: Get position information in latitude type.
+					// deviceCoding.Longitude: Get position information in longitude type.
+					// lastOnlineTime, time.Now (). String (): Writes the time the data is read. The longer the process, the longer it is given.
+					// 				In some cases momentary time is very important. This gives the time of the recorded data.
+					// workingGroup: The devices give us information in any group.
+					case applicationsStatus == "":
+						log.Println("Application Status Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case presence == "":
+						log.Println("Presence Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case lastOnlineTime == "":
+						log.Println("Last Online Time Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case profile == "":
+						log.Println("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case policy == "":
+						log.Println("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case workingGroup == "":
+						log.Println("WorkingGroup Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					default:
 						d.writeCsvArray = append(d.writeCsvArray,
 							deviceCoding.DeviceID,
 							applicationsStatus,
@@ -151,14 +220,17 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 							lastOnlineTime, time.Now().String(),
 							workingGroup,
 							"\n")
-
-					} else {
-						goto control
 					}
 
 					// The display shows the sequence and the duration of the operation. Every 100 devices will give us information.
-					if i%100 == 0 {
-						log.Println(i, "/", len(deviceCode.Extras))
+					if len(deviceCode.Extras) > 100 {
+						if i%100 == 0 {
+							log.Println(i, "/", len(deviceCode.Extras))
+						}
+					} else if len(deviceCode.Extras) > 10 {
+						if i%10 == 0 {
+							log.Println(i, "/", len(deviceCode.Extras))
+						}
 					}
 
 				}
@@ -188,100 +260,138 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 // setControlPackage: Contains packages to be checked. The String is of type Array. It checks all the packets if they are entered.
 // chApplicationsStatus: Go creates a message channel for the routine
 func (d DetailReport) applicationStatus(deviceID string, setControlPackage []string, chApplicationsStatus chan string) string {
-	// statusGlobal: variable that contains the Runnig or NotRunning state
-	// blockedControl: The variable that hosts the Blocked or NotBlocked state.
-	// findControl: If the application in the loop matches, the variable is incremented. This will be told in the place where it is used.
-	// notFindControl: If the application package name is not found in the loop, the variable is incremented by one. This will be told in the place where it is used.
-	var (
-		statusGlobal   string
-		blockedControl string
-		findControl    int
-		notFindControl int
-	)
+	// This section specifies the space - fill state of the values that come into the function.
+	// If this information is empty, the operations performed in the function will fail.
+	if deviceID != "" {
+		if setControlPackage != nil {
 
-	//Host the Running state and Blocked state of the referenced application Array
-	packageStatus := make([]string, 0)
+			// statusGlobal: variable that contains the Runnig or NotRunning state
+			// blockedControl: The variable that hosts the Blocked or NotBlocked state.
+			// findControl: If the application in the loop matches, the variable is incremented. This will be told in the place where it is used.
+			// notFindControl: If the application package name is not found in the loop, the variable is incremented by one. This will be told in the place where it is used.
+			var (
+				statusGlobal   string
+				blockedControl string
+				findControl    int
+				notFindControl int
+			)
 
-	//It makes the ApplicationInfo query with the given deviceID. This query returns all application data of the device backwards.
-	appliacationQuery := d.devices.ApplicationInfo(deviceID, rest.NOMarshal, rest.Invisible)
-	if appliacationQuery != nil {
-		if string(appliacationQuery) != rest.ResponseNotFound {
-
-			deviceApplication := device.ApplicationInfoJSON{}
-			json.Unmarshal(appliacationQuery, &deviceApplication)
-
-			// Looking at the situation will return to the desired application.
-			for _, controlPackages := range setControlPackage {
-
-				// Related device applications
-				for _, downloadedApp := range deviceApplication.Data {
-					// First check. Compare these applications with installed applications.
-					if downloadedApp.PackageName == controlPackages {
-						// Checked
-
-						// the working status of the relevant application came up
-
-						if downloadedApp.Running {
-							statusGlobal = rest.Running
-						} else {
-							statusGlobal = rest.NotRunning
-						}
-
-						if downloadedApp.Blocked == -1 {
-							blockedControl = rest.UnKnow
-						} else if downloadedApp.Blocked == 0 {
-							blockedControl = rest.NotBlocked
-						} else if downloadedApp.Blocked == 1 {
-							blockedControl = rest.Blocked
-						} else {
-							blockedControl = rest.ResponseNil
-						}
-
-						packageStatus = append(packageStatus, statusGlobal, blockedControl)
-						findControl++
-						break
+			responseNilFunction := func() string {
+				var applicationsNil string
+				for j := 0; j < len(setControlPackage); j++ {
+					if j == 0 {
+						applicationsNil = rest.ResponseNil + "," + rest.ResponseNil
 					} else {
-						notFindControl++
+						applicationsNil = rest.ResponseNil + "," + rest.ResponseNil + "," + applicationsNil
 					}
 				}
-				// Absence of application
-				if notFindControl > 0 && findControl == 0 {
-					packageStatus = append(packageStatus, rest.NoApplication, rest.NoApplication)
+				strings.Trim(applicationsNil, " ")
+				return applicationsNil
+			}
+
+			//Host the Running state and Blocked state of the referenced application Array
+			packageStatus := make([]string, 0)
+
+			//It makes the ApplicationInfo query with the given deviceID. This query returns all application data of the device backwards.
+			appliacationQuery := d.devices.ApplicationInfo(deviceID, rest.NOMarshal, rest.Invisible)
+
+			if appliacationQuery != nil {
+				if string(appliacationQuery) != rest.ResponseNotFound {
+
+					deviceApplication := device.ApplicationInfoJSON{}
+					json.Unmarshal(appliacationQuery, &deviceApplication)
+
+					// Looking at the situation will return to the desired application.
+					for _, controlPackages := range setControlPackage {
+						notFindControl = 0
+						findControl = 0
+						// Related device applications
+						for _, downloadedApp := range deviceApplication.Data {
+							// First check. Compare these applications with installed applications.
+							if downloadedApp.PackageName == controlPackages {
+								// Checked
+
+								// the working status of the relevant application came up
+
+								if downloadedApp.Running {
+									statusGlobal = rest.Running
+								} else if !downloadedApp.Running {
+									statusGlobal = rest.NotRunning
+								} else {
+									statusGlobal = rest.ResponseNil
+								}
+
+								if downloadedApp.Blocked == -1 {
+									blockedControl = rest.UnKnow
+								} else if downloadedApp.Blocked == 0 {
+									blockedControl = rest.NotBlocked
+								} else if downloadedApp.Blocked == 1 {
+									blockedControl = rest.Blocked
+								} else {
+									blockedControl = rest.ResponseNil
+								}
+
+								packageStatus = append(packageStatus, statusGlobal, blockedControl)
+								findControl++
+								break
+							} else {
+								notFindControl++
+							}
+						}
+						// Absence of application
+						if notFindControl > 0 && findControl == 0 {
+							packageStatus = append(packageStatus, rest.NoApplication, rest.NoApplication)
+						}
+					}
+
+					// If 404 Not Found is
+				} else {
+					for j := 0; j < len(setControlPackage); j++ {
+						packageStatus = append(packageStatus, rest.ResponseNotFound, rest.ResponseNotFound)
+					}
+				}
+
+				// If Nil is
+			} else {
+				for j := 0; j < len(setControlPackage); j++ {
+					packageStatus = append(packageStatus, rest.ResponseNil, rest.ResponseNil)
 				}
 			}
 
-			// If 404 Not Found is
-		} else {
-			for j := 0; j < len(setControlPackage); j++ {
-				packageStatus = append(packageStatus, rest.ResponseNotFound, rest.ResponseNotFound)
-			}
-		}
-
-		// If Nil is
-	} else {
-		for j := 0; j < len(setControlPackage); j++ {
-			packageStatus = append(packageStatus, rest.ResponseNil, rest.ResponseNil)
-		}
-	}
-
-	var applications string
-	for i, applicationLo := range packageStatus {
-		if applicationLo != "" {
-			if i == 0 {
-				applications = applicationLo
+			var applications string
+			if packageStatus != nil {
+				for i, applicationLo := range packageStatus {
+					if applicationLo != "" {
+						if i == 0 {
+							applications = applicationLo
+						} else {
+							applications = applicationLo + "," + applications
+						}
+					} else {
+						applications = responseNilFunction()
+					}
+				}
 			} else {
-				applications = applicationLo + "," + applications
+				applications = responseNilFunction()
 			}
-		} else {
-			for j := 0; j < len(setControlPackage); j++ {
-				packageStatus = append(packageStatus, rest.ResponseNil, rest.ResponseNil)
+
+			if applications == "" {
+				applications = responseNilFunction()
 			}
+
+			chApplicationsStatus <- applications
+			close(chApplicationsStatus)
+			return applications
 		}
+		chApplicationsStatus <- rest.ResponseNil
+		close(chApplicationsStatus)
+		return rest.ResponseNil
 	}
-	strings.Trim(applications, " ")
-	chApplicationsStatus <- applications
+
+	chApplicationsStatus <- rest.ResponseNil
 	close(chApplicationsStatus)
-	return applications
+
+	return rest.ResponseNil
 }
 
 /*
@@ -293,31 +403,52 @@ func (d DetailReport) applicationStatus(deviceID string, setControlPackage []str
 ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝ ╚═════╝╚══════╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 */
 func (d DetailReport) presenceStatus(deviceCode string, chPresence, chLastOnlineTime chan string) (string, string) {
-	var presence string
-	var lastOnlineTime string
+	// This section specifies the space - fill state of the values that come into the function.
+	// If this information is empty, the operations performed in the function will fail.
+	if deviceCode != "" {
+		var presence string
+		var lastOnlineTime string
 
-	presenceTime := d.devices.PresenceInfo(deviceCode, rest.NOMarshal, rest.Invisible)
-	if presenceTime != nil {
-		if string(presenceTime) != rest.ResponseNotFound {
+		presenceTime := d.devices.PresenceInfo(deviceCode, rest.NOMarshal, rest.Invisible)
+		if presenceTime != nil {
+			if string(presenceTime) != rest.ResponseNotFound {
 
-			presenceInfo := device.PresenceInfoJSON{}
-			json.Unmarshal(presenceTime, &presenceInfo)
+				presenceInfo := device.PresenceInfoJSON{}
+				json.Unmarshal(presenceTime, &presenceInfo)
 
-			lastOnlineTime = time.Unix(0, presenceInfo.CreateDate*1000000).String()
-			presence = presenceInfo.Data.State
+				lastOnlineTime = time.Unix(0, presenceInfo.CreateDate*1000000).String()
+				presence = presenceInfo.Data.State
+			} else {
+				lastOnlineTime = rest.ResponseNotFound
+				presence = rest.ResponseNotFound
+			}
 		} else {
-			lastOnlineTime = rest.ResponseNotFound
-			presence = rest.ResponseNotFound
+			lastOnlineTime = rest.ResponseNil
+			presence = rest.ResponseNil
 		}
-	} else {
-		lastOnlineTime = rest.ResponseNil
-		presence = rest.ResponseNil
+
+		if presence == "" {
+			presence = rest.ResponseNil
+		}
+
+		if lastOnlineTime == "" {
+			lastOnlineTime = rest.ResponseNil
+		}
+
+		chPresence <- presence
+		chLastOnlineTime <- lastOnlineTime
+		close(chPresence)
+		close(chLastOnlineTime)
+		return presence, lastOnlineTime
 	}
-	chPresence <- presence
-	chLastOnlineTime <- lastOnlineTime
+
+	chPresence <- rest.ResponseNil
+	chLastOnlineTime <- rest.ResponseNil
+
 	close(chPresence)
 	close(chLastOnlineTime)
-	return presence, lastOnlineTime
+
+	return rest.ResponseNil, rest.ResponseNil
 }
 
 /*
@@ -329,41 +460,62 @@ func (d DetailReport) presenceStatus(deviceCode string, chPresence, chLastOnline
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝   ╚═╝
 */
 func (d DetailReport) profilePolicy(deviceID string, chProfile, chPolicy chan string) (string, string) {
-	var (
-		activeProfile string
-		activePolicy  string
-	)
+	// This section specifies the space - fill state of the values that come into the function.
+	// If this information is empty, the operations performed in the function will fail.
+	if deviceID != "" {
+		var (
+			activeProfile string
+			activePolicy  string
+		)
 
-	profilePolicyQuery := d.devices.ActiveProfilePolicy(deviceID, rest.NOMarshal, rest.Invisible)
-	if profilePolicyQuery != nil {
-		if string(profilePolicyQuery) != rest.ResponseNotFound {
-			activeProfilePolicy := device.ActiveProfilePolicyJSON{}
-			json.Unmarshal(profilePolicyQuery, &activeProfilePolicy)
+		profilePolicyQuery := d.devices.ActiveProfilePolicy(deviceID, rest.NOMarshal, rest.Invisible)
+		if profilePolicyQuery != nil {
+			if string(profilePolicyQuery) != rest.ResponseNotFound {
+				activeProfilePolicy := device.ActiveProfilePolicyJSON{}
+				json.Unmarshal(profilePolicyQuery, &activeProfilePolicy)
 
-			activeProfile = activeProfilePolicy.ActiveProfile
-			activePolicy = activeProfilePolicy.ActivePolicy
+				activeProfile = activeProfilePolicy.ActiveProfile
+				activePolicy = activeProfilePolicy.ActivePolicy
 
-			if len(activeProfile) == 0 {
-				activeProfile = rest.ResponseNil
+				if len(activeProfile) == 0 {
+					activeProfile = rest.ResponseNil
+				}
+				if len(activePolicy) == 0 {
+					activePolicy = rest.ResponseNil
+				}
+
+			} else {
+				activeProfile = rest.ResponseNotFound
+				activePolicy = rest.ResponseNotFound
 			}
-			if len(activePolicy) == 0 {
-				activePolicy = rest.ResponseNil
-			}
-
 		} else {
-			activeProfile = rest.ResponseNotFound
-			activePolicy = rest.ResponseNotFound
+			activeProfile = rest.ResponseNil
+			activePolicy = rest.ResponseNil
 		}
-	} else {
-		activeProfile = rest.ResponseNil
-		activePolicy = rest.ResponseNil
+
+		if activeProfile == "" {
+			activeProfile = rest.ResponseNil
+		}
+
+		if activePolicy == "" {
+			activePolicy = rest.ResponseNil
+		}
+
+		chProfile <- activeProfile
+		chPolicy <- activePolicy
+
+		close(chProfile)
+		close(chPolicy)
+		return activeProfile, activePolicy
 	}
-	chProfile <- activeProfile
-	chPolicy <- activePolicy
+
+	chProfile <- rest.ResponseNil
+	chPolicy <- rest.ResponseNil
 
 	close(chProfile)
 	close(chPolicy)
-	return activeProfile, activePolicy
+
+	return rest.ResponseNil, rest.ResponseNil
 }
 
 /*
@@ -375,29 +527,36 @@ func (d DetailReport) profilePolicy(deviceID string, chProfile, chPolicy chan st
 ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═════╝     ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝    ╚══════╝╚═╝╚══════╝╚══════╝
 */
 func (d DetailReport) submittedDromSize(deviceCode string, chDromSize chan int) int {
-	var dromCounter int
+	// This section specifies the space - fill state of the values that come into the function.
+	// If this information is empty, the operations performed in the function will fail.
+	if deviceCode != "" {
+		var dromCounter int
 
-	actionStatueQuery := d.actions.GetActionStatus(deviceCode, "PUSH_CMD_DROM", 1000, rest.Invisible)
-	if actionStatueQuery != nil {
-		if string(actionStatueQuery) != rest.ResponseNotFound {
+		actionStatueQuery := d.actions.GetActionStatus(deviceCode, "PUSH_CMD_DROM", 1000, rest.Invisible)
+		if actionStatueQuery != nil {
+			if string(actionStatueQuery) != rest.ResponseNotFound {
 
-			actionMessage := action.MessageJSON{}
-			json.Unmarshal(actionStatueQuery, &actionMessage)
+				actionMessage := action.MessageJSON{}
+				json.Unmarshal(actionStatueQuery, &actionMessage)
 
-			for _, submittedDrom := range actionMessage.Content {
-				if submittedDrom.SentStatus {
-					dromCounter++
+				for _, submittedDrom := range actionMessage.Content {
+					if submittedDrom.SentStatus {
+						dromCounter++
+					}
 				}
+			} else {
+				dromCounter = -1
 			}
 		} else {
-			dromCounter = -1
+			dromCounter = -5
 		}
-	} else {
-		dromCounter = -5
+		chDromSize <- dromCounter
+		close(chDromSize)
+		return dromCounter
 	}
-	chDromSize <- dromCounter
+	chDromSize <- -5
 	close(chDromSize)
-	return dromCounter
+	return -5
 }
 
 /*
@@ -409,15 +568,23 @@ func (d DetailReport) submittedDromSize(deviceCode string, chDromSize chan int) 
  ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝
 */
 func (d DetailReport) workingGroup(deviceID string, chWorkingGroup chan string) string {
-	workingGroup := d.devices.WorkingGroupControl(deviceID, rest.Invisible)
+	// This section specifies the space - fill state of the values that come into the function.
+	// If this information is empty, the operations performed in the function will fail.
+	if deviceID != "" {
 
-	if workingGroup == "" {
-		workingGroup = rest.ResponseNil
+		workingGroup := d.devices.WorkingGroupControl(deviceID, rest.Invisible)
+
+		if workingGroup == "" {
+			workingGroup = rest.ResponseNil
+		}
+
+		chWorkingGroup <- workingGroup
+		close(chWorkingGroup)
+		return workingGroup
 	}
-
-	chWorkingGroup <- workingGroup
+	chWorkingGroup <- rest.ResponseNil
 	close(chWorkingGroup)
-	return workingGroup
+	return rest.ResponseNil
 }
 
 /*
