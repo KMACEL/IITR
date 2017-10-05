@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// Set up authentication information.
-	auth := smtp.PlainAuth("", "mert.acel@ardictech.com", "Ma123456", "mail.ardictech.com")
+	auth := smtp.PlainAuth("", "mertacel@gmail.com", "Ma123456", "mail.ardictech.com")
 
 	// Connect to the server, authenticate, set the sender and recipient,
 	// and send the email all in one step.

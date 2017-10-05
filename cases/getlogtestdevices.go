@@ -7,6 +7,8 @@ import (
 	"github.com/KMACEL/IITR/rest/device"
 )
 
+//Delete Packet
+
 // GetLogDevices is
 type GetLogDevices struct {
 	dev device.Device

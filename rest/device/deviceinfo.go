@@ -59,3 +59,30 @@ func (d Device) ApplicationInfo(setDeviceID string, setUnMarshal bool, vasualFla
 	}
 	return []byte(rest.ResponseNil)
 }
+
+/*
+ ██████╗ ███████╗        ██████╗ ██████╗  ██████╗ ███████╗██╗██╗     ███████╗        ██╗███╗   ██╗███████╗ ██████╗
+██╔═══██╗██╔════╝        ██╔══██╗██╔══██╗██╔═══██╗██╔════╝██║██║     ██╔════╝        ██║████╗  ██║██╔════╝██╔═══██╗
+██║   ██║███████╗        ██████╔╝██████╔╝██║   ██║█████╗  ██║██║     █████╗          ██║██╔██╗ ██║█████╗  ██║   ██║
+██║   ██║╚════██║        ██╔═══╝ ██╔══██╗██║   ██║██╔══╝  ██║██║     ██╔══╝          ██║██║╚██╗██║██╔══╝  ██║   ██║
+╚██████╔╝███████║        ██║     ██║  ██║╚██████╔╝██║     ██║███████╗███████╗        ██║██║ ╚████║██║     ╚██████╔╝
+ ╚═════╝ ╚══════╝        ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝        ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝
+*/
+
+// OSProfileInfo is
+func (d Device) OSProfileInfo(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
+	setQueryAdress := osProfileInfoLink(setDeviceID)
+
+	query, _ := rest.Query{}.GetQuery(setQueryAdress, vasualFlag)
+
+	if query != nil {
+		if string(query) != rest.ResponseNotFound {
+			if setUnMarshal {
+				json.Unmarshal(query, &osProfileInfoJSONVariable)
+			}
+			return query
+		}
+		return []byte(rest.ResponseNotFound)
+	}
+	return []byte(rest.ResponseNil)
+}

@@ -28,6 +28,8 @@ type LCMTest struct {
 	FileName       string
 }
 
+//Delete Packet
+
 //Start is
 func (l LCMTest) Start(setDeviceCode ...string) {
 	writefile.CreateFile(l.FileName)

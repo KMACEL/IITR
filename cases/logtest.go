@@ -11,6 +11,8 @@ import (
 	"github.com/KMACEL/IITR/writefile"
 )
 
+//Delete Packet
+
 //LogTest is
 type LogTest struct {
 	deviceVariable device.Device

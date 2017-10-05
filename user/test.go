@@ -79,7 +79,7 @@ func newTest() {
 func saveCase(caseValue []byte, fileName string) {
 	writefile.CreateFile("cases_lib/" + fileName)
 	writefile.OpenFile("cases_lib/" + fileName)
-	writefile.WriteFileByte(caseValue)
+	writefile.WriteByte(caseValue)
 
 }
 

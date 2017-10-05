@@ -9,6 +9,8 @@ import (
 	"github.com/KMACEL/IITR/rest/device"
 )
 
+//Delete Packet
+
 // OfflineLog is
 type OfflineLog struct {
 	devices  device.Device

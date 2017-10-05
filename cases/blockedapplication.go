@@ -11,6 +11,8 @@ import (
 	"github.com/KMACEL/IITR/writefile"
 )
 
+//Delete Packet
+
 // BlockedAppList is
 type BlockedAppList struct {
 	writeCsvArray []string

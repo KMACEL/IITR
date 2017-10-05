@@ -23,6 +23,7 @@ const (
 	reboot          = "reboot"
 	presence        = "/device-profile?command=Presence"
 	applicationInfo = "/device-profile?command=ApplicationInfo"
+	osProfileInfo   = "/device-profile?command=OSProfile"
 	packageName     = "{\"packageName\":\""
 	packageNameEnd  = "\"}\""
 	deviceLogs      = "deviceLogs/"
@@ -80,6 +81,11 @@ func presenceInfoLink(setDeviceID string) string {
 //PresenceInfoLink is retrun
 func applicationInfoLink(setDeviceID string) string {
 	return api + setDeviceID + applicationInfo
+}
+
+//OSProfileInfo is retrun
+func osProfileInfoLink(setDeviceID string) string {
+	return api + setDeviceID + osProfileInfo
 }
 
 func getLogListLink(setDeviceCode string) string {

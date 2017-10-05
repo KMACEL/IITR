@@ -14,6 +14,8 @@ import (
 	"time"
 )
 
+//Delete Packet
+
 //NoTrust is
 type NoTrust struct {
 	presenceInfoJSONVariable device.PresenceInfoJSON
