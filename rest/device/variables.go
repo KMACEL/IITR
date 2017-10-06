@@ -33,6 +33,7 @@ var (
 	deviceInformationJSONVariable         InformationJSON
 	summaryJSONVariable                   SummaryJSON
 	applicationInfoJSONVariable           ApplicationInfoJSON
+	osProfileInfoJSONVariable             OSProfileInfoJSON
 )
 
 const (
@@ -140,6 +141,44 @@ type ApplicationInfoJSON struct {
 		TotalSize      float64 `json:"totalSize"`
 		UpdatedBuiltin float64 `json:"updatedBuiltin,omitempty"`
 		CacheSize      float64 `json:"cacheSize"`
+	} `json:"data"`
+	CreateDate int64  `json:"createDate"`
+	NodeID     string `json:"nodeId"`
+	SensorID   string `json:"sensorId"`
+	CloudDate  int    `json:"cloudDate"`
+}
+
+// OSProfileInfoJSON is
+type OSProfileInfoJSON struct {
+	DeviceID string `json:"deviceId"`
+	Command  string `json:"command"`
+	Data     struct {
+		Model              string  `json:"model"`
+		Hardware           string  `json:"hardware"`
+		Type               string  `json:"type"`
+		ID                 string  `json:"id"`
+		Time               int64   `json:"time"`
+		ModeApkVersionName string  `json:"modeApkVersionName"`
+		CPUAbi2            string  `json:"cpuAbi2"`
+		LocalIP            string  `json:"localIp"`
+		Tags               string  `json:"tags"`
+		DeviceID           string  `json:"DeviceId"`
+		ModeApkVersionCode float64 `json:"modeApkVersionCode"`
+		Host               string  `json:"host"`
+		OsVersion          string  `json:"osVersion"`
+		Display            string  `json:"display"`
+		Board              string  `json:"board"`
+		Product            string  `json:"product"`
+		Manufacturer       string  `json:"manufacturer"`
+		BootLoader         string  `json:"bootLoader"`
+		CPUAbi             string  `json:"cpuAbi"`
+		Device             string  `json:"device"`
+		Radio              string  `json:"radio"`
+		Brand              string  `json:"brand"`
+		User               string  `json:"user"`
+		Serial             string  `json:"serial"`
+		OsName             string  `json:"osName"`
+		AfexMode           string  `json:"afexMode"`
 	} `json:"data"`
 	CreateDate int64  `json:"createDate"`
 	NodeID     string `json:"nodeId"`

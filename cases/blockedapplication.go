@@ -3,13 +3,15 @@ package cases
 import (
 	"encoding/json"
 	"log"
+	"os"
 	"strings"
-	"time"
 
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/writefile"
 )
+
+//Delete Packet
 
 // BlockedAppList is
 type BlockedAppList struct {
@@ -203,15 +205,11 @@ func (b BlockedAppList) profilePolicy(deviceID string, chProfile, chPolicy chan 
  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝     ╚═════╝╚══════╝  ╚═══╝         ╚═╝      ╚═╝   ╚═╝     ╚══════╝
 */
 func (b BlockedAppList) writeCSVType(fileName string, writeCSVArray []string) {
-retryCsv:
-	if !writefile.WriteFlag {
-		writefile.CreateFile(fileName)
-		writefile.OpenFile(fileName)
+	var blockedControlFile *os.File
 
-		writefile.WriteArray(writeCSVArray)
-	} else {
-		time.Sleep(1 * time.Second)
-		goto retryCsv
-	}
+	writefile.CreateFile(fileName)
+	blockedControlFile = writefile.OpenFile(fileName, blockedControlFile)
+	writefile.WriteArray(writeCSVArray, blockedControlFile)
+
 	log.Println("Finish Write : ")
 }

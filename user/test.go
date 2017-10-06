@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 
@@ -77,9 +78,10 @@ func newTest() {
 }
 
 func saveCase(caseValue []byte, fileName string) {
+	var saveCaseFile *os.File
 	writefile.CreateFile("cases_lib/" + fileName)
-	writefile.OpenFile("cases_lib/" + fileName)
-	writefile.WriteFileByte(caseValue)
+	saveCaseFile = writefile.OpenFile("cases_lib/"+fileName, saveCaseFile)
+	writefile.WriteByte(caseValue, saveCaseFile)
 
 }
 

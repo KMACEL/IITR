@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
@@ -44,6 +45,7 @@ func (d Download) readFile(url string, token string, fileName string) {
 
 func (d Download) saveFile(data []byte, fileName string) {
 	writefile.CreateFile(fileName)
-	writefile.OpenFile(fileName)
-	writefile.WriteFileByte(data)
+	var saveFile *os.File
+	saveFile = writefile.OpenFile(fileName, saveFile)
+	writefile.WriteByte(data, saveFile)
 }

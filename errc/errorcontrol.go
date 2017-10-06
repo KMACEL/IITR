@@ -34,6 +34,16 @@ const (
 	Summary = "Summary : "
 )
 
+// writefile -> create Constant
+const (
+	CreateFile = "Create New File :"
+	OpenFile   = "Open File :"
+
+	WriteArray = "Write Array : "
+	WriteByte  = "Write Byte : "
+	WriteText  = "Write Text : "
+)
+
 // Errors Type
 var (
 	ErrorNotFound404 = errors.New("Request is 404 Not Found. Please check variables, queries, links and other parameters")

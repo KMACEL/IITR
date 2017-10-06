@@ -10,6 +10,8 @@ import (
 	"github.com/KMACEL/IITR/rest/device"
 )
 
+//Delete Packet
+
 //DeviceInformation is
 type DeviceInformation struct{}
 

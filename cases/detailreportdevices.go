@@ -3,6 +3,7 @@ package cases
 import (
 	"encoding/json"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -354,15 +355,10 @@ func (d DetailReportDevices) workingGroup(deviceID string, chWorkingGroup chan s
  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝     ╚═════╝╚══════╝  ╚═══╝         ╚═╝      ╚═╝   ╚═╝     ╚══════╝
 */
 func (d DetailReportDevices) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
-retryCsv:
-	if !writefile.WriteFlag {
-		writefile.CreateFile(fileName)
-		writefile.OpenFile(fileName)
+	var detailReportFile *os.File
+	writefile.CreateFile(fileName)
+	detailReportFile = writefile.OpenFile(fileName, detailReportFile)
+	writefile.WriteArray(writeCSVArray, detailReportFile)
 
-		writefile.WriteArray(writeCSVArray)
-	} else {
-		time.Sleep(1 * time.Second)
-		goto retryCsv
-	}
 	log.Println("Finish Write : ", setControlPackage)
 }

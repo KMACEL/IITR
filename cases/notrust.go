@@ -3,6 +3,7 @@ package cases
 import (
 	"encoding/json"
 	"log"
+	"os"
 
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
@@ -13,6 +14,8 @@ import (
 	"math/rand"
 	"time"
 )
+
+//Delete Packet
 
 //NoTrust is
 type NoTrust struct {
@@ -30,9 +33,10 @@ const (
 
 //Start is
 func (n NoTrust) Start(packageList ...string) {
+	var noTrustFile *os.File
 	writefile.CreateFile("BlockedApp.xlsx")
-	writefile.OpenFile("BlockedApp.xlsx")
-	writefile.WriteText("Package", "Response Message Statue", "Response Message Description", "Time")
+	noTrustFile = writefile.OpenFile("BlockedApp.xlsx", noTrustFile)
+	writefile.WriteText(noTrustFile, "Package", "Response Message Statue", "Response Message Description", "Time")
 
 	workingsetKey := n.workingsetVar.CreateWorkingset()
 	deviceCode := "cea9bbd434b04a7db1865d210f449f0e"
@@ -71,7 +75,7 @@ retryApplication:
 					responseMessageStatue, responseMessageDescription := n.deviceVar.MessageControl(deviceCode, messageResponse, rest.Invisible)
 					log.Println("Statue : ", responseMessageStatue)
 					if responseMessageStatue == responseSuccess {
-						writefile.WriteText(packageVar, responseMessageStatue, responseMessageDescription, time.Now().String())
+						writefile.WriteText(noTrustFile, packageVar, responseMessageStatue, responseMessageDescription, time.Now().String())
 						counter++
 						log.Println("Not Blocked Error : ", packageVar)
 						if counter > controlSize {
@@ -80,12 +84,12 @@ retryApplication:
 						time.Sleep(sleepNotBlockedTime * timeCoefficient * time.Second)
 						goto retryApplication
 					}
-					writefile.WriteText(packageVar, responseMessageStatue, responseMessageDescription, time.Now().String())
+					writefile.WriteText(noTrustFile, packageVar, responseMessageStatue, responseMessageDescription, time.Now().String())
 				}
 
-				writefile.WriteText()
+				writefile.WriteText(noTrustFile)
 			} else {
-				writefile.WriteText(deviceID, rest.Offline)
+				writefile.WriteText(noTrustFile, deviceID, rest.Offline)
 			}
 			goto retry
 		}

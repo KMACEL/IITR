@@ -11,6 +11,8 @@ import (
 	"github.com/KMACEL/IITR/timop"
 )
 
+//Delete class
+
 //DromTest is
 type DromTest struct {
 	devices device.Device

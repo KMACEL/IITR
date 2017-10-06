@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	// Major words at the beginning of functions:
+	//http://patorjk.com/software/taag/#p=display&f=ANSI Shadow&t=Your Text
 
 	start := time.Now()
 	user.Start()
