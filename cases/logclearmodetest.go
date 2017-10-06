@@ -2,6 +2,7 @@ package cases
 
 import (
 	"log"
+	"os"
 	"time"
 
 	"github.com/KMACEL/IITR/rest"
@@ -32,9 +33,11 @@ type LCMTest struct {
 
 //Start is
 func (l LCMTest) Start(setDeviceCode ...string) {
+	var logFile *os.File
+
 	writefile.CreateFile(l.FileName)
-	writefile.OpenFile(l.FileName)
-	writefile.WriteText("Device ID", "Operation", "Time")
+	logFile = writefile.OpenFile(l.FileName, logFile)
+	writefile.WriteText(logFile, "Device ID", "Operation", "Time")
 
 	workingsetKey := workingset.Workingset{}.CreateWorkingset()
 
@@ -43,57 +46,57 @@ retry:
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 3; j++ {
 			for k := 0; k < 5; k++ {
-				l.reboot(setDeviceCode)
+				l.reboot(setDeviceCode, logFile)
 				time.Sleep(12 * 60 * time.Second)
 			}
-			l.getLog(setDeviceCode)
+			l.getLog(setDeviceCode, logFile)
 			time.Sleep(3 * 60 * time.Second)
 
-			l.clearModiverse(setDeviceCode)
+			l.clearModiverse(setDeviceCode, logFile)
 			time.Sleep(10 * 60 * time.Second)
 
-			l.getLog(setDeviceCode)
+			l.getLog(setDeviceCode, logFile)
 			time.Sleep(3 * 60 * time.Second)
 		}
-		l.changeMode(setDeviceCode, workingsetKey)
+		l.changeMode(setDeviceCode, workingsetKey, logFile)
 		time.Sleep(12 * 60 * time.Second)
 
-		l.getLog(setDeviceCode)
+		l.getLog(setDeviceCode, logFile)
 		time.Sleep(3 * 60 * time.Second)
 	}
 	goto retry
 
 }
 
-func (l LCMTest) reboot(setDeviceCodes []string) {
+func (l LCMTest) reboot(setDeviceCodes []string, logFile *os.File) {
 	for _, deviceCode := range setDeviceCodes {
 		l.deviceVariable.Reboot(deviceCode, rest.Invisible)
-		writefile.WriteText(deviceCode, "Reboot", time.Now().String())
+		writefile.WriteText(logFile, deviceCode, "Reboot", time.Now().String())
 		log.Println(deviceCode, "Reboot")
 	}
 }
 
-func (l LCMTest) changeMode(setDeviceCodes []string, workingsetKey string) {
+func (l LCMTest) changeMode(setDeviceCodes []string, workingsetKey string, logFile *os.File) {
 	for _, deviceCode := range setDeviceCodes {
 		workingset.Workingset{}.AddDeviceWorkingSet(workingsetKey, deviceCode)
 		profile.Profile{}.PushMode(string(workingsetKey), l.ModeID, l.PolicyID)
-		writefile.WriteText(deviceCode, "PushMode", time.Now().String())
+		writefile.WriteText(logFile, deviceCode, "PushMode", time.Now().String())
 		log.Println(deviceCode, "PushMode")
 	}
 }
 
-func (l LCMTest) clearModiverse(setDeviceCodes []string) {
+func (l LCMTest) clearModiverse(setDeviceCodes []string, logFile *os.File) {
 	for _, deviceCode := range setDeviceCodes {
 		device.Device{}.ClearAppData(deviceCode, "com.ardic.android.modiverse", rest.Invisible)
-		writefile.WriteText(deviceCode, "ClearModiverse", time.Now().String())
+		writefile.WriteText(logFile, deviceCode, "ClearModiverse", time.Now().String())
 		log.Println(deviceCode, "ClearModiverse")
 	}
 }
 
-func (l LCMTest) getLog(setDeviceCodes []string) {
+func (l LCMTest) getLog(setDeviceCodes []string, logFile *os.File) {
 	for _, deviceCode := range setDeviceCodes {
 		l.deviceVariable.GetDeviceLog(deviceCode, rest.Invisible)
-		writefile.WriteText(deviceCode, "GetLog", time.Now().String())
+		writefile.WriteText(logFile, deviceCode, "GetLog", time.Now().String())
 		log.Println(deviceCode, "GetLog")
 	}
 }

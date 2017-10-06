@@ -33,6 +33,7 @@ func (o OtaUpdater) Start() {
 }
 
 func (o OtaUpdater) getPresences() {
+
 }
 
 func (o OtaUpdater) refleshGateway() {
