@@ -86,7 +86,7 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 						workingGroup       string
 					)
 
-					// GoRutines Message Chanall
+					// GoRoutine Message Channel
 					// chApplicationsStatus: The channel in the string type that gives application information.
 					// chPresence: Online - The channel in the string type that provides offline information.
 					// chLastOnlineTime: The channel in the string type that gives the time to be last online.
@@ -115,6 +115,7 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 					go d.submittedDromSize(deviceCoding.DeviceCode, chDromSize)
 					go d.workingGroup(deviceCoding.DeviceID, chWorkingGroup)
 
+					// This section writes the messages from the channels in the go routines to the variables.
 					for getItemApplicationsStatus, status := <-chApplicationsStatus; status; getItemApplicationsStatus, status = <-chApplicationsStatus {
 						applicationsStatus = getItemApplicationsStatus
 						if status {
@@ -164,16 +165,6 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 						}
 					}
 
-					// This section writes the messages from the channels in the go routines to the variables.
-					/*
-						applicationsStatus = <-chApplicationsStatus
-						presence = <-chPresence
-						lastOnlineTime = <-chLastOnlineTime
-						profile = <-chProfile
-						policy = <-chPolicy
-						dromSize = <-chDromSize
-						workingGroup = <-chWorkingGroup
-					*/
 					//This place is bigger. Control of messages from the channels is done here. If the channel has not yet received data, it will look at it again.
 					//control:
 					switch {
@@ -256,6 +247,7 @@ func (d DetailReport) Start(fileName string, setControlPackage []string) {
 ██║  ██║██║     ██║     ███████╗██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║    ███████║   ██║   ██║  ██║   ██║   ╚██████╔╝███████║
 ╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 */
+
 // This function takes the external deviceID, setControlPackage, chApplicationsStatus data. These.
 // deviceID: The number of the device to be controlled. String type. one is sent. So you can only look at one device at a time. The entire query is carried out using this ID number.
 // setControlPackage: Contains packages to be checked. The String is of type Array. It checks all the packets if they are entered.
@@ -403,6 +395,7 @@ func (d DetailReport) applicationStatus(deviceID string, setControlPackage []str
 ██║     ██║  ██║███████╗███████║███████╗██║ ╚████║╚██████╗███████╗    ███████║   ██║   ██║  ██║   ██║   ╚██████╔╝███████║
 ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝ ╚═════╝╚══════╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 */
+
 func (d DetailReport) presenceStatus(deviceCode string, chPresence, chLastOnlineTime chan string) (string, string) {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the operations performed in the function will fail.
@@ -460,6 +453,7 @@ func (d DetailReport) presenceStatus(deviceCode string, chPresence, chLastOnline
 ██║     ██║  ██║╚██████╔╝██║     ██║███████╗███████╗    ██║     ╚██████╔╝███████╗██║╚██████╗   ██║
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝   ╚═╝
 */
+
 func (d DetailReport) profilePolicy(deviceID string, chProfile, chPolicy chan string) (string, string) {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the operations performed in the function will fail.
@@ -527,6 +521,7 @@ func (d DetailReport) profilePolicy(deviceID string, chProfile, chPolicy chan st
 ███████║╚██████╔╝██████╔╝██║ ╚═╝ ██║██║   ██║      ██║   ███████╗██████╔╝    ██████╔╝██║  ██║╚██████╔╝██║ ╚═╝ ██║    ███████║██║███████╗███████╗
 ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═════╝     ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝    ╚══════╝╚═╝╚══════╝╚══════╝
 */
+
 func (d DetailReport) submittedDromSize(deviceCode string, chDromSize chan int) int {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the operations performed in the function will fail.
@@ -568,6 +563,7 @@ func (d DetailReport) submittedDromSize(deviceCode string, chDromSize chan int) 
 ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗██║██║ ╚████║╚██████╔╝    ╚██████╔╝██║  ██║╚██████╔╝╚██████╔╝██║
  ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝
 */
+
 func (d DetailReport) workingGroup(deviceID string, chWorkingGroup chan string) string {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the operations performed in the function will fail.
@@ -596,6 +592,7 @@ func (d DetailReport) workingGroup(deviceID string, chWorkingGroup chan string) 
 ╚███╔███╔╝██║  ██║██║   ██║   ███████╗    ╚██████╗███████║ ╚████╔╝        ██║      ██║   ██║     ███████╗
  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝     ╚═════╝╚══════╝  ╚═══╝         ╚═╝      ╚═╝   ╚═╝     ╚══════╝
 */
+
 func (d DetailReport) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
 	var detailReportFile *os.File
 

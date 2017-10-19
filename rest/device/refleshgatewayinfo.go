@@ -9,9 +9,9 @@ import (
 //POST : https://api.ardich.com/api/v3/device/cea9bbd434b04a7db1865d210f449f0e/control/status
 
 // RefleshGatewayInfo is
-func (d Device) RefleshGatewayInfo() string {
+func (d Device) RefleshGatewayInfo(deviceCode string) string {
 	//setBody := applicationOperationsBodyLink(setApplicationPackage)
-	setAdres := "https://api.ardich.com/api/v3/device/cea9bbd434b04a7db1865d210f449f0e/control/status"
+	setAdres := "https://api.ardich.com/api/v3/device/" + deviceCode + "/control/status"
 	query, _ := queryVariable.PostQuery(setAdres, "setBody", contentTypeJSON(), true)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
