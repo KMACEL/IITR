@@ -54,7 +54,7 @@ type Query struct{}
 func (q Query) GetQuery(setQueryAdress string, vasualFlag bool) ([]byte, error) {
 	// Query with the incoming address value and assign it to the variable "request"
 	requestGet, errGet := http.NewRequest("GET", setQueryAdress, nil)
-	errc.ErrorCenter(errc.RequestGet, errGet)
+	errc.ErrorCenter(requestGetTag, errGet)
 
 	if requestGet != nil {
 		// This header is not automatically taken from the outside.
@@ -62,14 +62,14 @@ func (q Query) GetQuery(setQueryAdress string, vasualFlag bool) ([]byte, error) 
 		requestGet.Header.Set(authorization, headerBearer+GetAccesToken())
 
 		responseGet, errDo := http.DefaultClient.Do(requestGet)
-		errc.ErrorCenter(errc.DoGet, errDo)
+		errc.ErrorCenter(doGetTag, errDo)
 
 		if responseGet != nil {
 			defer responseGet.Body.Close()
 
 			if responseGet.Status == ResponseOK {
 				responseBodyGet, errBody := ioutil.ReadAll(responseGet.Body)
-				errc.ErrorCenter(errc.BodyGet, errBody)
+				errc.ErrorCenter(bodyGetTag, errBody)
 
 				if vasualFlag == Visible {
 					fmt.Println(string(responseBodyGet))
@@ -83,11 +83,11 @@ func (q Query) GetQuery(setQueryAdress string, vasualFlag bool) ([]byte, error) 
 				return nil, errDo
 			}
 		} else {
-			errc.ErrorCenter(errc.RequestGet, fmt.Errorf(ResponseNil))
+			errc.ErrorCenter(requestGetTag, fmt.Errorf(ResponseNil))
 			return nil, fmt.Errorf(ResponseNil)
 		}
 	} else {
-		errc.ErrorCenter(errc.RequestGet, fmt.Errorf("Request is Nil"))
+		errc.ErrorCenter(requestGetTag, fmt.Errorf("Request is Nil"))
 	}
 	return nil, errGet
 }
@@ -125,11 +125,11 @@ func (q Query) PostQuery(setQueryAdress string, setBody string, setHeader map[st
 	// The possibility of whether or not the body is in question is checked.
 	if setBody == "" {
 		requestPost, errPost = http.NewRequest("POST", setQueryAdress, nil)
-		errc.ErrorCenter(errc.RequestPost, errPost)
+		errc.ErrorCenter(requestPostTag, errPost)
 	} else {
 		body := strings.NewReader(setBody)
 		requestPost, errPost = http.NewRequest("POST", setQueryAdress, body)
-		errc.ErrorCenter(errc.RequestPost, errPost)
+		errc.ErrorCenter(requestPostTag, errPost)
 	}
 
 	// Access Token returned when login is reported in this section
@@ -144,13 +144,13 @@ func (q Query) PostQuery(setQueryAdress string, setBody string, setHeader map[st
 
 	// Query based on given information
 	responsePost, errDo := http.DefaultClient.Do(requestPost)
-	errc.ErrorCenter(errc.DoPost, errDo)
+	errc.ErrorCenter(doPostTag, errDo)
 
 	defer responsePost.Body.Close()
 
 	if responsePost.Status == ResponseCreated || responsePost.Status == ResponseOK {
 		responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)
-		errc.ErrorCenter(errc.BodyPost, errBody)
+		errc.ErrorCenter(bodyPostTag, errBody)
 
 		if vasualFlag == Visible {
 			fmt.Println(string(responseBodyPost))
@@ -197,11 +197,11 @@ func (q Query) PutQuery(setQueryAdress string, setBody string, setHeader map[str
 
 	if setBody == "" {
 		requestPut, errPut = http.NewRequest("PUT", setQueryAdress, nil)
-		errc.ErrorCenter(errc.RequestPut, errPut)
+		errc.ErrorCenter(requestPutTag, errPut)
 	} else {
 		body := strings.NewReader(setBody)
 		requestPut, errPut = http.NewRequest("PUT", setQueryAdress, body)
-		errc.ErrorCenter(errc.RequestPut, errPut)
+		errc.ErrorCenter(requestPutTag, errPut)
 	}
 
 	requestPut.Header.Set(authorization, headerBearer+GetAccesToken())
@@ -213,13 +213,13 @@ func (q Query) PutQuery(setQueryAdress string, setBody string, setHeader map[str
 	}
 
 	responsePut, errDo := http.DefaultClient.Do(requestPut)
-	errc.ErrorCenter(errc.DoPut, errDo)
+	errc.ErrorCenter(doPutTag, errDo)
 
 	defer responsePut.Body.Close()
 
 	if responsePut.Status == ResponseOK {
 		responseBodyPut, errBody := ioutil.ReadAll(responsePut.Body)
-		errc.ErrorCenter(errc.BodyPut, errBody)
+		errc.ErrorCenter(bodyPutTag, errBody)
 
 		if vasualFlag == Visible {
 			fmt.Println(string(responseBodyPut))

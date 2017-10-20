@@ -43,6 +43,11 @@ const (
 	StopApp = 0
 )
 
+// Rest -> Device Constant
+const (
+	summaryTag = "Summary : "
+)
+
 /*
      ██╗███████╗ ██████╗ ███╗   ██╗███████╗
      ██║██╔════╝██╔═══██╗████╗  ██║██╔════╝

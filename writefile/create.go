@@ -35,13 +35,13 @@ func CreateFile(fileName string) {
 	//open output file
 	fc, errCreate := os.Create(fileName)
 	if errCreate != nil {
-		errc.ErrorCenter(errc.CreateFile, errCreate)
+		errc.ErrorCenter(createFileTag, errCreate)
 		panic(errCreate)
 	}
 
 	defer func() {
 		if errCreate = fc.Close(); errCreate != nil {
-			errc.ErrorCenter(errc.CreateFile, errCreate)
+			errc.ErrorCenter(createFileTag, errCreate)
 			panic(errCreate)
 		}
 	}()
@@ -73,7 +73,7 @@ func CreateFile(fileName string) {
 //      openFile1 = writefile.OpenFile2("testFile.csv", openFile1)
 func OpenFile(openingFileName string, openedFile *os.File) *os.File {
 	if openedFile, errOpenFile := os.OpenFile(openingFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend); errOpenFile != nil {
-		errc.ErrorCenter(errc.OpenFile, errOpenFile)
+		errc.ErrorCenter(openFileTag, errOpenFile)
 		panic(errOpenFile)
 	} else {
 		return openedFile
@@ -95,13 +95,13 @@ func OpenFile(openingFileName string, openedFile *os.File) *os.File {
 func WriteArray(writeTextArray []string, openedFile *os.File) {
 	for _, text := range writeTextArray {
 		if _, errWriteArray := openedFile.WriteString(text + ","); errWriteArray != nil {
-			errc.ErrorCenter(errc.WriteArray, errWriteArray)
+			errc.ErrorCenter(writeArrayTag, errWriteArray)
 			panic(errWriteArray)
 		}
 	}
 	defer func() {
 		if _, errWriteArray := openedFile.WriteString("\n"); errWriteArray != nil {
-			errc.ErrorCenter(errc.WriteArray, errWriteArray)
+			errc.ErrorCenter(writeArrayTag, errWriteArray)
 			panic(errWriteArray)
 		}
 	}()
@@ -122,12 +122,12 @@ func WriteArray(writeTextArray []string, openedFile *os.File) {
 // openedFile: The file to be opened.
 func WriteByte(writeTextByte []byte, openedFile *os.File) {
 	if _, errWriteByte := openedFile.Write(writeTextByte); errWriteByte != nil {
-		errc.ErrorCenter(errc.WriteByte, errWriteByte)
+		errc.ErrorCenter(writeByteTag, errWriteByte)
 		panic(errWriteByte)
 	}
 	defer func() {
 		if _, errWriteByte := openedFile.WriteString("\n"); errWriteByte != nil {
-			errc.ErrorCenter(errc.WriteByte, errWriteByte)
+			errc.ErrorCenter(writeByteTag, errWriteByte)
 			panic(errWriteByte)
 		}
 
@@ -151,13 +151,13 @@ func WriteByte(writeTextByte []byte, openedFile *os.File) {
 func WriteText(openedFile *os.File, writeText ...string) {
 	for _, text := range writeText {
 		if _, errWriteText := openedFile.WriteString(text + ","); errWriteText != nil {
-			errc.ErrorCenter(errc.WriteText, errWriteText)
+			errc.ErrorCenter(writeTextTag, errWriteText)
 			panic(errWriteText)
 		}
 	}
 	defer func() {
 		if _, errWriteText := openedFile.WriteString("\n"); errWriteText != nil {
-			errc.ErrorCenter(errc.WriteText, errWriteText)
+			errc.ErrorCenter(writeTextTag, errWriteText)
 			panic(errWriteText)
 		}
 	}()

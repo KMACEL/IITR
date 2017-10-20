@@ -20,7 +20,7 @@ import (
 func (d Device) Summary(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
 	setQueryAdress := summaryLink(setDeviceID)
 	query, errSummary := queryVariable.GetQuery(setQueryAdress, vasualFlag)
-	errc.ErrorCenter(errc.Summary, errSummary)
+	errc.ErrorCenter(summaryTag, errSummary)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {

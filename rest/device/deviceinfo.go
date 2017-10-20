@@ -87,5 +87,4 @@ func (d Device) OSProfileInfo(setDeviceID string, setUnMarshal bool, vasualFlag 
 	return []byte(rest.ResponseNil)
 }
 
-
 //InstantApplicationInfo

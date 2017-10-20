@@ -3,6 +3,7 @@ package errc
 import (
 	"errors"
 	"log"
+	"os"
 )
 
 /*
@@ -14,36 +15,6 @@ import (
 ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝     ╚═════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 */
 
-// Rest -> Query Constant
-const (
-	RequestGet = "Request Get : "
-	DoGet      = "Do Get : "
-	BodyGet    = "Body Get : "
-
-	RequestPost = "Request Get :"
-	DoPost      = "Do Get : "
-	BodyPost    = "Body Get : "
-
-	RequestPut = "Request Get : "
-	DoPut      = "Do Get : "
-	BodyPut    = "Body Get : "
-)
-
-// Rest -> Device Constant
-const (
-	Summary = "Summary : "
-)
-
-// writefile -> create Constant
-const (
-	CreateFile = "Create New File :"
-	OpenFile   = "Open File :"
-
-	WriteArray = "Write Array : "
-	WriteByte  = "Write Byte : "
-	WriteText  = "Write Text : "
-)
-
 // Errors Type
 var (
 	ErrorNotFound404 = errors.New("Request is 404 Not Found. Please check variables, queries, links and other parameters")
@@ -53,5 +24,20 @@ var (
 func ErrorCenter(title string, err error) {
 	if err != nil {
 		log.Println("Error IITR - "+title, err.Error())
+		errorFile("Error IITR - "+title, err.Error())
 	}
+}
+
+func errorFile(args ...interface{}) {
+	if _, err := os.Stat("./errc"); os.IsNotExist(err) {
+		os.MkdirAll("./errc", os.ModePerm)
+	}
+
+	f, err := os.OpenFile("errc/errorLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("Error IITR - Error File : Error opening file: %v", err)
+	}
+	defer f.Close()
+	log.SetOutput(f)
+	log.Println(args...)
 }

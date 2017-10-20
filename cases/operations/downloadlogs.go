@@ -1,4 +1,4 @@
-package cases
+package operations
 
 import "github.com/KMACEL/IITR/rest/download"
 

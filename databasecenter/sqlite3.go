@@ -2,11 +2,11 @@ package databasecenter
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"os"
-	"errors"
-	"fmt"
 	"reflect"
 	"strings"
 )
@@ -18,7 +18,7 @@ import (
 ██║  ██║██╔══██║   ██║   ██╔══██║        ██╔══██╗██╔══██║╚════██║██╔══╝          ██║     ██╔══╝  ██║╚██╗██║   ██║   ██╔══╝  ██╔══██╗
 ██████╔╝██║  ██║   ██║   ██║  ██║        ██████╔╝██║  ██║███████║███████╗        ╚██████╗███████╗██║ ╚████║   ██║   ███████╗██║  ██║
 ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝         ╚═════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
- */
+*/
 // Database Ceter is used for database operations. "SQLite3" has been selected as the database.
 // It is aimed at fast, light, easy to use. Driver "github.com/mattn/go-sqlite3" has been selected.
 // You need to perform the necessary downloads before using the program.
@@ -40,7 +40,7 @@ const (
 ██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║
 ╚██████╔╝██║     ███████╗██║ ╚████║
 ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝
- */
+*/
 
 // Open function is used to open and use a database. This function returns data as "* sql.DB".
 // Through this data, transactions are carried out. The returned data is a ready-to-use database.
@@ -62,7 +62,7 @@ func (d DB) Open(dataSourceName string) *sql.DB {
 ██║     ██╔══██╗██╔══╝  ██╔══██║   ██║   ██╔══╝             ██║   ██╔══██║██╔══██╗██║     ██╔══╝
 ╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗           ██║   ██║  ██║██████╔╝███████╗███████╗
  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝           ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝
- */
+*/
 
 // CreateTable
 func (d DB) CreateTable(db *sql.DB, tableName string, items string) {
@@ -81,7 +81,7 @@ func (d DB) CreateTable(db *sql.DB, tableName string, items string) {
 ██║██║╚██╗██║╚════██║██╔══╝  ██╔══██╗   ██║           ██║██║╚██╗██║   ██║   ██║   ██║
 ██║██║ ╚████║███████║███████╗██║  ██║   ██║           ██║██║ ╚████║   ██║   ╚██████╔╝
 ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝  ╚═╝   ╚═╝           ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝
- */
+*/
 
 func (d DB) InsertInto(db *sql.DB, tableName string, column string, args ...interface{}) {
 
@@ -106,7 +106,7 @@ func (d DB) InsertQuery(db *sql.DB, tableName string, column string, values stri
 ╚════██║██╔══╝  ██║     ██╔══╝  ██║        ██║
 ███████║███████╗███████╗███████╗╚██████╗   ██║
 ╚══════╝╚══════╝╚══════╝╚══════╝ ╚═════╝   ╚═╝
- */
+*/
 
 func (d DB) Select(db *sql.DB, tableName string) []map[string]interface{} {
 	sql := "select * from " + tableName
@@ -160,7 +160,7 @@ func (d DB) SelectAll(db *sql.DB, tableName string) {
 ██║   ██║██╔═══╝ ██║  ██║██╔══██║   ██║   ██╔══╝
 ╚██████╔╝██║     ██████╔╝██║  ██║   ██║   ███████╗
  ╚═════╝ ╚═╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝
- */
+*/
 
 // Update is
 func (d DB) Update(db *sql.DB, tableName string, column string, changeValue string, whereColumn string, where string) {
@@ -177,7 +177,7 @@ func (d DB) Update(db *sql.DB, tableName string, column string, changeValue stri
 ██║  ██║██╔══╝  ██║     ██╔══╝     ██║   ██╔══╝             ██║   ██╔══██║██╔══██╗██║     ██╔══╝
 ██████╔╝███████╗███████╗███████╗   ██║   ███████╗           ██║   ██║  ██║██████╔╝███████╗███████╗
 ╚═════╝ ╚══════╝╚══════╝╚══════╝   ╚═╝   ╚══════╝           ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝
- */
+*/
 //DeleteTable is
 func (d DB) DeleteTable(db *sql.DB, tableName string) {
 	_, err := db.Exec("delete from " + tableName)
@@ -193,7 +193,7 @@ func (d DB) DeleteTable(db *sql.DB, tableName string) {
 ██║▄▄ ██║██║   ██║██╔══╝  ██╔══██╗  ╚██╔╝
 ╚██████╔╝╚██████╔╝███████╗██║  ██║   ██║
  ╚══▀▀═╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝
- */
+*/
 
 // Query is
 func (d DB) Query(db *sql.DB, query string) {
@@ -246,7 +246,7 @@ func (d DB) GenericQuery(db *sql.DB, query string, args ...interface{}) ([]map[s
 ██║     ██║     ██║   ██║╚════██║██╔══╝
 ╚██████╗███████╗╚██████╔╝███████║███████╗
  ╚═════╝╚══════╝ ╚═════╝ ╚══════╝╚══════╝
- */
+*/
 
 // Close is
 func (d DB) Close(db *sql.DB) {

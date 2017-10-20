@@ -4,11 +4,10 @@ Function :
   3. Mail servisinin yazılması
   4. Raporları isimlendirip ortak bir alana konulması
     4.1. Raporları Local Ağda yayınlanması
-  5. csvLib düzenlenmesi
+
 
 Runtime :
   1. Gelen responseID sine göre mesajın durum kontrolü
-  2.
 
 User :
   1. Dışarıdan user bilgileri girişi.

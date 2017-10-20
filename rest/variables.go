@@ -63,6 +63,21 @@ const (
 	UnKnow        = "UNKNOW"
 )
 
+// Rest -> Query Constant
+const (
+	requestGetTag = "Request Get : "
+	doGetTag      = "Do Get : "
+	bodyGetTag    = "Body Get : "
+
+	requestPostTag = "Request Get :"
+	doPostTag      = "Do Get : "
+	bodyPostTag    = "Body Get : "
+
+	requestPutTag = "Request Get : "
+	doPutTag      = "Do Get : "
+	bodyPutTag    = "Body Get : "
+)
+
 /*
      ██╗███████╗ ██████╗ ███╗   ██╗
      ██║██╔════╝██╔═══██╗████╗  ██║

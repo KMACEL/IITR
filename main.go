@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/KMACEL/IITR/user"
+	"github.com/KMACEL/IITR/cases/operations"
 )
 
 func main() {
@@ -12,8 +12,12 @@ func main() {
 	//http://patorjk.com/software/taag/#p=display&f=ANSI Shadow&t=Your Text
 
 	start := time.Now()
-	user.Start()
-	user.LoginTenant()
+	//user.Start()
+	//user.LoginTenant()
+
+	var ota operations.OtaBase
+
+	ota.Start()
 
 	var pressKey string
 	fmt.Scan(&pressKey)
