@@ -1,5 +1,7 @@
 package workingset
 
+import "strconv"
+
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
 ██║     ██║████╗  ██║██║ ██╔╝██╔════╝
@@ -12,17 +14,37 @@ package workingset
 //It is designed in such a way that the administration is easy.
 
 const (
-	workingset = "https://api.ardich.com/api/v3/workingset/"
-	empty      = "empty"
-	deviceAdd  = "/devices/add/"
+	workingset         = "https://api.ardich.com/api/v3/workingset/"
+	empty              = "empty"
+	deviceAdd          = "/devices/add/"
+	applicationInstall = "/application/install"
+	devices            = "/device"
 )
 
-//CreateWorkingsetLink is retrun
-func CreateWorkingsetLink() string {
+//createWorkingsetLink is retrun
+func createWorkingsetLink() string {
 	return workingset + empty
 }
 
-//AddDeviceWorkingSetLink is
-func AddDeviceWorkingSetLink(setWorkingset string) string {
+//addDeviceWorkingSetLink is
+func addDeviceWorkingSetLink(setWorkingset string) string {
 	return workingset + setWorkingset + deviceAdd
+}
+
+func pushApplicationsLink(workingsetKey string) string {
+	return workingset + workingsetKey + applicationInstall
+}
+
+func pushApplicationsBody(applicationCode string, notifyUser bool) string {
+	return `{"apps": [{"code": "` + applicationCode + `"}],"notifyUser":` + strconv.FormatBool(notifyUser) + `}`
+}
+
+func getWorkingsetDevicesLink(workingsetKey string) string {
+	return  workingset + workingsetKey + devices
+}
+
+func contentTypeJSON() map[string]string {
+	header := make(map[string]string)
+	header["content-type"] = "application/json"
+	return header
 }

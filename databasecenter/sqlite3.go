@@ -108,6 +108,7 @@ func (d DB) InsertQuery(db *sql.DB, tableName string, column string, values stri
 ╚══════╝╚══════╝╚══════╝╚══════╝ ╚═════╝   ╚═╝
 */
 
+// Select is
 func (d DB) Select(db *sql.DB, tableName string) []map[string]interface{} {
 	sql := "select * from " + tableName
 	users, err := d.GenericQuery(db, sql)
@@ -117,16 +118,18 @@ func (d DB) Select(db *sql.DB, tableName string) []map[string]interface{} {
 	return users
 }
 
-func (d DB) Find(db *sql.DB, tableName string, findColumn string, where string) []map[string]interface{} {
+func (d DB) Find(db *sql.DB, tableName string, findColumn string, where string) map[string]interface{} {
 	sql := "select * from " + tableName + " where " + findColumn + "= ?"
 	users, err := d.GenericQuery(db, sql, where)
 	if err != nil {
 		log.Fatal(err)
+		return nil
 	}
 	if len(users) > 0 {
-
+		return users[0]
+	} else {
+		return nil
 	}
-	return users
 }
 
 func (d DB) SelectAll(db *sql.DB, tableName string) {
@@ -143,10 +146,12 @@ func (d DB) SelectAll(db *sql.DB, tableName string) {
 		for j, u := range user {
 			v := reflect.ValueOf(u)
 			switch v.Kind() {
-			case reflect.Int, reflect.Int32, reflect.Int64:
+			case reflect.Int, reflect.Int64:
 				fmt.Print(" - ", j, " : ", u)
-			default:
+			case reflect.Int32:
 				fmt.Print(" , ", j, " : ", string(u.([]byte)))
+			default:
+				fmt.Println(" - ", j, " : ", u)
 			}
 		}
 		fmt.Println()
@@ -274,7 +279,7 @@ func example() {
 	getSelect := dataBase.Select(db, "bar")[0]["name"].([]byte)
 	fmt.Println(string(getSelect))
 
-	getFind := dataBase.Find(db, "bar", "id", "5")[0]["name"].([]byte)
+	getFind := dataBase.Find(db, "bar", "id", "5")["name"].([]byte)
 	fmt.Println(string(getFind))
 
 	dataBase.InsertInto(db, "bar", "id,name", 22, "hahaha")

@@ -87,4 +87,29 @@ func (d Device) OSProfileInfo(setDeviceID string, setUnMarshal bool, vasualFlag 
 	return []byte(rest.ResponseNil)
 }
 
-//InstantApplicationInfo
+/*
+██╗███╗   ██╗███████╗████████╗ █████╗ ███╗   ██╗████████╗         █████╗ ██████╗ ██████╗ ██╗     ██╗ ██████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗        ██╗███╗   ██╗███████╗ ██████╗
+██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗████╗  ██║╚══██╔══╝        ██╔══██╗██╔══██╗██╔══██╗██║     ██║██╔════╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║        ██║████╗  ██║██╔════╝██╔═══██╗
+██║██╔██╗ ██║███████╗   ██║   ███████║██╔██╗ ██║   ██║           ███████║██████╔╝██████╔╝██║     ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║        ██║██╔██╗ ██║█████╗  ██║   ██║
+██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║╚██╗██║   ██║           ██╔══██║██╔═══╝ ██╔═══╝ ██║     ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║        ██║██║╚██╗██║██╔══╝  ██║   ██║
+██║██║ ╚████║███████║   ██║   ██║  ██║██║ ╚████║   ██║           ██║  ██║██║     ██║     ███████╗██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║        ██║██║ ╚████║██║     ╚██████╔╝
+╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝           ╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝        ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝
+ */
+
+// InstantApplicationInfo is
+func (d Device) InstantApplicationInfo(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
+	setQueryAdress := instantApplicationInfoLink(setDeviceID)
+
+	query, _ := rest.Query{}.GetQuery(setQueryAdress, vasualFlag)
+
+	if query != nil {
+		if string(query) != rest.ResponseNotFound {
+			if setUnMarshal {
+				json.Unmarshal(query, &instantApplicationInfoJSONVariable)
+			}
+			return query
+		}
+		return []byte(rest.ResponseNotFound)
+	}
+	return []byte(rest.ResponseNil)
+}

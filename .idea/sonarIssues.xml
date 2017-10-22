@@ -93,6 +93,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/rest/device/id2code.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/device/links.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/device/refleshgatewayinfo.go">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/rest/device/summary.go">
           <value>
             <set />
@@ -113,12 +128,47 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/rest/workingset/devicelist.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/workingset/links.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/workingset/pushapplications.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/workingset/variables.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/workingset/workingset.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/ss.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/testlogfile">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/user/report.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/web/web.go">
           <value>
             <set />
           </value>

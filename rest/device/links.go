@@ -12,26 +12,27 @@ package device
 //It is designed in such a way that the administration is easy.
 
 const (
-	api             = "https://api.ardich.com/api/v3/"
-	device          = "https://api.ardich.com:443/api/v3/device/"
-	locationMap     = "device-location-map"
-	downloaded      = "/apps?type=downloaded"
-	modePolicy      = "/current-and-active-profile"
-	stopApp         = "/apps/stopapp"
-	startApp        = "/apps/startapp"
-	control         = "/control/"
-	reboot          = "reboot"
-	presence        = "/device-profile?command=Presence"
-	applicationInfo = "/device-profile?command=ApplicationInfo"
-	osProfileInfo   = "/device-profile?command=OSProfile"
-	packageName     = "{\"packageName\":\""
-	packageNameEnd  = "\"}\""
-	deviceLogs      = "deviceLogs/"
-	uploadlog       = "uploadlog"
-	summary         = "summary"
-	deviceParam     = "?device="
-	devicesParam    = "?devices="
-	location        = "location"
+	api                    = "https://api.ardich.com/api/v3/"
+	device                 = "https://api.ardich.com:443/api/v3/device/"
+	locationMap            = "device-location-map"
+	downloaded             = "/apps?type=downloaded"
+	modePolicy             = "/current-and-active-profile"
+	stopApp                = "/apps/stopapp"
+	startApp               = "/apps/startapp"
+	control                = "/control/"
+	reboot                 = "reboot"
+	presence               = "/device-profile?command=Presence"
+	applicationInfo        = "/device-profile?command=ApplicationInfo"
+	osProfileInfo          = "/device-profile?command=OSProfile"
+	instantApplicationInfo = "/device-profile?command=InstantApplicationInfo"
+	packageName            = "{\"packageName\":\""
+	packageNameEnd         = "\"}\""
+	deviceLogs             = "deviceLogs/"
+	uploadlog              = "uploadlog"
+	summary                = "summary"
+	deviceParam            = "?device="
+	devicesParam           = "?devices="
+	location               = "location"
 )
 
 //LocationMapLink is retrun
@@ -86,6 +87,11 @@ func applicationInfoLink(setDeviceID string) string {
 //OSProfileInfo is retrun
 func osProfileInfoLink(setDeviceID string) string {
 	return api + setDeviceID + osProfileInfo
+}
+
+//instantApplicationInfoLink is retrun
+func instantApplicationInfoLink(setDeviceID string) string {
+	return api + setDeviceID + instantApplicationInfo
 }
 
 func getLogListLink(setDeviceCode string) string {

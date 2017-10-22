@@ -64,4 +64,5 @@ func TestPrint(args ...interface{}) {
 
 	log.SetOutput(f)
 	log.Println(args...)
+	//fmt.Fprint(xx, "ddf")
 }
