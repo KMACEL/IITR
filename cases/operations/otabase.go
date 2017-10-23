@@ -15,18 +15,59 @@ import (
 	"github.com/KMACEL/IITR/writefile"
 )
 
-// OtaOp is
+/*
+ ██████╗ ████████╗ █████╗         ██████╗  █████╗ ███████╗███████╗
+██╔═══██╗╚══██╔══╝██╔══██╗        ██╔══██╗██╔══██╗██╔════╝██╔════╝
+██║   ██║   ██║   ███████║        ██████╔╝███████║███████╗█████╗
+██║   ██║   ██║   ██╔══██║        ██╔══██╗██╔══██║╚════██║██╔══╝
+╚██████╔╝   ██║   ██║  ██║        ██████╔╝██║  ██║███████║███████╗
+ ╚═════╝    ╚═╝   ╚═╝  ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+ */
+
+/*
+███████╗████████╗██████╗ ██╗   ██╗ ██████╗████████╗
+██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔════╝╚══██╔══╝
+███████╗   ██║   ██████╔╝██║   ██║██║        ██║
+╚════██║   ██║   ██╔══██╗██║   ██║██║        ██║
+███████║   ██║   ██║  ██║╚██████╔╝╚██████╗   ██║
+╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝   ╚═╝
+*/
+
+// OtaOp builds a roof for automobile operations. The data found here is very important for OTA operation.
+// With this structure, important data for OTA functions are communicated in a common way.
+//     dataBase                  : The common * sql.DB structure to be used in database operations.
+//     tableName                 : is the toblo name for OTA.
+//     databaseName              : The database created for OTA is unknown.
+//     otaUpdaterApplicationCode : this value contains the application's unique id. The application submission process is performed with this ID
+//     otaUpdaterPacketName      : OTA hosting variable hosting application.
+//     otaUpdaterVersion         : The version of OTA update application.
+//     otaUpdaterVersionCode     : The version code of OTA update application.
+//     osDisplay                 : The name of the firmware to be migrated.
 type OtaOp struct {
-	dataBase              databasecenter.DB
-	tableName             string
-	databaseName          string
-	otaUpdaterPacketName  string
-	otaUpdaterVersion     string
-	otaUpdaterVersionCode float32
-	osDisplay             string
+	dataBase                  databasecenter.DB
+	tableName                 string
+	databaseName              string
+	otaUpdaterApplicationCode string
+	otaUpdaterPacketName      string
+	otaUpdaterVersion         string
+	otaUpdaterVersionCode     float32
+	osDisplay                 string
 }
 
-// OtaBaseOp is
+// OtaBaseOp contains the structure types associated with the data base of the device to be built.
+// The information here can be entered by the user. At the same time, the devices operate on this information.
+// Note: The numbers 0 - 1 - 2 in the following values have the following meanings;
+//     0: Not Running,
+//     1: Running,
+//     2: Finish
+// The values taken in this structure are as follows;
+//     Imei             : The unique number of the device. With this information, the device performs the rest queries.
+//     PushApplication  : Takes values from 0 to 1 - 2. The device performs a data check of the data.
+//     PushTime         : Shows the time of the last operation in the PushApplication section.
+//     StartApplication : Takes values from 0 to 1 - 2. It checks the status of the application that is running on the device.
+//     StartTime        : Indicates the time of the last operation in StartApplication.
+//     ControlOta       : takes values from 0 to 1 - 2. The device performs fmrware sine status check.
+//     ControlTime       : Shows the time of the last operation in ControlOta.
 type OtaBaseOp struct {
 	Imei             string
 	PushApplication  int
@@ -37,9 +78,26 @@ type OtaBaseOp struct {
 	ControlTime      time.Time
 }
 
-// OtaDeviceArray is
+// OtaDeviceArray is the type of structure used to retrieve many OtaBaseOp structures.
+// The start function waits for this type. Transactions occur with this type.
+// You need to enter an OtaBaseOp with at least the Imei number into this loop.
+// Example 	Base:
+//     otaDeviceArray := operations.OtaDeviceArray{
+//          operations.OtaBaseOp{Imei: "867377020740787"},
+//          operations.OtaBaseOp{Imei: "867377020747089"}}
 type OtaDeviceArray []OtaBaseOp
 
+/*
+ ██████╗ ██████╗ ███╗   ██╗███████╗████████╗
+██╔════╝██╔═══██╗████╗  ██║██╔════╝╚══██╔══╝
+██║     ██║   ██║██╔██╗ ██║███████╗   ██║
+██║     ██║   ██║██║╚██╗██║╚════██║   ██║
+╚██████╗╚██████╔╝██║ ╚████║███████║   ██║
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝   ╚═╝
+ */
+
+// This constant contains the database columns. With this information, strings used in all database
+// operations are taken from a common center.
 const (
 	imei             = "imei"
 	pushApplication  = "pushApplication"
@@ -50,6 +108,7 @@ const (
 	controlTime      = "controlTime"
 )
 
+// This constant contains database variable types.
 const (
 	imeiType             = "varchar(15) PRIMARY KEY"
 	pushApplicationType  = "INT"
@@ -60,17 +119,31 @@ const (
 	controlTimeType      = "datetime"
 )
 
+// this constant contains the numbers 0 - 1 - 2 processed in the database.
+// Through these numbers, it is known what the number of the step is in common.
 const (
 	notRunningStep = 0
 	runningStep    = 1
 	finishStep     = 2
 )
 
-// Start is
+/*
+███████╗████████╗ █████╗ ██████╗ ████████╗
+██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝
+███████╗   ██║   ███████║██████╔╝   ██║
+╚════██║   ██║   ██╔══██║██╔══██╗   ██║
+███████║   ██║   ██║  ██║██║  ██║   ██║
+╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝
+ */
+
+// It is the point where the start ota application starts.
+// It receives data of type OtaDeviceArray which is at least the Imei number from the outside.
 func (o OtaOp) Start(otaDevices OtaDeviceArray) {
 	o.tableName = "otaOperations"
 	o.databaseName = "iTaksi.db"
 
+	// "071503D1-C864-4236-ABF0-DEA26550AF93" Ota Updater Asıl
+	o.otaUpdaterApplicationCode = "DD76AFEA-E0A3-4B61-97CA-509B66A884E1"
 	o.otaUpdaterPacketName = "com.estoty.game2048"
 	o.otaUpdaterVersion = "6.05"
 	o.otaUpdaterVersionCode = 46
@@ -82,7 +155,7 @@ func (o OtaOp) Start(otaDevices OtaDeviceArray) {
 
 	//o.refreshGatewayInfo(otaDevices)
 	// todo 15 dk time delay
-	if o.control(db, otaDevices) {
+	if o.deviceControl(db, otaDevices) {
 		o.pushApplicationOperation(db, otaDevices)
 		o.startApplicationOperation(db, otaDevices)
 		o.otaControlOperation(db, otaDevices)
@@ -92,21 +165,21 @@ func (o OtaOp) Start(otaDevices OtaDeviceArray) {
 
 }
 
-func (o OtaOp) control(db *sql.DB, ota OtaDeviceArray) bool {
-	var getMessage map[string]interface{}
-	for _, devices := range ota {
-		fmt.Print(devices.Imei, " : ")
-		getMessage = o.dataBase.Find(db, o.tableName, "imei", devices.Imei)
-		if getMessage == nil {
-			fmt.Println("Not Find Device. Inserting...")
-			o.insertDataBase(devices)
-		} else {
-			fmt.Println("Find Device")
-		}
-	}
-	return true
-}
+/*
+██████╗ ███████╗███████╗██████╗ ███████╗███████╗██╗  ██╗         ██████╗  █████╗ ████████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗        ██╗███╗   ██╗███████╗ ██████╗
+██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔════╝██║  ██║        ██╔════╝ ██╔══██╗╚══██╔══╝██╔════╝██║    ██║██╔══██╗╚██╗ ██╔╝        ██║████╗  ██║██╔════╝██╔═══██╗
+██████╔╝█████╗  █████╗  ██████╔╝█████╗  ███████╗███████║        ██║  ███╗███████║   ██║   █████╗  ██║ █╗ ██║███████║ ╚████╔╝         ██║██╔██╗ ██║█████╗  ██║   ██║
+██╔══██╗██╔══╝  ██╔══╝  ██╔══██╗██╔══╝  ╚════██║██╔══██║        ██║   ██║██╔══██║   ██║   ██╔══╝  ██║███╗██║██╔══██║  ╚██╔╝          ██║██║╚██╗██║██╔══╝  ██║   ██║
+██║  ██║███████╗██║     ██║  ██║███████╗███████║██║  ██║        ╚██████╔╝██║  ██║   ██║   ███████╗╚███╔███╔╝██║  ██║   ██║           ██║██║ ╚████║██║     ╚██████╔╝
+╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝         ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝           ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝
+ */
 
+// The data we receive with the Rest API may not always be up-to-date.
+// This data is automatically updated at certain times.
+// refreshGatewayInfo performs the request of the data from the device.
+// This process loads the current data. This command is recommended to wait 7 minutes after you have worked.
+// The collection, processing and updating of the data may take longer depending on the slowness of the internet.
+// This should be a little bit of a wait.
 func (o OtaOp) refreshGatewayInfo(otaDevices OtaDeviceArray) {
 	var (
 		devices device.Device
@@ -116,18 +189,19 @@ func (o OtaOp) refreshGatewayInfo(otaDevices OtaDeviceArray) {
 	}
 }
 
-func (o OtaOp) createDatabse(db *sql.DB) {
-	var dataBase databasecenter.DB
-	dataBase.CreateTable(db, "otaOperations",
-		"imei varchar(15) PRIMARY KEY ,"+
-			"pushApplication INT,"+
-			"pushTime datetime,"+
-			"startApplication INT,"+
-			"startTime datetime,"+
-			"controlOta int,"+
-			"controlTime datetime")
-}
+/*
+██████╗ ██╗   ██╗███████╗██╗  ██╗         █████╗ ██████╗ ██████╗ ██╗     ██╗ ██████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+██╔══██╗██║   ██║██╔════╝██║  ██║        ██╔══██╗██╔══██╗██╔══██╗██║     ██║██╔════╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+██████╔╝██║   ██║███████╗███████║        ███████║██████╔╝██████╔╝██║     ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║
+██╔═══╝ ██║   ██║╚════██║██╔══██║        ██╔══██║██╔═══╝ ██╔═══╝ ██║     ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+██║     ╚██████╔╝███████║██║  ██║        ██║  ██║██║     ██║     ███████╗██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+╚═╝      ╚═════╝ ╚══════╝╚═╝  ╚═╝        ╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+ */
 
+// pushApplicationOperation acts as the submitter to the application.
+// It examines the data in the list of supplied devices and the data in the database.
+// In this case, if the application has not gone to the device, it calls the send function.
+// If there is no status information that is gone but loaded, it checks. If so, it will report it.
 func (o OtaOp) pushApplicationOperation(db *sql.DB, ota OtaDeviceArray) {
 	var (
 		getDevice        map[string]interface{}
@@ -152,21 +226,25 @@ func (o OtaOp) pushApplicationOperation(db *sql.DB, ota OtaDeviceArray) {
 	}
 
 }
+
+// The pushApplication function performs the application sending operation
+// to the device with the properties reported in the beginning
+// if the application has no application and the corresponding field in the database is "0".
 func (o OtaOp) pushApplication(db *sql.DB, otaDevice string) {
 	var (
 		workingsets workingset.Workingset
-		//otaUpdaterCode = "071503D1-C864-4236-ABF0-DEA26550AF93" Ota Updater Asıl
-		otaUpdaterCode = "DD76AFEA-E0A3-4B61-97CA-509B66A884E1"
 	)
 
-	if workingsets.PushApplications(otaUpdaterCode, false, otaDevice) {
+	if workingsets.PushApplications(o.otaUpdaterApplicationCode, false, otaDevice) {
 		o.dataBase.Update(db, o.tableName, pushApplication, "1", imei, otaDevice)
 		o.dataBase.Update(db, o.tableName, pushTime, time.Now().String(), imei, otaDevice)
-		fmt.Println("Updateing...")
+		fmt.Println("Updating...")
 	}
-
 }
 
+// The controlPushApplication function checks if the "pushApplication" value is 1, that is,
+// if the application is sent, and if it is not loaded. If the application has been installed,
+// it will increase this value to "2" in the database.
 func (o OtaOp) controlPushApplication(db *sql.DB, otaDevice string) {
 	var (
 		devices         device.Device
@@ -187,6 +265,16 @@ func (o OtaOp) controlPushApplication(db *sql.DB, otaDevice string) {
 	}
 }
 
+/*
+███████╗████████╗ █████╗ ██████╗ ████████╗         █████╗ ██████╗ ██████╗ ██╗     ██╗ ██████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝        ██╔══██╗██╔══██╗██╔══██╗██║     ██║██╔════╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+███████╗   ██║   ███████║██████╔╝   ██║           ███████║██████╔╝██████╔╝██║     ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║
+╚════██║   ██║   ██╔══██║██╔══██╗   ██║           ██╔══██║██╔═══╝ ██╔═══╝ ██║     ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+███████║   ██║   ██║  ██║██║  ██║   ██║           ██║  ██║██║     ██║     ███████╗██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝           ╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+ */
+
+// startApplicationOperation is used to run the application. If the application is installed, run it and check the status
 func (o OtaOp) startApplicationOperation(db *sql.DB, ota OtaDeviceArray) {
 	var (
 		getDevicePushApplication map[string]interface{}
@@ -237,6 +325,15 @@ func (o OtaOp) controlStartApplication(db *sql.DB, otaDevice string) {
 	o.dataBase.Update(db, o.tableName, startApplication, "2", imei, otaDevice)
 	o.dataBase.Update(db, o.tableName, startTime, time.Now().String(), imei, otaDevice)
 }
+
+/*
+ ██████╗ ████████╗ █████╗          ██████╗ ██████╗ ███╗   ██╗████████╗██████╗  ██████╗ ██╗
+██╔═══██╗╚══██╔══╝██╔══██╗        ██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██╔═══██╗██║
+██║   ██║   ██║   ███████║        ██║     ██║   ██║██╔██╗ ██║   ██║   ██████╔╝██║   ██║██║
+██║   ██║   ██║   ██╔══██║        ██║     ██║   ██║██║╚██╗██║   ██║   ██╔══██╗██║   ██║██║
+╚██████╔╝   ██║   ██║  ██║        ╚██████╗╚██████╔╝██║ ╚████║   ██║   ██║  ██║╚██████╔╝███████╗
+ ╚═════╝    ╚═╝   ╚═╝  ╚═╝         ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+ */
 
 func (o OtaOp) otaControlOperation(db *sql.DB, ota OtaDeviceArray) {
 	var (
@@ -297,8 +394,44 @@ func (o OtaOp) controlOtaUpdate(db *sql.DB, otaDevice string) {
 		o.dataBase.Update(db, o.tableName, controlOta, "1", imei, otaDevice)
 		o.dataBase.Update(db, o.tableName, controlTime, time.Now().String(), imei, otaDevice)
 	}
-
 }
+
+/*
+██████╗  █████╗ ████████╗ █████╗ ██████╗  █████╗ ███████╗███████╗
+██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔════╝
+██║  ██║███████║   ██║   ███████║██████╔╝███████║███████╗█████╗
+██║  ██║██╔══██║   ██║   ██╔══██║██╔══██╗██╔══██║╚════██║██╔══╝
+██████╔╝██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║███████║███████╗
+╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+ */
+
+func (o OtaOp) createDatabse(db *sql.DB) {
+	var dataBase databasecenter.DB
+	dataBase.CreateTable(db, "otaOperations",
+		"imei varchar(15) PRIMARY KEY ,"+
+			"pushApplication INT,"+
+			"pushTime datetime,"+
+			"startApplication INT,"+
+			"startTime datetime,"+
+			"controlOta int,"+
+			"controlTime datetime")
+}
+
+func (o OtaOp) deviceControl(db *sql.DB, ota OtaDeviceArray) bool {
+	var getMessage map[string]interface{}
+	for _, devices := range ota {
+		fmt.Print(devices.Imei, " : ")
+		getMessage = o.dataBase.Find(db, o.tableName, "imei", devices.Imei)
+		if getMessage == nil {
+			fmt.Println("Not Find Device. Inserting...")
+			o.insertDataBase(devices)
+		} else {
+			fmt.Println("Find Device")
+		}
+	}
+	return true
+}
+
 func (o OtaOp) insertDataBase(otaDevice OtaBaseOp) {
 	var dataBase databasecenter.DB
 	db := dataBase.Open(o.databaseName)
@@ -315,15 +448,22 @@ func (o OtaOp) insertDataBase(otaDevice OtaBaseOp) {
 }
 
 func (o OtaOp) reportDatabase() {
+	var (
+		file *os.File
+		dataBaseReport databasecenter.DB
+	)
 
-	var file *os.File
-	writefile.CreateFile("OtaReport.xlsx")
-	file = writefile.OpenFile("OtaReport.xlsx", file)
+	const(
+		otaFileName ="OtaReport.xlsx"
+	)
+
+	writefile.CreateFile(otaFileName)
+	file = writefile.OpenFile(otaFileName, file)
+
+	// Column Header
 	writefile.WriteText(file, imei, pushApplication, pushTime, startApplication, startTime, controlOta, controlTime)
 
-	var dataBaseReport databasecenter.DB
 	db := dataBaseReport.Open(o.databaseName)
-
 	getDatabase := dataBaseReport.Select(db, o.tableName)
 
 	for i := range getDatabase {
@@ -336,8 +476,7 @@ func (o OtaOp) reportDatabase() {
 			strconv.FormatInt(getDatabase[i][startApplication].(int64), 10),
 			getDatabase[i][startTime].(time.Time).String(),
 
-			strconv.FormatInt(getDatabase[i]["controlOta"].(int64), 10),
+			strconv.FormatInt(getDatabase[i][controlOta].(int64), 10),
 			getDatabase[i][controlTime].(time.Time).String())
-
 	}
 }
