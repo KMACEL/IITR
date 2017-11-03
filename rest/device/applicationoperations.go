@@ -17,17 +17,17 @@ import (
 
 //AppSS is
 func (d Device) AppSS(setOperations int, setDeviceCode string, setApplicationPackage string, vasualFlag bool) string {
-	var setAdres string
+	var setAddress string
 
 	if setOperations == StartApp {
-		setAdres = startAppLink(setDeviceCode)
+		setAddress = startAppLink(setDeviceCode)
 	} else if setOperations == StopApp {
-		setAdres = stopAppLink(setDeviceCode)
+		setAddress = stopAppLink(setDeviceCode)
 	}
 
 	setBody := applicationOperationsBodyLink(setApplicationPackage)
 
-	query, _ := queryVariable.PostQuery(setAdres, setBody, contentTypeJSON(), vasualFlag)
+	query, _ := queryVariable.PostQuery(setAddress, setBody, contentTypeJSON(), vasualFlag)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
 			json.Unmarshal(query, &responseMessageCodeJSONVariable)

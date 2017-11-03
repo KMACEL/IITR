@@ -1,11 +1,12 @@
 package main
 
 import (
-	"net/http"
-	"log"
 	"fmt"
+	"log"
+	"net/http"
 	"strings"
 )
+
 //https://astaxie.gitbooks.io/build-web-application-with-golang/en/
 
 func helloWeb(w http.ResponseWriter, r *http.Request) {

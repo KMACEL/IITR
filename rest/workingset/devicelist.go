@@ -1,8 +1,8 @@
 package workingset
 
 import (
-	"github.com/KMACEL/IITR/rest"
 	"encoding/json"
+	"github.com/KMACEL/IITR/rest"
 )
 
 func (w Workingset) GetWorkingsetDevices(workingsetKey string) []string {
@@ -14,14 +14,14 @@ func (w Workingset) GetWorkingsetDevices(workingsetKey string) []string {
 		if string(query) != rest.ResponseNotFound {
 			json.Unmarshal(query, &workingsetDevicesJSONVariable)
 			for _, deviceID := range workingsetDevicesJSONVariable.Content {
-				deviceList=append(deviceList, deviceID.DeviceID)
+				deviceList = append(deviceList, deviceID.DeviceID)
 			}
 			return deviceList
 
 		}
-		deviceList=append(deviceList, rest.ResponseNotFound)
+		deviceList = append(deviceList, rest.ResponseNotFound)
 		return deviceList
 	}
-	deviceList=append(deviceList, rest.ResponseNil)
+	deviceList = append(deviceList, rest.ResponseNil)
 	return deviceList
 }

@@ -23,7 +23,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/clearappdata.go">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/cases/operations/downloadlogs.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/getlogdevices.go">
           <value>
             <set />
           </value>
@@ -33,7 +43,62 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/instantapplicationcontrol.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/modesend.go">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/cases/operations/otabase.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/pushapplication.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/pushapplicationexternal.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/refreshgateway.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/operations/startapp.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/reports/blockedapplication.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/reports/detailreport.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/reports/detailreportalldevices.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/reports/detailreportalldevicestest.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/cases/reports/detailreportdevices.go">
           <value>
             <set />
           </value>
@@ -88,6 +153,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/rest/device/applicationoperations.go">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/rest/device/deviceinfo.go">
           <value>
             <set />
@@ -98,7 +168,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/rest/device/informations.go">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/rest/device/links.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/device/location.go">
           <value>
             <set />
           </value>
@@ -114,6 +194,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/rest/device/variables.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/download/downloadlog.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/profile/links.go">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/rest/profile/profile.go">
           <value>
             <set />
           </value>

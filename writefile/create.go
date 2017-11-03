@@ -29,7 +29,7 @@ import (
 
 // CreateFile is used to create a new file. This function externally takes only
 // a value of type "string" with the name "fileName". This value determines
-// the name of the file to be created. This function performs operations using the command "os.Create".
+// the name of the file to be created. This function performs util using the command "os.Create".
 // The file is closed after it is created. This is the intent of the "defer" block.
 func CreateFile(fileName string) {
 	//open output file
@@ -61,12 +61,12 @@ func CreateFile(fileName string) {
 // openingFileName: This gets the name with the extension of the file to be opened.
 //     If it is in the same folder as the program, only the name is enough.
 // openedFile: This variable is important. Several files can be opened
-//     at the same time and separate operations can be performed on those files.
+//     at the same time and separate util can be performed on those files.
 //     If you have a single "os.File" variable, you can not do the same operation.
 //     For this reason, we expect the user to define a variable "var fileVarible * os.File"
 //    instead of a constant variable and send this variable value to the "OpenFile" function.
 //    This function returns the file that it opened in the form of "os.File" when opening.
-//    Thus, when the file is opened, writing or reading operations can be performed through the variable that returns easily.
+//    Thus, when the file is opened, writing or reading util can be performed through the variable that returns easily.
 //   Example Usage:
 //      var openFile1 *os.File
 //      writefile.CreateFile("testFile.csv")
@@ -99,12 +99,12 @@ func WriteArray(writeTextArray []string, openedFile *os.File) {
 			panic(errWriteArray)
 		}
 	}
-	defer func() {
+	/*defer func() {
 		if _, errWriteArray := openedFile.WriteString("\n"); errWriteArray != nil {
 			errc.ErrorCenter(writeArrayTag, errWriteArray)
 			panic(errWriteArray)
 		}
-	}()
+	}()*/
 
 }
 

@@ -82,21 +82,21 @@ type ResponseMesageErrorJSON struct {
 
 // ResponseMessageJSON is
 type ResponseMessageJSON struct {
-	Code         string        `json:"code"`
-	DeviceID     string        `json:"deviceId"`
-	DeviceSerial string        `json:"deviceSerial"`
-	Command      string        `json:"command"`
-	DeviceCode   interface{}   `json:"deviceCode"`
-	Parameters   string        `json:"parameters"`
-	Label        interface{}   `json:"label"`
-	ResponseID   string        `json:"responseId"`
-	StartDate    interface{}   `json:"startDate"`
-	EndDate      interface{}   `json:"endDate"`
-	SentStatus   bool          `json:"sentStatus"`
-	ErrorMessage interface{}   `json:"errorMessage"`
-	CreatedBy    interface{}   `json:"createdBy"`
-	UserMail     interface{}   `json:"userMail"`
-	Links        []interface{} `json:"links"`
+	Code               string        `json:"code"`
+	DeviceID           string        `json:"deviceId"`
+	DeviceSerial       string        `json:"deviceSerial"`
+	Command            string        `json:"command"`
+	DeviceCode         interface{}   `json:"deviceCode"`
+	Parameters         string        `json:"parameters"`
+	Label              interface{}   `json:"label"`
+	ResponseID         string        `json:"responseId"`
+	StartDate          interface{}   `json:"startDate"`
+	EndDate            interface{}   `json:"endDate"`
+	SentStatus         bool          `json:"sentStatus"`
+	ErrorMessage       interface{}   `json:"errorMessage"`
+	CreatedBy          interface{}   `json:"createdBy"`
+	UserMail           interface{}   `json:"userMail"`
+	Links              []interface{} `json:"links"`
 	SendToDeviceStatus struct {
 		Status   string    `json:"status"`
 		TryCount string    `json:"tryCount"`
@@ -117,7 +117,7 @@ type ResponseMessageJSON struct {
 type PresenceInfoJSON struct {
 	DeviceID string `json:"deviceId"`
 	Command  string `json:"command"`
-	Data struct {
+	Data     struct {
 		State    string `json:"state"`
 		ClientIP string `json:"clientIp"`
 	} `json:"data"`
@@ -131,7 +131,7 @@ type PresenceInfoJSON struct {
 type ApplicationInfoJSON struct {
 	DeviceID string `json:"deviceId"`
 	Command  string `json:"command"`
-	Data []struct {
+	Data     []struct {
 		DataSize       float64 `json:"dataSize"`
 		PackageName    string  `json:"packageName"`
 		VersionCode    float64 `json:"versionCode"`
@@ -158,7 +158,7 @@ type ApplicationInfoJSON struct {
 type OSProfileInfoJSON struct {
 	DeviceID string `json:"deviceId"`
 	Command  string `json:"command"`
-	Data struct {
+	Data     struct {
 		Model              string  `json:"model"`
 		Hardware           string  `json:"hardware"`
 		Type               string  `json:"type"`
@@ -195,7 +195,7 @@ type OSProfileInfoJSON struct {
 type InstantApplicationInfoJSON struct {
 	DeviceID string `json:"deviceId"`
 	Command  string `json:"command"`
-	Data struct {
+	Data     struct {
 		AppName        string  `json:"appName"`
 		Currentimezone string  `json:"currentimezone"`
 		PackageName    string  `json:"packageName"`
@@ -221,7 +221,7 @@ type LocationJSON struct {
 	Description interface{} `json:"description"`
 	Success     interface{} `json:"success"`
 	Error       interface{} `json:"error"`
-	Extras []struct {
+	Extras      []struct {
 		DeviceID   string `json:"deviceId"`
 		DeviceCode string `json:"deviceCode"`
 		Longitude  string `json:"longitude"`
@@ -302,7 +302,7 @@ type InformationJSON struct {
 	DetailLastModifiedDate int64  `json:"detailLastModifiedDate"`
 	FirstPresenceDate      int64  `json:"firstPresenceDate"`
 	LastPresenceDate       int64  `json:"lastPresenceDate"`
-	Presence struct {
+	Presence               struct {
 		State    string `json:"state"`
 		ClientIP string `json:"clientIp"`
 	} `json:"presence"`
@@ -375,9 +375,9 @@ type InformationJSON struct {
 		Enabled        bool   `json:"enabled"`
 		Activated      bool   `json:"activated"`
 		ActivationDate int64  `json:"activationDate"`
-		Profile struct {
-			Code string      `json:"code"`
-			Name interface{} `json:"name"`
+		Profile        struct {
+			Code   string      `json:"code"`
+			Name   interface{} `json:"name"`
 			Policy struct {
 				Code string `json:"code"`
 				Name string `json:"name"`
@@ -395,9 +395,9 @@ type InformationJSON struct {
 		Enabled        bool   `json:"enabled"`
 		Activated      bool   `json:"activated"`
 		ActivationDate int64  `json:"activationDate"`
-		Profile struct {
-			Code string `json:"code"`
-			Name string `json:"name"`
+		Profile        struct {
+			Code   string `json:"code"`
+			Name   string `json:"name"`
 			Policy struct {
 				Code string `json:"code"`
 				Name string `json:"name"`
@@ -416,7 +416,7 @@ type InformationJSON struct {
 	AfexMode          string `json:"afexMode"`
 	DeviceTimezone    string `json:"deviceTimezone"`
 	DeviceCurrentTime string `json:"deviceCurrentTime"`
-	Links []struct {
+	Links             []struct {
 		Rel  string `json:"rel"`
 		Href string `json:"href"`
 	} `json:"links"`
@@ -439,7 +439,7 @@ type SummaryJSON struct {
 		LostStatus       bool   `json:"lostStatus"`
 		CreatedDate      int64  `json:"createdDate"`
 		LastPresenceDate int64  `json:"lastPresenceDate"`
-		Presence struct {
+		Presence         struct {
 			State    string `json:"state"`
 			ClientIP string `json:"clientIp"`
 		} `json:"presence"`
@@ -487,9 +487,9 @@ type SummaryJSON struct {
 			Enabled        bool        `json:"enabled"`
 			Activated      bool        `json:"activated"`
 			ActivationDate interface{} `json:"activationDate"`
-			Profile struct {
-				Code string `json:"code"`
-				Name string `json:"name"`
+			Profile        struct {
+				Code   string `json:"code"`
+				Name   string `json:"name"`
 				Policy struct {
 					Code string `json:"code"`
 					Name string `json:"name"`
@@ -513,7 +513,7 @@ type SummaryJSON struct {
 		CurrentPolicy     string `json:"currentPolicy"`
 		DeviceTimezone    string `json:"deviceTimezone"`
 		DeviceCurrentTime string `json:"deviceCurrentTime"`
-		Links []struct {
+		Links             []struct {
 			Rel  string `json:"rel"`
 			Href string `json:"href"`
 		} `json:"links"`

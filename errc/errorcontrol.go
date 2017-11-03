@@ -23,8 +23,8 @@ var (
 // ErrorCenter is
 func ErrorCenter(title string, err error) {
 	if err != nil {
-		log.Println("Error IITR - "+title, err.Error())
-		errorFile("Error IITR - "+title, err.Error())
+		log.Println("Error IITR - "+title, " : ", err.Error())
+		errorFile("Error IITR - "+title, " : ", err.Error())
 	}
 }
 

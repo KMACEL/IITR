@@ -17,8 +17,10 @@ const (
 	workingset         = "https://api.ardich.com/api/v3/workingset/"
 	empty              = "empty"
 	deviceAdd          = "/devices/add/"
+	application        = "/application/"
 	applicationInstall = "/application/install"
-	devices            = "/device"
+	externalApp        = "install-external-app"
+	devices            = "/device?page=0&size=500"
 )
 
 //createWorkingsetLink is retrun
@@ -39,8 +41,17 @@ func pushApplicationsBody(applicationCode string, notifyUser bool) string {
 	return `{"apps": [{"code": "` + applicationCode + `"}],"notifyUser":` + strconv.FormatBool(notifyUser) + `}`
 }
 
+func pushApplicationsExternalLink(workingsetKey string) string {
+	return workingset + workingsetKey + application + externalApp
+
+}
+
+func pushApplicationsExternalBody(applicationCode string, notifyUser bool) string {
+	return `{"apps": [{"code": "` + applicationCode + `"}],"notifyUser":` + strconv.FormatBool(notifyUser) + `}`
+}
+
 func getWorkingsetDevicesLink(workingsetKey string) string {
-	return  workingset + workingsetKey + devices
+	return workingset + workingsetKey + devices
 }
 
 func contentTypeJSON() map[string]string {

@@ -9,6 +9,7 @@ import (
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/writefile"
+	"fmt"
 )
 
 //Delete Packet
@@ -20,7 +21,8 @@ type BlockedAppList struct {
 }
 
 // Start is
-func (b BlockedAppList) Start(applicationList ...string) {
+func (b BlockedAppList) Start(applicationList []string, deviceID ...string) {
+	fmt.Println(applicationList, "  -  ", deviceID)
 
 	var packageHeader string
 	for i, packageHeaderName := range applicationList {
@@ -34,48 +36,39 @@ func (b BlockedAppList) Start(applicationList ...string) {
 	strings.Trim(packageHeader, " ")
 	b.writeCsvArray = append(b.writeCsvArray, "Device ID", packageHeader, "Profile", "Policy", "\n")
 
-	query := b.devices.LocationMap(rest.NOMarshal, rest.Invisible)
+	for i, deviceCoding := range deviceID {
 
-	if query != nil {
-		if string(query) != rest.ResponseNotFound {
-			deviceCode := device.LocationJSON{}
-			json.Unmarshal(query, &deviceCode)
+		var (
+			applicationsStatus string
+			profile            string
+			policy             string
+		)
 
-			for i, deviceCoding := range deviceCode.Extras {
+		chApplicationsStatus := make(chan string)
+		chProfile := make(chan string)
+		chPolicy := make(chan string)
 
-				var (
-					applicationsStatus string
-					profile            string
-					policy             string
-				)
+		go b.applicationStatus(deviceCoding, applicationList, chApplicationsStatus)
+		go b.profilePolicy(deviceCoding, chProfile, chPolicy)
 
-				chApplicationsStatus := make(chan string)
-				chProfile := make(chan string)
-				chPolicy := make(chan string)
+		applicationsStatus = <-chApplicationsStatus
+		profile = <-chProfile
+		policy = <-chPolicy
 
-				go b.applicationStatus(deviceCoding.DeviceID, applicationList, chApplicationsStatus)
-				go b.profilePolicy(deviceCoding.DeviceID, chProfile, chPolicy)
+	control:
+		if applicationsStatus != "" || profile != "" || policy != "" {
+			b.writeCsvArray = append(b.writeCsvArray, deviceCoding, applicationsStatus, profile, policy, "\n")
+		} else {
+			goto control
+		}
 
-				applicationsStatus = <-chApplicationsStatus
-				profile = <-chProfile
-				policy = <-chPolicy
-
-			control:
-				if applicationsStatus != "" || profile != "" || policy != "" {
-					b.writeCsvArray = append(b.writeCsvArray, deviceCoding.DeviceID, applicationsStatus, profile, policy, "\n")
-				} else {
-					goto control
-				}
-
-				if i%100 == 0 {
-					log.Println("Processes : ", i, " / ", len(deviceCode.Extras))
-				}
-			}
-
-			b.writeCSVType("Blocked.xlsx", b.writeCsvArray)
-			log.Println("Finish Read ...")
+		if i%100 == 0 {
+			log.Println("Processes : ", i, " / ", len(deviceID))
 		}
 	}
+
+	b.writeCSVType("Blocked.xlsx", b.writeCsvArray)
+	log.Println("Finish Read ...")
 }
 
 /*

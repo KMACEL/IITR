@@ -18,7 +18,7 @@ import (
  ╚══▀▀═╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝
 */
 
-// Query is performs query operations. These operations are "Post", "Get", "Put".
+// Query is performs query util. These util are "Post", "Get", "Put".
 // With this class, it makes a stable query everywhere.
 // Retrieve values by query type. These values will be explained in the description of each questionnaire.
 // The queries were taken from https://api.ardich.com/api/v3/apidoc/

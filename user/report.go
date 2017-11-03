@@ -67,6 +67,6 @@ func allReport() {
 
 	splitString := strings.Split(applicationPackage, ",")
 	fmt.Println("Split : ", splitString)
-	reports.DetailReport{}.Start("ApplicationPackage_"+timop.GetTimeNamesFormat()+".xlsx", splitString)
+	reports.DetailAllReport{}.Start("ApplicationPackage_"+timop.GetTimeNamesFormat()+".xlsx", splitString)
 
 }

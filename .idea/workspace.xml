@@ -5,10 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b24bb9d-d29f-4d44-9906-d9355838099e" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/operations/clearappdata.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/operations/getlogdevices.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/operations/instantapplicationcontrol.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/operations/modesend.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/operations/pushapplicationexternal.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/operations/refreshgateway.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/operations/startapp.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cases/reports/detailreport.go" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/cases/operations/ota.go" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/buildLib.sh" afterPath="$PROJECT_DIR$/buildLib.sh" />
+      <change beforePath="$PROJECT_DIR$/cases/operations/downloadlogs.go" afterPath="$PROJECT_DIR$/cases/operations/downloadlogs.go" />
+      <change beforePath="$PROJECT_DIR$/cases/operations/getlogtestdevices.go" afterPath="" />
       <change beforePath="$PROJECT_DIR$/cases/operations/otabase.go" afterPath="$PROJECT_DIR$/cases/operations/otabase.go" />
+      <change beforePath="$PROJECT_DIR$/cases/reports/blockedapplication.go" afterPath="$PROJECT_DIR$/cases/reports/blockedapplication.go" />
+      <change beforePath="$PROJECT_DIR$/cases/reports/detailreportalldevices.go" afterPath="$PROJECT_DIR$/cases/reports/detailreportalldevices.go" />
+      <change beforePath="$PROJECT_DIR$/cases/reports/detailreportdevices.go" afterPath="$PROJECT_DIR$/cases/reports/detailreportdevices.go" />
+      <change beforePath="$PROJECT_DIR$/cases/reports/deviceinfo.go" afterPath="$PROJECT_DIR$/cases/reports/deviceinfo.go" />
+      <change beforePath="$PROJECT_DIR$/config.sh" afterPath="$PROJECT_DIR$/config.sh" />
+      <change beforePath="$PROJECT_DIR$/databasecenter/sqlite3.go" afterPath="$PROJECT_DIR$/databasecenter/sqlite3.go" />
+      <change beforePath="$PROJECT_DIR$/errc/errorcontrol.go" afterPath="$PROJECT_DIR$/errc/errorcontrol.go" />
       <change beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
+      <change beforePath="$PROJECT_DIR$/operations/timeop.go" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/rest/device/applicationoperations.go" afterPath="$PROJECT_DIR$/rest/device/applicationoperations.go" />
+      <change beforePath="$PROJECT_DIR$/rest/device/deviceinfo.go" afterPath="$PROJECT_DIR$/rest/device/deviceinfo.go" />
+      <change beforePath="$PROJECT_DIR$/rest/device/location.go" afterPath="$PROJECT_DIR$/rest/device/location.go" />
+      <change beforePath="$PROJECT_DIR$/rest/device/variables.go" afterPath="$PROJECT_DIR$/rest/device/variables.go" />
+      <change beforePath="$PROJECT_DIR$/rest/login.go" afterPath="$PROJECT_DIR$/rest/login.go" />
+      <change beforePath="$PROJECT_DIR$/rest/profile/links.go" afterPath="$PROJECT_DIR$/rest/profile/links.go" />
+      <change beforePath="$PROJECT_DIR$/rest/profile/profile.go" afterPath="$PROJECT_DIR$/rest/profile/profile.go" />
+      <change beforePath="$PROJECT_DIR$/rest/query.go" afterPath="$PROJECT_DIR$/rest/query.go" />
+      <change beforePath="$PROJECT_DIR$/rest/workingset/devicelist.go" afterPath="$PROJECT_DIR$/rest/workingset/devicelist.go" />
+      <change beforePath="$PROJECT_DIR$/rest/workingset/links.go" afterPath="$PROJECT_DIR$/rest/workingset/links.go" />
+      <change beforePath="$PROJECT_DIR$/rest/workingset/pushapplications.go" afterPath="$PROJECT_DIR$/rest/workingset/pushapplications.go" />
+      <change beforePath="$PROJECT_DIR$/rest/workingset/variables.go" afterPath="$PROJECT_DIR$/rest/workingset/variables.go" />
+      <change beforePath="$PROJECT_DIR$/rest/workingset/workingset.go" afterPath="$PROJECT_DIR$/rest/workingset/workingset.go" />
+      <change beforePath="$PROJECT_DIR$/user/report.go" afterPath="$PROJECT_DIR$/user/report.go" />
+      <change beforePath="$PROJECT_DIR$/web/web.go" afterPath="$PROJECT_DIR$/web/web.go" />
+      <change beforePath="$PROJECT_DIR$/writefile/create.go" afterPath="$PROJECT_DIR$/writefile/create.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,21 +65,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="login.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rest/login.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="22" column="42" lean-forward="false" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+            <state relative-caret-position="252">
+              <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
               <folding>
                 <element signature="e#14#70#0" expanded="true" />
               </folding>
@@ -52,36 +77,62 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="report.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/report.go">
+      <file leaf-file-name="applicationoperations.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rest/device/applicationoperations.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="679">
-              <caret line="60" column="26" lean-forward="false" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="26" />
-              <folding>
-                <element signature="e#14#183#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/user.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+            <state relative-caret-position="252">
+              <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="otabase.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cases/operations/otabase.go">
+      <file leaf-file-name="startapp.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cases/operations/startapp.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="419" column="59" lean-forward="false" selection-start-line="419" selection-start-column="45" selection-end-line="419" selection-end-column="59" />
-              <folding>
-                <element signature="e#20#284#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="450">
+              <caret line="28" column="20" lean-forward="true" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pushapplications.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rest/workingset/pushapplications.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-369">
+              <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="refreshgateway.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cases/operations/refreshgateway.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="25" lean-forward="false" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="deviceinfo.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cases/reports/deviceinfo.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-383">
+              <caret line="20" column="62" lean-forward="false" selection-start-line="20" selection-start-column="62" selection-end-line="20" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="detailreport.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cases/reports/detailreport.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="504">
+              <caret line="46" column="5" lean-forward="true" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -89,48 +140,28 @@
       <file leaf-file-name="detailreportalldevices.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cases/reports/detailreportalldevices.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="573">
-              <caret line="288" column="49" lean-forward="false" selection-start-line="288" selection-start-column="49" selection-end-line="288" selection-end-column="49" />
+            <state relative-caret-position="300">
+              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="deviceinfo.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rest/device/deviceinfo.go">
+      <file leaf-file-name="detailreportdevices.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cases/reports/detailreportdevices.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="46" column="36" lean-forward="false" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+            <state relative-caret-position="342">
+              <caret line="31" column="32" lean-forward="false" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="summary.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rest/device/summary.go">
+      <file leaf-file-name="refleshgatewayinfo.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rest/device/refleshgatewayinfo.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="47" column="19" lean-forward="false" selection-start-line="47" selection-start-column="19" selection-end-line="47" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="actionstatus.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rest/action/actionstatus.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="19" column="34" lean-forward="false" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="links.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rest/device/links.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="24" column="4" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+            <state relative-caret-position="126">
+              <caret line="11" column="16" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -147,16 +178,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Query</find>
-      <find>Rows</find>
-      <find>name</find>
-      <find>fmt</find>
-      <find>workingset</find>
-      <find>startApplication</find>
-      <find>TypeOf</find>
-      <find>OPerationNot</find>
-      <find>json</find>
-      <find>: 2</find>
+      <find>867377021052208</find>
+      <find>867377020908988</find>
+      <find>867377021073436</find>
+      <find>867377020896050</find>
+      <find>867377021070986</find>
+      <find>867377020897645</find>
+      <find>867377020741397,</find>
+      <find>867377020911578</find>
+      <find>867377020898080</find>
+      <find>867377020744458</find>
+      <find>867377020889345</find>
+      <find>867377020741397</find>
+      <find>867377021416890</find>
+      <find>867377021075456</find>
+      <find>867377020890152</find>
+      <find>867377020890335</find>
+      <find>867377020913475</find>
+      <find>867377021074160</find>
+      <find>867377021071968</find>
+      <find>867377021070218</find>
+      <find>867377020889238</find>
+      <find>867377020900555</find>
+      <find>867377020738849</find>
+      <find>867377020350694</find>
+      <find>6784</find>
+      <find>deviceArray</find>
+      <find>089</find>
+      <find>Latitude</find>
+      <find>make</find>
+      <find>writeCsvArray</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -166,39 +217,56 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/cases/detailreportalldevices.go" />
         <option value="$PROJECT_DIR$/foo.db" />
         <option value="$PROJECT_DIR$/database/sqlite3.go" />
         <option value="$PROJECT_DIR$/testlogfile" />
-        <option value="$PROJECT_DIR$/writefile/create.go" />
         <option value="$PROJECT_DIR$/rest/variables.go" />
-        <option value="$PROJECT_DIR$/rest/query.go" />
         <option value="$PROJECT_DIR$/rest/device/summary.go" />
         <option value="$PROJECT_DIR$/writefile/variables.go" />
-        <option value="$PROJECT_DIR$/cases/reports/deviceinfo.go" />
-        <option value="$PROJECT_DIR$/cases/operations/downloadlogs.go" />
-        <option value="$PROJECT_DIR$/cases/operations/getlogtestdevices.go" />
         <option value="$PROJECT_DIR$/cases/tests/logclearmodetest.go" />
         <option value="$PROJECT_DIR$/cases/tests/notrust.go" />
         <option value="$PROJECT_DIR$/user/report.go" />
         <option value="$PROJECT_DIR$/Yapılacaklar.txt" />
         <option value="$PROJECT_DIR$/buildLib.sh" />
-        <option value="$PROJECT_DIR$/errc/errorcontrol.go" />
         <option value="$PROJECT_DIR$/ss.txt" />
         <option value="$PROJECT_DIR$/logc/logcontrol.go" />
         <option value="$PROJECT_DIR$/rest/device/id2code.go" />
-        <option value="$PROJECT_DIR$/rest/workingset/links.go" />
         <option value="$PROJECT_DIR$/rest/workingset/devicelist.go" />
-        <option value="$PROJECT_DIR$/rest/workingset/workingset.go" />
-        <option value="$PROJECT_DIR$/rest/workingset/variables.go" />
-        <option value="$PROJECT_DIR$/rest/workingset/pushapplications.go" />
         <option value="$PROJECT_DIR$/rest/device/links.go" />
         <option value="$PROJECT_DIR$/rest/device/deviceinfo.go" />
         <option value="$PROJECT_DIR$/rest/device/variables.go" />
         <option value="$PROJECT_DIR$/rest/device/refleshgatewayinfo.go" />
-        <option value="$PROJECT_DIR$/databasecenter/sqlite3.go" />
         <option value="$PROJECT_DIR$/web/web.go" />
+        <option value="$PROJECT_DIR$/databasecenter/sqlite3.go" />
         <option value="$PROJECT_DIR$/cases/operations/otabase.go" />
+        <option value="$PROJECT_DIR$/rest/download/downloadlog.go" />
+        <option value="$PROJECT_DIR$/cases/operations/downloadlogs.go" />
+        <option value="$PROJECT_DIR$/cases/operations/getlogtestdevices.go" />
+        <option value="$PROJECT_DIR$/cases/reports/blockedapplication.go" />
+        <option value="$PROJECT_DIR$/errc/errorcontrol.go" />
+        <option value="$PROJECT_DIR$/rest/profile/links.go" />
+        <option value="$PROJECT_DIR$/rest/device/applicationoperations.go" />
+        <option value="$PROJECT_DIR$/cases/operations/startapp.go" />
+        <option value="$PROJECT_DIR$/rest/device/informations.go" />
+        <option value="$PROJECT_DIR$/cases/operations/refreshgateway.go" />
+        <option value="$PROJECT_DIR$/rest/workingset/variables.go" />
+        <option value="$PROJECT_DIR$/cases/operations/pushapplication.go" />
+        <option value="$PROJECT_DIR$/rest/workingset/links.go" />
+        <option value="$PROJECT_DIR$/rest/query.go" />
+        <option value="$PROJECT_DIR$/cases/operations/instantapplicationcontrol.go" />
+        <option value="$PROJECT_DIR$/cases/operations/clearappdata.go" />
+        <option value="$PROJECT_DIR$/rest/profile/profile.go" />
+        <option value="$PROJECT_DIR$/rest/workingset/workingset.go" />
+        <option value="$PROJECT_DIR$/cases/operations/modesend.go" />
+        <option value="$PROJECT_DIR$/rest/device/location.go" />
+        <option value="$PROJECT_DIR$/cases/reports/detailreportalldevicestest.go" />
+        <option value="$PROJECT_DIR$/writefile/create.go" />
+        <option value="$PROJECT_DIR$/cases/operations/pushapplicationexternal.go" />
+        <option value="$PROJECT_DIR$/rest/workingset/pushapplications.go" />
+        <option value="$PROJECT_DIR$/cases/reports/detailreport.go" />
+        <option value="$PROJECT_DIR$/cases/reports/detailreportalldevices.go" />
+        <option value="$PROJECT_DIR$/cases/reports/detailreportdevices.go" />
+        <option value="$PROJECT_DIR$/cases/reports/deviceinfo.go" />
         <option value="$PROJECT_DIR$/main.go" />
       </list>
     </option>
@@ -209,10 +277,27 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="187" />
-    <option name="width" value="1392" />
-    <option name="height" value="996" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="150" />
+    <option name="y" value="57" />
+    <option name="width" value="1376" />
+    <option name="height" value="988" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>CSS</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -257,6 +342,22 @@
             <path>
               <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
               <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="cases" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="cases_lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="databasecenter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
               <item name="errc" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -267,11 +368,63 @@
             <path>
               <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
               <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="mail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="action" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="device" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="download" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="drom" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="profile" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="rest" type="462c0819:PsiDirectoryNode" />
+              <item name="workingset" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="timop" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="IITR" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="IITR" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -289,6 +442,9 @@
     <property name="ToolWindowDocumentation.ShowToolbar" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cases/reports" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cases/tests" />
       <recent name="$PROJECT_DIR$/cases/operations" />
@@ -307,7 +463,40 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Application.web.go">
+  <component name="RunManager" selected="Go Application.main.go">
+    <configuration name="logcontrol.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+      <module name="IITR" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/logc/logcontrol.go" />
+      <directory value="$PROJECT_DIR$/" />
+    </configuration>
+    <configuration name="main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+      <module name="IITR" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <package value="github.com/KMACEL/IITR" />
+      <directory value="$PROJECT_DIR$/" />
+    </configuration>
+    <configuration name="sqlite3.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+      <module name="IITR" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/database/sqlite3.go" />
+      <directory value="$PROJECT_DIR$/" />
+    </configuration>
+    <configuration name="web.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
+      <module name="IITR" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/web/web.go" />
+      <directory value="$PROJECT_DIR$/" />
+    </configuration>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="HTML_FILE_NAME" />
@@ -392,39 +581,6 @@
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
     </configuration>
-    <configuration name="logcontrol.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
-      <module name="IITR" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <go_parameters value="-i" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/logc/logcontrol.go" />
-      <directory value="$PROJECT_DIR$/" />
-    </configuration>
-    <configuration name="main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
-      <module name="IITR" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <go_parameters value="-i" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/main.go" />
-      <package value="github.com/KMACEL/IITR" />
-      <directory value="$PROJECT_DIR$/" />
-    </configuration>
-    <configuration name="sqlite3.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
-      <module name="IITR" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <go_parameters value="-i" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/database/sqlite3.go" />
-      <directory value="$PROJECT_DIR$/" />
-    </configuration>
-    <configuration name="web.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
-      <module name="IITR" />
-      <working_directory value="$PROJECT_DIR$/" />
-      <go_parameters value="-i" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/web/web.go" />
-      <directory value="$PROJECT_DIR$/" />
-    </configuration>
     <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Go Application.main.go" />
       <item index="1" class="java.lang.String" itemvalue="Go Application.sqlite3.go" />
@@ -433,8 +589,8 @@
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Go Application.web.go" />
-        <item index="1" class="java.lang.String" itemvalue="Go Application.main.go" />
+        <item index="0" class="java.lang.String" itemvalue="Go Application.main.go" />
+        <item index="1" class="java.lang.String" itemvalue="Go Application.web.go" />
         <item index="2" class="java.lang.String" itemvalue="Go Application.logcontrol.go" />
         <item index="3" class="java.lang.String" itemvalue="Go Application.sqlite3.go" />
       </list>
@@ -443,42 +599,38 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1922" height="1053" extended-state="6" />
+    <frame x="150" y="57" width="1922" height="1053" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18036287" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="1920" height="1053" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18836713" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.006937033" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2762431" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="SonarQube" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08751334" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="1920" height="1053" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30939227" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32715008" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16168623" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13581184" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27292818" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="SonarQube" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288364" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08877087" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="1920" height="1053" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3091216" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277027" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21016692" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13581184" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27364865" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="SonarQube" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288364" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -489,249 +641,331 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="9" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config.sh">
+    <entry file="file://$PROJECT_DIR$/../../mattn/go-sqlite3/backup.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/buildLib.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/errc/errorcontrol.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-523">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1508736344491" expanded="true" signature="1332:1334" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/go/src/os/file.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="202" column="15" lean-forward="false" selection-start-line="202" selection-start-column="15" selection-end-line="202" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/go/src/fmt/print.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="212" column="21" lean-forward="false" selection-start-line="212" selection-start-column="21" selection-end-line="212" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/go/src/io/io.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="89" column="5" lean-forward="false" selection-start-line="89" selection-start-column="5" selection-end-line="89" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ss.txt" />
-    <entry file="file:///usr/local/go/src/os/file_unix.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-378">
-          <caret line="146" column="5" lean-forward="false" selection-start-line="146" selection-start-column="5" selection-end-line="146" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/go/src/log/log.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="261" column="5" lean-forward="false" selection-start-line="261" selection-start-column="5" selection-end-line="261" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/go/src/sort/sort.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="333" column="13" lean-forward="false" selection-start-line="333" selection-start-column="13" selection-end-line="333" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/writefile/create.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="73" column="8" lean-forward="true" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/go/src/time/time.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-514">
-          <caret line="115" column="5" lean-forward="false" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logc/logcontrol.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="36" column="1" lean-forward="false" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/profile/profileinformation.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="-990">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/profile/profile.go">
+    <entry file="file://$PROJECT_DIR$/databasecenter/sqlite3.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3078">
+          <caret line="171" column="7" lean-forward="false" selection-start-line="171" selection-start-column="7" selection-end-line="171" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/profile/links.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="39" column="37" lean-forward="true" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/workingset/devicelist.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+          <caret line="8" column="41" lean-forward="false" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cases/tests/logclearmodetest.go">
+    <entry file="file://$PROJECT_DIR$/rest/device/informations.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="80" column="8" lean-forward="false" selection-start-line="80" selection-start-column="8" selection-end-line="80" selection-end-column="78" />
+        <state relative-caret-position="252">
+          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/wipe.go">
+    <entry file="file:///usr/local/go/src/runtime/asm_amd64.s">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="2336" column="0" lean-forward="false" selection-start-line="2336" selection-start-column="0" selection-end-line="2336" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/go/src/runtime/proc.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="193" column="0" lean-forward="false" selection-start-line="193" selection-start-column="0" selection-end-line="193" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/ofllinelog.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="39" column="32" lean-forward="false" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/workingset/variables.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/go/src/builtin/builtin.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="133" column="5" lean-forward="false" selection-start-line="133" selection-start-column="5" selection-end-line="133" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/query.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/device/deviceinfo.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1710">
+          <caret line="99" column="16" lean-forward="false" selection-start-line="99" selection-start-column="16" selection-end-line="99" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/reports/blockedapplication.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="33" column="5" lean-forward="false" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/timop/timestat.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/reboot.go">
+    <entry file="file://$PROJECT_DIR$/timop/random.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/download/downloadlog.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-486">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/drom/drom.go">
+    <entry file="file://$PROJECT_DIR$/timop/delay.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-312">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/drom/links.go">
+    <entry file="file://$PROJECT_DIR$/util/timeop.go" />
+    <entry file="file://$PROJECT_DIR$/rest/login.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/id2code.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="18" column="42" lean-forward="false" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/location.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="31" column="35" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="31" selection-end-column="35" />
+        <state relative-caret-position="217">
+          <caret line="30" column="28" lean-forward="false" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rest/links.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-54">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="252">
+          <caret line="14" column="53" lean-forward="false" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/profile/variables.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="46" column="4" lean-forward="false" selection-start-line="46" selection-start-column="4" selection-end-line="46" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rest/workingset/links.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="41" column="29" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/workingset/devicelist.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="3" column="33" lean-forward="true" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/query.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1890">
-          <caret line="112" column="64" lean-forward="false" selection-start-line="112" selection-start-column="64" selection-end-line="112" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/variables.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1545">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="217">
+          <caret line="32" column="33" lean-forward="false" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rest/workingset/workingset.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="15" column="4" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="23" selection-end-column="27" />
+        <state relative-caret-position="353">
+          <caret line="36" column="9" lean-forward="false" selection-start-line="36" selection-start-column="9" selection-end-line="36" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/workingset/variables.go">
+    <entry file="file://$PROJECT_DIR$/rest/device/links.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="29" column="39" lean-forward="false" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="39" />
+        <state relative-caret-position="329">
+          <caret line="112" column="5" lean-forward="false" selection-start-line="112" selection-start-column="5" selection-end-line="112" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/workingset/pushapplications.go">
+    <entry file="file://$PROJECT_DIR$/rest/device/id2code.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="30" column="51" lean-forward="true" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
-          <folding>
-            <element signature="e#20#154#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="73">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="30" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rest/device/variables.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="203" column="18" lean-forward="false" selection-start-line="203" selection-start-column="18" selection-end-line="203" selection-end-column="18" />
+        <state relative-caret-position="182">
+          <caret line="30" column="50" lean-forward="false" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/applicationoperations.go">
+    <entry file="file://$PROJECT_DIR$/rest/device/location.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+        <state relative-caret-position="251">
+          <caret line="35" column="52" lean-forward="false" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/otabase.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="563">
+          <caret line="410" column="47" lean-forward="false" selection-start-line="410" selection-start-column="47" selection-end-line="410" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/openpager.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/getlogdevices.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="19" column="46" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/clearappdata.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="14" column="25" lean-forward="false" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/downloadlogs.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/writefile/create.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="106" column="9" lean-forward="false" selection-start-line="106" selection-start-column="9" selection-end-line="106" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IITR_ReadME.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/web.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/welcomescreen.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/report.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="643">
+          <caret line="67" column="57" lean-forward="true" selection-start-line="67" selection-start-column="57" selection-end-line="67" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/errc/errorLogFile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/instantapplicationcontrol.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/profile/profile.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="34" column="17" lean-forward="false" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/modesend.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="33" lean-forward="false" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
+          <folding>
+            <element signature="e#20#76#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/pushapplicationexternal.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rest/workingset/pushapplications.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-369">
+          <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cases/operations/refreshgateway.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="25" lean-forward="false" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -739,147 +973,63 @@
     <entry file="file://$PROJECT_DIR$/rest/device/refleshgatewayinfo.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
-          <caret line="11" column="34" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="34" />
+          <caret line="11" column="16" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/databasecenter/sqlite3.go">
+    <entry file="file://$PROJECT_DIR$/cases/operations/startapp.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="268" column="31" lean-forward="false" selection-start-line="268" selection-start-column="31" selection-end-line="268" selection-end-column="31" />
-          <folding>
-            <element signature="e#24#135#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="450">
+          <caret line="28" column="20" lean-forward="true" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/informations.go">
+    <entry file="file://$PROJECT_DIR$/rest/device/applicationoperations.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
+        <state relative-caret-position="252">
           <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/go/src/net/http/server.go">
+    <entry file="file://$PROJECT_DIR$/cases/reports/detailreport.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-521">
-          <caret line="2879" column="38" lean-forward="false" selection-start-line="2879" selection-start-column="38" selection-end-line="2879" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/web.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cases/operations/ota.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="13" column="29" lean-forward="true" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/modepolicy.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="21" column="24" lean-forward="false" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/action/links.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="19" lean-forward="false" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/action/actionstatus.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="19" column="34" lean-forward="false" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/summary.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="47" column="19" lean-forward="false" selection-start-line="47" selection-start-column="19" selection-end-line="47" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cases/operations/otabase.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="419" column="59" lean-forward="false" selection-start-line="419" selection-start-column="45" selection-end-line="419" selection-end-column="59" />
-          <folding>
-            <element signature="e#20#284#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rest/login.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="31" column="30" lean-forward="false" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/report.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="60" column="26" lean-forward="false" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="26" />
-          <folding>
-            <element signature="e#14#183#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/user.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+        <state relative-caret-position="504">
+          <caret line="46" column="5" lean-forward="true" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cases/reports/detailreportalldevices.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="288" column="49" lean-forward="false" selection-start-line="288" selection-start-column="49" selection-end-line="288" selection-end-column="49" />
+        <state relative-caret-position="300">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/deviceinfo.go">
+    <entry file="file://$PROJECT_DIR$/cases/reports/detailreportdevices.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="46" column="36" lean-forward="false" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+        <state relative-caret-position="342">
+          <caret line="31" column="32" lean-forward="false" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rest/device/links.go">
+    <entry file="file://$PROJECT_DIR$/cases/reports/deviceinfo.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="24" column="4" lean-forward="false" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+        <state relative-caret-position="-383">
+          <caret line="20" column="62" lean-forward="false" selection-start-line="20" selection-start-column="62" selection-end-line="20" selection-end-column="62" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="42" lean-forward="false" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+        <state relative-caret-position="252">
+          <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
           <folding>
             <element signature="e#14#70#0" expanded="true" />
           </folding>

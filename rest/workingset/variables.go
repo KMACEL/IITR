@@ -30,6 +30,11 @@ var (
 	responsePushApplicationJSONVariable responsePushApplicationJSON
 )
 
+const (
+	NotNotifyUser = false
+	NotifyUser    = true
+)
+
 /*
      ██╗███████╗ ██████╗ ███╗   ██╗
      ██║██╔════╝██╔═══██╗████╗  ██║
@@ -62,7 +67,7 @@ type WorkingsetDevicesJSON struct {
 		LockStatus  bool   `json:"lockStatus"`
 		LostStatus  bool   `json:"lostStatus"`
 		CreatedDate int64  `json:"createdDate"`
-		Presence struct {
+		Presence    struct {
 			State    string      `json:"state"`
 			ClientIP interface{} `json:"clientIp"`
 		} `json:"presence"`
@@ -110,9 +115,9 @@ type WorkingsetDevicesJSON struct {
 			Enabled        bool        `json:"enabled"`
 			Activated      bool        `json:"activated"`
 			ActivationDate interface{} `json:"activationDate"`
-			Profile struct {
-				Code string `json:"code"`
-				Name string `json:"name"`
+			Profile        struct {
+				Code   string `json:"code"`
+				Name   string `json:"name"`
 				Policy struct {
 					Code string      `json:"code"`
 					Name interface{} `json:"name"`
@@ -133,7 +138,7 @@ type WorkingsetDevicesJSON struct {
 			Name interface{} `json:"name"`
 		} `json:"activePolicy"`
 		AfexMode string `json:"afexMode"`
-		Links []struct {
+		Links    []struct {
 			Rel  string `json:"rel"`
 			Href string `json:"href"`
 		} `json:"links"`

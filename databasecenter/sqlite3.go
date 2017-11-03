@@ -19,7 +19,7 @@ import (
 ██████╔╝██║  ██║   ██║   ██║  ██║        ██████╔╝██║  ██║███████║███████╗        ╚██████╗███████╗██║ ╚████║   ██║   ███████╗██║  ██║
 ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝         ╚═════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 */
-// Database Ceter is used for database operations. "SQLite3" has been selected as the database.
+// Database Ceter is used for database util. "SQLite3" has been selected as the database.
 // It is aimed at fast, light, easy to use. Driver "github.com/mattn/go-sqlite3" has been selected.
 // You need to perform the necessary downloads before using the program.
 //     sudo apt-get install sqlite3

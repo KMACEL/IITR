@@ -35,7 +35,6 @@ func (w Workingset) AddDeviceWorkingSet(workingsetKey string, deviceCode ...stri
 		} else {
 			deviceList = "\"" + code + "\"" + deviceList
 		}
-
 	}
 	setBody := "[" + deviceList + "]"
 	query, _ := queryVariable.PutQuery(setAdres, setBody, contentTypeJSON(), rest.Invisible)

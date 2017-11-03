@@ -32,3 +32,12 @@ func getProfileListLink() string {
 func getProfileLink(setProfileName string) string {
 	return profile + name + setProfileName
 }
+
+func pushProfileBody(setPolicy string) string {
+	return "{\"defaultPolicy\":{\"code\": \"" + setPolicy + "\"}}"
+}
+func contentTypeJSON() map[string]string {
+	header := make(map[string]string)
+	header["content-type"] = "application/json"
+	return header
+}
