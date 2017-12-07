@@ -17,9 +17,9 @@ import (
 */
 
 // Summary is
-func (d Device) Summary(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
-	setQueryAdress := summaryLink(setDeviceID)
-	query, errSummary := queryVariable.GetQuery(setQueryAdress, vasualFlag)
+func (d Device) Summary(setDeviceID string, setUnMarshal bool, visualFlag bool) []byte {
+	setQueryAddress := summaryLink(setDeviceID)
+	query, errSummary := q.GetQuery(setQueryAddress, visualFlag)
 	errc.ErrorCenter(summaryTag, errSummary)
 
 	if query != nil {
@@ -31,7 +31,7 @@ func (d Device) Summary(setDeviceID string, setUnMarshal bool, vasualFlag bool) 
 		}
 		return []byte(rest.ResponseNotFound)
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }
 
 /*
@@ -44,8 +44,8 @@ func (d Device) Summary(setDeviceID string, setUnMarshal bool, vasualFlag bool) 
 */
 
 // WorkingGroupControl is
-func (d Device) WorkingGroupControl(setDeviceID string, vasualFlag bool) string {
-	query := d.Summary(setDeviceID, rest.OKMarshal, vasualFlag)
+func (d Device) WorkingGroupControl(setDeviceID string, visualFlag bool) string {
+	query := d.Summary(setDeviceID, rest.OKMarshal, visualFlag)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {

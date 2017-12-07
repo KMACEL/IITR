@@ -36,7 +36,7 @@ func (l LCMTest) Start(setDeviceCode ...string) {
 	var logFile *os.File
 
 	writefile.CreateFile(l.FileName)
-	logFile = writefile.OpenFile(l.FileName, logFile)
+	logFile = writefile.OpenFile(logFile, l.FileName)
 	writefile.WriteText(logFile, "Device ID", "Operation", "Time")
 
 	workingsetKey := workingset.Workingset{}.CreateWorkingset()

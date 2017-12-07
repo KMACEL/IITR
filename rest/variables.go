@@ -1,5 +1,7 @@
 package rest
 
+import "errors"
+
 /*
 ██╗   ██╗ █████╗ ██████╗ ██╗ █████╗ ██████╗ ██╗     ███████╗███████╗
 ██║   ██║██╔══██╗██╔══██╗██║██╔══██╗██╔══██╗██║     ██╔════╝██╔════╝
@@ -32,7 +34,37 @@ const (
 	ResponseOK       = "200 OK"
 	ResponseNotFound = "404 Not Found"
 	ResponseCreated  = "201 Created"
-	ResponseNil      = "NIL Variable"
+	ResponseNil      = "Null Value"
+)
+
+// Response Code
+const (
+	ResponseOKCode            = 200
+	ResponseCreatedCode       = 201
+	ResponseBadRequestCode    = 400
+	ResponseUnauthorizedCode  = 401
+	ResponseForbiddenCode     = 403
+	ResponseNotFoundCode      = 404
+	ResponseServerProblemCode = 500
+)
+
+// Errors
+var (
+	ErrorResponseBadRequestCode400   = errors.New("Request is 40 Bad Request. Please check your request")
+	ErrorResponseUnauthorizedCode401 = errors.New("Request is 401 Unauthorized. Please check the login information")
+	ErrorResponseForbiddenCode403    = errors.New("Request is 403 Forbidden. You are not authorized for this query")
+	ErrorNotFound404                 = errors.New("Request is 404 Not Found. Please check variables, queries, links and other parameters")
+	ErrorServerProblemCode500        = errors.New("Request is 500 Server Problem. There is a server problem. Please try later")
+	ErrorElseProblem                 = errors.New("No problem could be detected. Please check the information. If the problem is not resolved, consult the program owner")
+	ErrorResponseNil                 = errors.New("Null Response Message")
+	ErrorResponseNilRequest          = errors.New("Null Response Request Message")
+)
+
+// Query Type
+const (
+	POST = "POST"
+	GET  = "GET"
+	PUT  = "PUT"
 )
 
 // These constants are used throughout the program. They have functions such as displaying yawning values.

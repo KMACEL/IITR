@@ -406,7 +406,7 @@ func (o OtaOp) controlOtaUpdate(db *sql.DB, otaDevice string) {
 		deviceInformation device.InformationJSON
 	)
 	fmt.Println("Update Ota KOntrol")
-	deviceInfo := devices.Informations(devices.DeviceID2Code(otaDevice), rest.NOMarshal, rest.Invisible)
+	deviceInfo := devices.DeviceInformation(devices.DeviceID2Code(otaDevice), rest.NOMarshal, rest.Invisible)
 
 	json.Unmarshal(deviceInfo, &deviceInformation)
 

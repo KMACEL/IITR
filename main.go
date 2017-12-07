@@ -1,9 +1,11 @@
 package main
 
 import (
-	"time"
 	"fmt"
-	"github.com/KMACEL/IITR/user"
+	"time"
+
+	"github.com/KMACEL/IITR/cases/tests"
+	"github.com/KMACEL/IITR/rest"
 )
 
 func main() {
@@ -12,8 +14,25 @@ func main() {
 
 	start := time.Now()
 
-	user.Start()
-	user.LoginTenant()
+	rest.Connect("", "")
+
+	//user.Start()
+	//user.LoginTenant()
+
+	//var reportAll reports.DetailAllReport2
+	//reportAll.Start("TestReportSX.xlsx", nil)
+
+	/*
+		var ping reports.PingControl
+
+		ping.OutputFileName = "test"
+		ping.ControlLogFileName = "ping_access.log-20171130"
+		ping.Start()
+	*/
+
+	var mapsTest tests.MapsTest
+	//mapsTest.Start("867377020915728", "com.google.android.apps.maps") // itaksi
+	mapsTest.Start("867377020746784", "com.google.android.apps.maps") // test
 
 	var pressKey string
 	fmt.Scan(&pressKey)

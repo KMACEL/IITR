@@ -3,6 +3,7 @@ package device
 import (
 	"encoding/json"
 
+	"github.com/KMACEL/IITR/errc"
 	"github.com/KMACEL/IITR/rest"
 )
 
@@ -16,21 +17,19 @@ import (
 */
 
 //PresenceInfo is
-func (d Device) PresenceInfo(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
-	setQueryAdress := presenceInfoLink(setDeviceID)
+func (d Device) PresenceInfo(setDeviceID string, setUnMarshal bool, visualFlag bool) []byte {
+	setQueryAddress := presenceInfoLink(setDeviceID)
 
-	query, _ := rest.Query{}.GetQuery(setQueryAdress, vasualFlag)
+	query, errorPresenceInfo := q.GetQuery(setQueryAddress, visualFlag)
+	errc.ErrorCenter(presenceInfoErrorTag, errorPresenceInfo)
 
 	if query != nil {
-		if string(query) != rest.ResponseNotFound {
-			if setUnMarshal {
-				json.Unmarshal(query, &presenceInfoJSONVariable)
-			}
-			return query
+		if setUnMarshal {
+			json.Unmarshal(query, &presenceInfoJSONVariable)
 		}
-		return []byte(rest.ResponseNotFound)
+		return query
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }
 
 /*
@@ -43,10 +42,10 @@ func (d Device) PresenceInfo(setDeviceID string, setUnMarshal bool, vasualFlag b
 */
 
 //ApplicationInfo is
-func (d Device) ApplicationInfo(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
-	setQueryAdress := applicationInfoLink(setDeviceID)
+func (d Device) ApplicationInfo(setDeviceID string, setUnMarshal bool, visualFlag bool) []byte {
+	setQueryAddress := applicationInfoLink(setDeviceID)
 
-	query, _ := rest.Query{}.GetQuery(setQueryAdress, vasualFlag)
+	query, _ := q.GetQuery(setQueryAddress, visualFlag)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -57,7 +56,7 @@ func (d Device) ApplicationInfo(setDeviceID string, setUnMarshal bool, vasualFla
 		}
 		return []byte(rest.ResponseNotFound)
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }
 
 /*
@@ -70,10 +69,10 @@ func (d Device) ApplicationInfo(setDeviceID string, setUnMarshal bool, vasualFla
 */
 
 // OSProfileInfo is
-func (d Device) OSProfileInfo(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
-	setQueryAdress := osProfileInfoLink(setDeviceID)
+func (d Device) OSProfileInfo(setDeviceID string, setUnMarshal bool, visualFlag bool) []byte {
+	setQueryAddress := osProfileInfoLink(setDeviceID)
 
-	query, _ := rest.Query{}.GetQuery(setQueryAdress, vasualFlag)
+	query, _ := q.GetQuery(setQueryAddress, visualFlag)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -84,7 +83,7 @@ func (d Device) OSProfileInfo(setDeviceID string, setUnMarshal bool, vasualFlag 
 		}
 		return []byte(rest.ResponseNotFound)
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }
 
 /*
@@ -97,10 +96,10 @@ func (d Device) OSProfileInfo(setDeviceID string, setUnMarshal bool, vasualFlag 
 */
 
 // InstantApplicationInfo is
-func (d Device) InstantApplicationInfo(setDeviceID string, setUnMarshal bool, vasualFlag bool) []byte {
-	setQueryAdress := instantApplicationInfoLink(setDeviceID)
+func (d Device) InstantApplicationInfo(setDeviceID string, setUnMarshal bool, visualFlag bool) []byte {
+	setQueryAddress := instantApplicationInfoLink(setDeviceID)
 
-	query, _ := rest.Query{}.GetQuery(setQueryAdress, vasualFlag)
+	query, _ := q.GetQuery(setQueryAddress, visualFlag)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -111,5 +110,5 @@ func (d Device) InstantApplicationInfo(setDeviceID string, setUnMarshal bool, va
 		}
 		return []byte(rest.ResponseNotFound)
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }

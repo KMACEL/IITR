@@ -16,9 +16,9 @@ import (
 */
 
 // GetLogList is
-func (d Device) GetLogList(setDeviceCode string, setUnMarshal bool, vasualFlag bool) []byte {
-	setQueryAdress := getLogListLink(setDeviceCode)
-	query, _ := queryVariable.GetQuery(setQueryAdress, vasualFlag)
+func (d Device) GetLogList(setDeviceCode string, setUnMarshal bool, visualFlag bool) []byte {
+	setQueryAddress := getLogListLink(setDeviceCode)
+	query, _ := q.GetQuery(setQueryAddress, visualFlag)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -29,7 +29,7 @@ func (d Device) GetLogList(setDeviceCode string, setUnMarshal bool, vasualFlag b
 		}
 		return []byte(rest.ResponseNotFound)
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }
 
 /*
@@ -42,7 +42,7 @@ func (d Device) GetLogList(setDeviceCode string, setUnMarshal bool, vasualFlag b
 */
 
 //GetDeviceLog is
-func (d Device) GetDeviceLog(setDeviceCode string, vasualFlag bool) {
-	setQueryAdress := getDeviceLogLink(setDeviceCode)
-	queryVariable.PostQuery(setQueryAdress, "", contentTypeJSON(), vasualFlag)
+func (d Device) GetDeviceLog(setDeviceCode string, visualFlag bool) {
+	setQueryAddress := getDeviceLogLink(setDeviceCode)
+	q.PostQuery(setQueryAddress, "", contentTypeJSON(), visualFlag)
 }

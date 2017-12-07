@@ -30,18 +30,18 @@ func (d DeviceInformation) Start(deviceID ...string) {
 		fileAll   *os.File
 	)
 	writefile.CreateFile("UpdateYes_" + timop.GetTimeNamesFormat() + ".xlsx")
-	file = writefile.OpenFile("UpdateYes_"+timop.GetTimeNamesFormat()+".xlsx", file)
+	file = writefile.OpenFile(file,"UpdateYes_"+timop.GetTimeNamesFormat()+".xlsx")
 
 	writefile.CreateFile("UpdateNotYet_" + timop.GetTimeNamesFormat() + ".xlsx")
-	fileError = writefile.OpenFile("UpdateNotYet_"+timop.GetTimeNamesFormat()+".xlsx", fileError)
+	fileError = writefile.OpenFile(fileError,"UpdateNotYet_"+timop.GetTimeNamesFormat()+".xlsx")
 
 	writefile.CreateFile("UpdateAll_" + timop.GetTimeNamesFormat() + ".xlsx")
-	fileAll = writefile.OpenFile("UpdateAll_"+timop.GetTimeNamesFormat()+".xlsx", fileAll)
+	fileAll = writefile.OpenFile(fileAll,"UpdateAll_"+timop.GetTimeNamesFormat()+".xlsx")
 
 	writefile.WriteText(file, "Device ID", "Firmware", "Modiverse Version", "State", )
 	writefile.WriteText(fileError, "Device ID", "Firmware", "Modiverse Version", "State", )
 	writefile.WriteText(fileAll, "Device ID", "Firmware", "Modiverse Version", "State", )
-
+fmt.Println("dsdd")
 	query := device.Device{}.LocationMap(rest.NOMarshal, rest.Invisible)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -50,23 +50,25 @@ func (d DeviceInformation) Start(deviceID ...string) {
 			deviceCode := device.LocationJSON{}
 			json.Unmarshal(query, &deviceCode)
 
-			for _, deviceCoding := range deviceID {
-
-				queryInformation := devices.Informations(devices.DeviceID2Code(deviceCoding), rest.NOMarshal, rest.Invisible)
+			for _, deviceCodings := range deviceCode.Extras {
+				deviceCoding := deviceCodings.DeviceID
+				queryInformation := devices.DeviceInformation(devices.DeviceID2Code(deviceCoding), rest.NOMarshal, rest.Invisible)
 
 				if queryInformation != nil {
 					if string(queryInformation) != rest.ResponseNotFound {
 
 						deviceInformation := device.InformationJSON{}
 						json.Unmarshal(queryInformation, &deviceInformation)
-						if deviceInformation.OsProfile.Display == "rkpx2-eng 4.4.4 KTU84Q eng.turkey.20171019.131121 test-keys" {
+						writefile.WriteText(fileAll, deviceInformation.DeviceID, deviceInformation.OsProfile.Display, deviceInformation.ModeAppVersion, deviceInformation.Presence.State, time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), "Yes")
+
+						if deviceInformation.OsProfile.Display == "rkpx2-eng 4.4.4 KTU84Q eng.turkey.20171027.143708 test-keys" {
 							fmt.Println(deviceInformation.DeviceID, ",", deviceInformation.OsProfile.Display, ",", deviceInformation.Presence.State, ",", time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), ",")
 							writefile.WriteText(file, deviceInformation.DeviceID, deviceInformation.OsProfile.Display, deviceInformation.ModeAppVersion, deviceInformation.Presence.State, time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), "Yes")
-							writefile.WriteText(fileAll, deviceInformation.DeviceID, deviceInformation.OsProfile.Display, deviceInformation.ModeAppVersion, deviceInformation.Presence.State, time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), "Yes")
+							//writefile.WriteText(fileAll, deviceInformation.DeviceID, deviceInformation.OsProfile.Display, deviceInformation.ModeAppVersion, deviceInformation.Presence.State, time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), "Yes")
 
 						} else {
 							writefile.WriteText(fileError, deviceInformation.DeviceID, deviceInformation.OsProfile.Display, deviceInformation.ModeAppVersion, deviceInformation.Presence.State, time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), "No")
-							writefile.WriteText(fileAll, deviceInformation.DeviceID, deviceInformation.OsProfile.Display, deviceInformation.ModeAppVersion, deviceInformation.Presence.State, time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), "No")
+							//writefile.WriteText(fileAll, deviceInformation.DeviceID, deviceInformation.OsProfile.Display, deviceInformation.ModeAppVersion, deviceInformation.Presence.State, time.Unix(0, deviceInformation.DetailLastModifiedDate*1000000).String(), "No")
 
 						}
 						counter++

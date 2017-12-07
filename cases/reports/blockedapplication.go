@@ -6,10 +6,11 @@ import (
 	"os"
 	"strings"
 
+	"fmt"
+
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/writefile"
-	"fmt"
 )
 
 //Delete Packet
@@ -201,8 +202,8 @@ func (b BlockedAppList) writeCSVType(fileName string, writeCSVArray []string) {
 	var blockedControlFile *os.File
 
 	writefile.CreateFile(fileName)
-	blockedControlFile = writefile.OpenFile(fileName, blockedControlFile)
-	writefile.WriteArray(writeCSVArray, blockedControlFile)
+	blockedControlFile = writefile.OpenFile(blockedControlFile, fileName)
+	writefile.WriteArray(blockedControlFile, writeCSVArray)
 
 	log.Println("Finish Write : ")
 }

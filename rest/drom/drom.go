@@ -8,13 +8,13 @@ import (
 type Drom struct{}
 
 //SendDrom is
-func (d Drom) SendDrom(vasualFlag bool, setDeviceID ...string) string {
+func (d Drom) SendDrom(visualFlag bool, setDeviceID ...string) string {
 	for _, deviceID := range setDeviceID {
-		setAdres := sendDromLink(deviceID)
+		setAddress := sendDromLink(deviceID)
 		header := make(map[string]string)
 		header["content-type"] = "application/json"
 
-		query, _ := queryVariable.PostQuery(setAdres, "", header, vasualFlag)
+		query, _ := queryVariable.PostQuery(setAddress, "", header, visualFlag)
 
 		if query != nil {
 			if string(query) != rest.ResponseNotFound {

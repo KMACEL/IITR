@@ -18,7 +18,7 @@ const (
 	name    = "?name="
 )
 
-//PushProfileLink is retrun
+//PushProfileLink is return
 func pushProfileLink(setMode string, workingset string) string {
 	return profile + setMode + push + workingset
 }

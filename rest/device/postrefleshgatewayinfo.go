@@ -11,8 +11,8 @@ import (
 // RefreshGatewayInfo is
 func (d Device) RefreshGatewayInfo(deviceCode string) string {
 	//setBody := applicationOperationsBodyLink(setApplicationPackage)
-	setAdres := "https://api.ardich.com/api/v3/device/" + deviceCode + "/control/status"
-	query, _ := queryVariable.PostQuery(setAdres, "setBody", contentTypeJSON(), true)
+	setAddress := "https://api.ardich.com/api/v3/device/" + deviceCode + "/control/status"
+	query, _ := q.PostQuery(setAddress, "setBody", contentTypeJSON(), true)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
 			json.Unmarshal(query, &responseMessageCodeJSONVariable)

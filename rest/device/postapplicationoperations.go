@@ -16,7 +16,7 @@ import (
 */
 
 //AppSS is
-func (d Device) AppSS(setOperations int, setDeviceCode string, setApplicationPackage string, vasualFlag bool) string {
+func (d Device) AppSS(setOperations int, setDeviceCode string, setApplicationPackage string, visualFlag bool) string {
 	var setAddress string
 
 	if setOperations == StartApp {
@@ -27,7 +27,7 @@ func (d Device) AppSS(setOperations int, setDeviceCode string, setApplicationPac
 
 	setBody := applicationOperationsBodyLink(setApplicationPackage)
 
-	query, _ := queryVariable.PostQuery(setAddress, setBody, contentTypeJSON(), vasualFlag)
+	query, _ := q.PostQuery(setAddress, setBody, contentTypeJSON(), visualFlag)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
 			json.Unmarshal(query, &responseMessageCodeJSONVariable)
@@ -49,11 +49,11 @@ func (d Device) AppSS(setOperations int, setDeviceCode string, setApplicationPac
 */
 
 // ClearAppData is
-func (d Device) ClearAppData(setDeviceCode string, setApplicationPackage string, vasualFlag bool) string {
-	setAdres := "https://api.ardich.com/api/v3/device/" + setDeviceCode + "/apps/clearappdata"
+func (d Device) ClearAppData(setDeviceCode string, setApplicationPackage string, visualFlag bool) string {
+	setAddress := clearAppDataLink(setDeviceCode)
 	setBody := applicationOperationsBodyLink(setApplicationPackage)
 
-	query, _ := queryVariable.PostQuery(setAdres, setBody, contentTypeJSON(), vasualFlag)
+	query, _ := q.PostQuery(setAddress, setBody, contentTypeJSON(), visualFlag)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
 			json.Unmarshal(query, &responseMessageCodeJSONVariable)

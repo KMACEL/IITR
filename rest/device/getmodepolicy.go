@@ -16,11 +16,9 @@ import (
 */
 
 //ActiveProfilePolicy is
-func (d Device) ActiveProfilePolicy(deviceID string, setUnMarshal bool, vasualFlag bool) []byte {
-	var query []byte
-
+func (d Device) ActiveProfilePolicy(deviceID string, setUnMarshal bool, visualFlag bool) []byte {
 	queryLink := modePolicyLink(deviceID)
-	query, _ = rest.Query{}.GetQuery(queryLink, vasualFlag)
+	query, _ := q.GetQuery(queryLink, visualFlag)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -31,5 +29,5 @@ func (d Device) ActiveProfilePolicy(deviceID string, setUnMarshal bool, vasualFl
 		}
 		return []byte(rest.ResponseNotFound)
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }

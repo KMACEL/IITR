@@ -3,6 +3,7 @@ package action
 import (
 	"encoding/json"
 
+	"github.com/KMACEL/IITR/errc"
 	"github.com/KMACEL/IITR/rest"
 )
 
@@ -16,14 +17,17 @@ import (
 */
 
 //GetActionStatus is
-func (a Action) GetActionStatus(setDeviceCode string, setControlType string, setSize int, vasualFlag bool) []byte {
-	setQueryAdress := GetActionStatusLink(setDeviceCode, setControlType, setSize)
+func (a Action) GetActionStatus(setDeviceCode string, setControlType string, setSize int, visualFlag bool) []byte {
+	var q rest.Query
+	setQueryAddress := GetActionStatusLink(setDeviceCode, setControlType, setSize)
+	query, actionError := q.GetQuery(setQueryAddress, visualFlag)
 
-	query, _ := rest.Query{}.GetQuery(setQueryAdress, vasualFlag)
+	errc.ErrorCenter(getActionStatusTag, actionError)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
-			json.Unmarshal(query, &messageJSONVariable)
+			unMarshalError := json.Unmarshal(query, &messageJSONVariable)
+			errc.ErrorCenter(getActionStatusUnMarshalTag, unMarshalError)
 			return query
 		}
 		return []byte(rest.ResponseNotFound)

@@ -1,4 +1,4 @@
-package operations
+package reports
 
 import (
 	"github.com/KMACEL/IITR/rest/device"
@@ -28,7 +28,7 @@ func (i InstantApplication) Start(devicesID ...string) {
 	)
 
 	writefile.CreateFile("instantControl.xlsx")
-	file = writefile.OpenFile("instantControl.xlsx", file)
+	file = writefile.OpenFile(file,"instantControl.xlsx")
 
 	for _, deviceID := range devicesID {
 		query := devices.InstantApplicationInfo(deviceID, rest.NOMarshal, rest.Visible)

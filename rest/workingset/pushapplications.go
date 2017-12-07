@@ -60,7 +60,7 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, notify
 	for _, devices := range deviceID {
 		workingsetVariables.AddDeviceWorkingSet(workingsetKey, device.Device{}.DeviceID2Code(devices))
 	}
-// todo workingsete array olarak ver
+	// todo workingsete array olarak ver
 	fmt.Println("Workingset Device List : ", w.GetWorkingsetDevices(workingsetKey))
 
 	setQueryAddress := pushApplicationsExternalLink(workingsetKey)
@@ -73,7 +73,7 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, notify
 	"notifyUser":` + strconv.FormatBool(notifyUser) + `,
 	"packageName":""	,
 	"token":""	,
-	"url":	"`+url+`",
+	"url":	"` + url + `",
 	"versionCode":	"0"
 	}`
 

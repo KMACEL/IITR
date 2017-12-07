@@ -24,7 +24,7 @@ func (l LogTest) Start(setDeviceCode string, fileName string, vasualFlag bool) {
 	var logTestFile *os.File
 
 	writefile.CreateFile(fileName)
-	logTestFile = writefile.OpenFile(fileName, logTestFile)
+	logTestFile = writefile.OpenFile(logTestFile, fileName)
 	writefile.WriteText(logTestFile, "Device ID", "Operation", "Time")
 
 	workingsetKey := workingset.Workingset{}.CreateWorkingset()

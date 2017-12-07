@@ -29,7 +29,7 @@ func (o OpenPager) Start() {
 	for _, deviceCoding := range locationJSONVariable.Extras {
 
 		if deviceCoding.DeviceCode != "" && deviceCoding.DeviceID != "" && deviceCoding.Presence != rest.Offline {
-			queryDownload := o.deviceVariable.GetDownloadedList(deviceCoding.DeviceCode, rest.NOMarshal, rest.Invisible)
+			queryDownload := o.deviceVariable.GetDownloadedApplicationsList(deviceCoding.DeviceCode, rest.NOMarshal, rest.Invisible)
 			downloadedApplicationListJSONVariable := device.DownloadedApplicationListJSON{}
 			json.Unmarshal(queryDownload, &downloadedApplicationListJSONVariable)
 

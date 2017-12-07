@@ -71,7 +71,7 @@ func CreateFile(fileName string) {
 //      var openFile1 *os.File
 //      writefile.CreateFile("testFile.csv")
 //      openFile1 = writefile.OpenFile2("testFile.csv", openFile1)
-func OpenFile(openingFileName string, openedFile *os.File) *os.File {
+func OpenFile(openedFile *os.File, openingFileName string) *os.File {
 	if openedFile, errOpenFile := os.OpenFile(openingFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend); errOpenFile != nil {
 		errc.ErrorCenter(openFileTag, errOpenFile)
 		panic(errOpenFile)
@@ -92,7 +92,7 @@ func OpenFile(openingFileName string, openedFile *os.File) *os.File {
 // WriteArray writes the data received in the Array type to the opened file and closes that file. It takes two values.
 // writeTextArray: takes an array of type string. This array is written to the file.
 // openedFile: The file to be opened.
-func WriteArray(writeTextArray []string, openedFile *os.File) {
+func WriteArray(openedFile *os.File, writeTextArray []string) {
 	for _, text := range writeTextArray {
 		if _, errWriteArray := openedFile.WriteString(text + ","); errWriteArray != nil {
 			errc.ErrorCenter(writeArrayTag, errWriteArray)
@@ -120,7 +120,7 @@ func WriteArray(writeTextArray []string, openedFile *os.File) {
 // WriteByte writes the data in the byte type received in the Array type to the opened file and closes that file. It takes two values.
 // writeTextByte: takes an array of type byte. This array is written to the file.
 // openedFile: The file to be opened.
-func WriteByte(writeTextByte []byte, openedFile *os.File) {
+func WriteByte(openedFile *os.File, writeTextByte []byte) {
 	if _, errWriteByte := openedFile.Write(writeTextByte); errWriteByte != nil {
 		errc.ErrorCenter(writeByteTag, errWriteByte)
 		panic(errWriteByte)

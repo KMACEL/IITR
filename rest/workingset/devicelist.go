@@ -6,8 +6,8 @@ import (
 )
 
 func (w Workingset) GetWorkingsetDevices(workingsetKey string) []string {
-	setQueryAdress := getWorkingsetDevicesLink(workingsetKey)
-	query, _ := rest.Query{}.GetQuery(setQueryAdress, false)
+	setQueryAddress := getWorkingsetDevicesLink(workingsetKey)
+	query, _ := rest.Query{}.GetQuery(setQueryAddress, false)
 	var deviceList []string
 
 	if query != nil {

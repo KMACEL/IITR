@@ -24,7 +24,7 @@ import (
 */
 
 //DetailAllReport is
-type DetailAllReport struct {
+type DetailAllReport2 struct {
 	writeCsvArray []string
 	devices       device.Device
 	actions       action.Action
@@ -33,7 +33,7 @@ type DetailAllReport struct {
 // todo generic hazır olunca sil
 
 //Start is DetailAllReport. These Cases were created to get detailed reports
-func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
+func (d DetailAllReport2) Start(fileName string, setControlPackage []string) {
 	// It performs the writing process in one step, not in every step of the way. The goal is to increase
 	// the speed and reduce the memory footprint. It is also used to write multiple files at the same time
 	//d.writeCsvArray = make([]string, 0)
@@ -41,12 +41,16 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 	// His section allows you to write them in the title if the number of applications to be checked is reached.
 	// The reason for the substitution assignment is that it will be used later when writing csv
 	var packageHeader string
-	for i, packageHeaderName := range setControlPackage {
-		if i == 0 {
-			packageHeader = packageHeaderName + "," + packageHeaderName
-		} else {
-			packageHeader = packageHeaderName + "," + packageHeaderName + "," + packageHeader
+	if setControlPackage != nil {
+		for i, packageHeaderName := range setControlPackage {
+			if i == 0 {
+				packageHeader = packageHeaderName + "," + packageHeaderName
+			} else {
+				packageHeader = packageHeaderName + "," + packageHeaderName + "," + packageHeader
+			}
 		}
+	} else {
+		packageHeader = ""
 	}
 
 	strings.Trim(packageHeader, " ")
@@ -64,7 +68,7 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 	// Last Online Time: Gives us the time that was last online.
 	// Read Time: The time of receiving information varies according to computer, inernet, cloud speed and is getting longer. This is why it is important when the device is read.
 	// Working Group: Any workgroup should be aware of this.
-	d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
+	d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name","Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
 
 	// For device information query
 	query := d.devices.LocationMap(rest.NOMarshal, rest.Invisible)
@@ -86,6 +90,11 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 						policy             string
 						dromSize           int
 						workingGroup       string
+						modiverseVersion   string
+						osDisplay          string
+						reportTime         string
+						profileCurrent     string
+						policyCurrent      string
 					)
 
 					// GoRoutine Message Channel
@@ -102,8 +111,13 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 					chLastOnlineTime := make(chan string)
 					chProfile := make(chan string)
 					chPolicy := make(chan string)
+					chProfileCurrent := make(chan string)
+					chPolicyCurrent := make(chan string)
 					chDromSize := make(chan int)
 					chWorkingGroup := make(chan string)
+					chModiverseVersion := make(chan string)
+					chOSDisplay := make(chan string)
+					chReportTime := make(chan string)
 
 					// Start GoRutines.
 					// applicationStatus: Returns the application status and block status of applications that are initially given a package name.
@@ -113,9 +127,10 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 					// workingGroup: Tells us if there is a group on the device.
 					go d.applicationStatus(deviceCoding.DeviceID, setControlPackage, chApplicationsStatus)
 					go d.presenceStatus(deviceCoding.DeviceID, chPresence, chLastOnlineTime)
-					go d.profilePolicy(deviceCoding.DeviceID, chProfile, chPolicy)
+					go d.profilePolicy(deviceCoding.DeviceID, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent)
 					go d.submittedDromSize(deviceCoding.DeviceCode, chDromSize)
 					go d.workingGroup(deviceCoding.DeviceID, chWorkingGroup)
+					go d.deviceInformation(deviceCoding.DeviceID, chModiverseVersion, chOSDisplay, chReportTime)
 
 					// This section writes the messages from the channels in the go routines to the variables.
 					for getItemApplicationsStatus, status := <-chApplicationsStatus; status; getItemApplicationsStatus, status = <-chApplicationsStatus {
@@ -153,6 +168,20 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 						}
 					}
 
+					for getItemProfileCurrent, status := <-chProfileCurrent; status; getItemProfileCurrent, status = <-chProfileCurrent {
+						profileCurrent = getItemProfileCurrent
+						if status {
+							break
+						}
+					}
+
+					for getItemPolicyCurrent, status := <-chPolicyCurrent; status; getItemPolicyCurrent, status = <-chPolicyCurrent {
+						policyCurrent = getItemPolicyCurrent
+						if status {
+							break
+						}
+					}
+
 					for getItemDromSize, status := <-chDromSize; status; getItemDromSize, status = <-chDromSize {
 						dromSize = getItemDromSize
 						if status {
@@ -162,6 +191,27 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 
 					for getItemWorkingGroup, status := <-chWorkingGroup; status; getItemWorkingGroup, status = <-chWorkingGroup {
 						workingGroup = getItemWorkingGroup
+						if status {
+							break
+						}
+					}
+
+					for getItemModiverseVersion, status := <-chModiverseVersion; status; getItemModiverseVersion, status = <-chModiverseVersion {
+						modiverseVersion = getItemModiverseVersion
+						if status {
+							break
+						}
+					}
+
+					for getItemOSDisplay, status := <-chOSDisplay; status; getItemOSDisplay, status = <-chOSDisplay {
+						osDisplay = getItemOSDisplay
+						if status {
+							break
+						}
+					}
+
+					for getItemReportTime, status := <-chReportTime; status; getItemReportTime, status = <-chReportTime {
+						reportTime = getItemReportTime
 						if status {
 							break
 						}
@@ -198,8 +248,23 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 					case policy == "":
 						log.Println("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
+					case profileCurrent == "":
+						log.Println("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case policyCurrent == "":
+						log.Println("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
 					case workingGroup == "":
 						log.Println("WorkingGroup Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case modiverseVersion == "":
+						log.Println("ModiverseVersion Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case osDisplay == "":
+						log.Println("OsDisplay Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
+					case reportTime == "":
+						log.Println("ReportTime Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					default:
 						d.writeCsvArray = append(d.writeCsvArray,
@@ -209,10 +274,16 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 							presence,
 							profile,
 							policy,
+							profileCurrent,
+							policyCurrent,
 							deviceCoding.Latitude,
 							deviceCoding.Longitude,
-							lastOnlineTime, time.Now().String(),
+							lastOnlineTime,
+							time.Now().String(),
 							workingGroup,
+							modiverseVersion,
+							osDisplay,
+							reportTime,
 							"\n")
 					}
 
@@ -254,7 +325,7 @@ func (d DetailAllReport) Start(fileName string, setControlPackage []string) {
 // deviceID: The number of the device to be controlled. String type. one is sent. So you can only look at one device at a time. The entire query is carried out using this ID number.
 // setControlPackage: Contains packages to be checked. The String is of type Array. It checks all the packets if they are entered.
 // chApplicationsStatus: Go creates a message channel for the routine
-func (d DetailAllReport) applicationStatus(deviceID string, setControlPackage []string, chApplicationsStatus chan string) string {
+func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage []string, chApplicationsStatus chan string) string {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceID != "" {
@@ -398,7 +469,7 @@ func (d DetailAllReport) applicationStatus(deviceID string, setControlPackage []
 ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝ ╚═════╝╚══════╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 */
 
-func (d DetailAllReport) presenceStatus(deviceCode string, chPresence, chLastOnlineTime chan string) (string, string) {
+func (d DetailAllReport2) presenceStatus(deviceCode string, chPresence, chLastOnlineTime chan string) (string, string) {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceCode != "" {
@@ -456,13 +527,16 @@ func (d DetailAllReport) presenceStatus(deviceCode string, chPresence, chLastOnl
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝   ╚═╝
 */
 
-func (d DetailAllReport) profilePolicy(deviceID string, chProfile, chPolicy chan string) (string, string) {
+func (d DetailAllReport2) profilePolicy(deviceID string, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent chan string) (string, string) {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceID != "" {
 		var (
 			activeProfile string
 			activePolicy  string
+
+			currentProfile string
+			currentPolicy  string
 		)
 
 		profilePolicyQuery := d.devices.ActiveProfilePolicy(deviceID, rest.NOMarshal, rest.Invisible)
@@ -471,8 +545,11 @@ func (d DetailAllReport) profilePolicy(deviceID string, chProfile, chPolicy chan
 				activeProfilePolicy := device.ActiveProfilePolicyJSON{}
 				json.Unmarshal(profilePolicyQuery, &activeProfilePolicy)
 
-				activeProfile = activeProfilePolicy.CurrentProfile
-				activePolicy = activeProfilePolicy.CurrentPolicy
+				activeProfile = activeProfilePolicy.ActiveProfile
+				activePolicy = activeProfilePolicy.ActivePolicy
+
+				currentProfile = activeProfilePolicy.CurrentProfile
+				currentPolicy = activeProfilePolicy.CurrentPolicy
 
 				if len(activeProfile) == 0 {
 					activeProfile = rest.ResponseNil
@@ -481,13 +558,26 @@ func (d DetailAllReport) profilePolicy(deviceID string, chProfile, chPolicy chan
 					activePolicy = rest.ResponseNil
 				}
 
+				if len(currentProfile) == 0 {
+					currentProfile = rest.ResponseNil
+				}
+				if len(currentPolicy) == 0 {
+					currentPolicy = rest.ResponseNil
+				}
+
 			} else {
 				activeProfile = rest.ResponseNotFound
 				activePolicy = rest.ResponseNotFound
+
+				currentProfile = rest.ResponseNotFound
+				currentPolicy = rest.ResponseNotFound
 			}
 		} else {
 			activeProfile = rest.ResponseNil
 			activePolicy = rest.ResponseNil
+
+			currentProfile = rest.ResponseNil
+			currentPolicy = rest.ResponseNil
 		}
 
 		if activeProfile == "" {
@@ -498,19 +588,40 @@ func (d DetailAllReport) profilePolicy(deviceID string, chProfile, chPolicy chan
 			activePolicy = rest.ResponseNil
 		}
 
+		if currentProfile == "" {
+			currentProfile = rest.ResponseNil
+		}
+
+		if currentPolicy == "" {
+			currentPolicy = rest.ResponseNil
+		}
+
 		chProfile <- activeProfile
 		chPolicy <- activePolicy
 
+		chProfileCurrent <- currentProfile
+		chPolicyCurrent <- currentPolicy
+
 		close(chProfile)
 		close(chPolicy)
+
+		close(chProfileCurrent)
+		close(chPolicyCurrent)
+
 		return activeProfile, activePolicy
 	}
 
 	chProfile <- rest.ResponseNil
 	chPolicy <- rest.ResponseNil
 
+	chProfileCurrent <- rest.ResponseNil
+	chPolicyCurrent <- rest.ResponseNil
+
 	close(chProfile)
 	close(chPolicy)
+
+	close(chProfileCurrent)
+	close(chPolicyCurrent)
 
 	return rest.ResponseNil, rest.ResponseNil
 }
@@ -524,7 +635,7 @@ func (d DetailAllReport) profilePolicy(deviceID string, chProfile, chPolicy chan
 ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═════╝     ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝    ╚══════╝╚═╝╚══════╝╚══════╝
 */
 
-func (d DetailAllReport) submittedDromSize(deviceCode string, chDromSize chan int) int {
+func (d DetailAllReport2) submittedDromSize(deviceCode string, chDromSize chan int) int {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceCode != "" {
@@ -557,6 +668,70 @@ func (d DetailAllReport) submittedDromSize(deviceCode string, chDromSize chan in
 	return -5
 }
 
+func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion chan string, chOSDisplay chan string, chReportTime chan string) (string, string, string) {
+	var (
+		devices          device.Device
+		osDisplay        string
+		modiverseVersion string
+		reportTime       string
+	)
+
+	queryInformation := devices.DeviceInformation(devices.DeviceID2Code(deviceID), rest.NOMarshal, rest.Invisible)
+
+	if queryInformation != nil {
+		if string(queryInformation) != rest.ResponseNotFound {
+			deviceInformation := device.InformationJSON{}
+			json.Unmarshal(queryInformation, &deviceInformation)
+
+			osDisplay = deviceInformation.OsProfile.Display
+			modiverseVersion = deviceInformation.ModeAppVersion
+			reportTime = deviceInformation.DeviceCurrentTime
+
+			if osDisplay == "" {
+				osDisplay = rest.ResponseNil
+			}
+
+			if modiverseVersion == "" {
+				modiverseVersion = rest.ResponseNil
+			}
+
+			if reportTime == "" {
+				reportTime = rest.ResponseNil
+			}
+
+			chModiverseVersion <- modiverseVersion
+			close(chModiverseVersion)
+
+			chOSDisplay <- osDisplay
+			close(chOSDisplay)
+
+			chReportTime <- reportTime
+			close(chReportTime)
+
+			return osDisplay, modiverseVersion, reportTime
+		}
+
+		chModiverseVersion <- rest.ResponseNotFound
+		close(chModiverseVersion)
+
+		chOSDisplay <- rest.ResponseNotFound
+		close(chOSDisplay)
+
+		chReportTime <- rest.ResponseNotFound
+		close(chReportTime)
+		return rest.ResponseNotFound, rest.ResponseNotFound, rest.ResponseNotFound
+	}
+	chModiverseVersion <- rest.ResponseNil
+	close(chModiverseVersion)
+
+	chOSDisplay <- rest.ResponseNil
+	close(chOSDisplay)
+
+	chReportTime <- rest.ResponseNil
+	close(chReportTime)
+	return rest.ResponseNil, rest.ResponseNil, rest.ResponseNil
+}
+
 /*
 ██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗██╗███╗   ██╗ ██████╗      ██████╗ ██████╗  ██████╗ ██╗   ██╗██████╗
 ██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝██║████╗  ██║██╔════╝     ██╔════╝ ██╔══██╗██╔═══██╗██║   ██║██╔══██╗
@@ -566,7 +741,7 @@ func (d DetailAllReport) submittedDromSize(deviceCode string, chDromSize chan in
  ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝
 */
 
-func (d DetailAllReport) workingGroup(deviceID string, chWorkingGroup chan string) string {
+func (d DetailAllReport2) workingGroup(deviceID string, chWorkingGroup chan string) string {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceID != "" {
@@ -595,7 +770,7 @@ func (d DetailAllReport) workingGroup(deviceID string, chWorkingGroup chan strin
  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝     ╚═════╝╚══════╝  ╚═══╝         ╚═╝      ╚═╝   ╚═╝     ╚══════╝
 */
 
-func (d DetailAllReport) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
+func (d DetailAllReport2) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
 	var detailReportFile *os.File
 
 	writefile.CreateFile(fileName)

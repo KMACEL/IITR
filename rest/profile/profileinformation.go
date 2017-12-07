@@ -8,16 +8,16 @@ import (
 
 //GetProfileList is
 func (p Profile) GetProfileList() {
-	setQueryAdress := getProfileListLink()
-	vasualFlag := rest.Invisible
-	query, _ := queryVariable.GetQuery(setQueryAdress, vasualFlag)
+	setQueryAddress := getProfileListLink()
+	visualFlag := rest.Invisible
+	query, _ := queryVariable.GetQuery(setQueryAddress, visualFlag)
 	fmt.Println(string(query))
 }
 
 //GetProfile is
 func (p Profile) GetProfile(setProfileName string) {
-	setQueryAdress := getProfileLink(setProfileName)
-	vasualFlag := rest.Invisible
-	query, _ := queryVariable.GetQuery(setQueryAdress, vasualFlag)
+	setQueryAddress := getProfileLink(setProfileName)
+	visualFlag := rest.Invisible
+	query, _ := queryVariable.GetQuery(setQueryAddress, visualFlag)
 	fmt.Println(string(query))
 }

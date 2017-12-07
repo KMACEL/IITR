@@ -28,15 +28,15 @@ import (
 // This function returns "true" if the Connect operation has been performed. Sends "false" if the message
 // is empty and "false" if it gets an error.
 func Connect(userName, password string) bool {
-	setQueryAdress := loginLink()
+	setQueryAddress := loginLink()
 	setBody := connectBodyLink(userName, password)
 
 	setHeader := make(map[string]string)
 	setHeader[contentType] = contentTypeApplicationKey
 	setHeader[authorization] = authorizationKey
-	vasualFlag := Invisible
+	visualFlag := Invisible
 
-	query, _ := Query{}.PostQuery(setQueryAdress, setBody, setHeader, vasualFlag)
+	query, _ := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
 
 	if query != nil {
 		if string(query) != ResponseNotFound {
@@ -61,10 +61,10 @@ func Connect(userName, password string) bool {
  ╚═════╝ ╚══════╝   ╚═╝       ╚═╝  ╚═╝ ╚═════╝ ╚═════╝╚══════╝╚══════╝       ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝
 */
 
-// GetAccesToken is; After the Connect is done, it sends back the Acces Token value.
+// GetAccessToken is; After the Connect is done, it sends back the Acces Token value.
 // All subsequent query util will use this value. Anyone who wishes to know about
 //Connect can take this value with the help of this function.
-func GetAccesToken() string {
+func GetAccessToken() string {
 	return getLogin.AccessToken
 }
 
@@ -122,15 +122,15 @@ retry:
 	}
 	fmt.Println("Refreshing Token")
 	fmt.Println("exp : ", getExpiresIn(), " reflesh : ", GetRefreshToken())
-	setQueryAdress := loginLink()
+	setQueryAddress := loginLink()
 	setBody := refleshTokenBodyLink()
 
 	setHeader := make(map[string]string)
 	setHeader[contentType] = contentTypeApplicationKey
 	setHeader[authorization] = authorizationKey
-	vasualFlag := Visible
+	visualFlag := Visible
 
-	query, _ := Query{}.PostQuery(setQueryAdress, setBody, setHeader, vasualFlag)
+	query, _ := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
 
 	json.Unmarshal(query, &getLogin)
 	goto retry

@@ -15,10 +15,10 @@ import (
 ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 */
 
-//Informations is
-func (d Device) Informations(setDeviceCode string, setUnMarshal bool, vasualFlag bool) []byte {
-	setQueryAdress := informationsLink(setDeviceCode)
-	query, _ := queryVariable.GetQuery(setQueryAdress, vasualFlag)
+//DeviceInformation is
+func (d Device) DeviceInformation(setDeviceCode string, setUnMarshal bool, visualFlag bool) []byte {
+	setQueryAddress := informationLink(setDeviceCode)
+	query, _ := q.GetQuery(setQueryAddress, visualFlag)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -29,5 +29,5 @@ func (d Device) Informations(setDeviceCode string, setUnMarshal bool, vasualFlag
 		}
 		return []byte(rest.ResponseNotFound)
 	}
-	return []byte(rest.ResponseNil)
+	return nil
 }

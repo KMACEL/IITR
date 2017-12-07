@@ -23,7 +23,7 @@ const (
 	devices            = "/device?page=0&size=500"
 )
 
-//createWorkingsetLink is retrun
+//createWorkingsetLink is return
 func createWorkingsetLink() string {
 	return workingset + empty
 }

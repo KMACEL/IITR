@@ -35,7 +35,7 @@ const (
 func (n NoTrust) Start(packageList ...string) {
 	var noTrustFile *os.File
 	writefile.CreateFile("BlockedApp.xlsx")
-	noTrustFile = writefile.OpenFile("BlockedApp.xlsx", noTrustFile)
+	noTrustFile = writefile.OpenFile(noTrustFile, "BlockedApp.xlsx")
 	writefile.WriteText(noTrustFile, "Package", "Response Message Statue", "Response Message Description", "Time")
 
 	workingsetKey := n.workingsetVar.CreateWorkingset()

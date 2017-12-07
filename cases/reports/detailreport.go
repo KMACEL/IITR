@@ -45,7 +45,7 @@ const (
 )
 
 var (
-	packageNameNilError = errors.New("Package Array is NIL!")
+	packageNameNilError = errors.New("PACKAGE ARRAY IS NIL")
 )
 //todo generic olarak düzenle
 //Start is DetailAllReport. These Cases were created to get detailed reports
@@ -89,7 +89,7 @@ func (d DetailReport) Start(reports ReportWants) {
 	// Working Group: Any workgroup should be aware of this.
 	//d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
 
-	location := make(map[string](map[string]string))
+	location := make(map[string]map[string]string)
 	//TODO AÇIKLAMA EKLE
 	if reports.DevicesID == nil {
 		query := d.devices.LocationMap(rest.NOMarshal, rest.Invisible)
@@ -664,7 +664,7 @@ func (d DetailReport) workingGroup(deviceID string, chWorkingGroup chan string) 
 func (d DetailReport) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
 	var detailReportFile *os.File
 
-	detailReportFile = writefile.OpenFile(fileName, detailReportFile)
-	writefile.WriteArray(writeCSVArray, detailReportFile)
+	detailReportFile = writefile.OpenFile(detailReportFile,fileName)
+	writefile.WriteArray(detailReportFile,writeCSVArray)
 	log.Println("Finish Write : ", setControlPackage)
 }

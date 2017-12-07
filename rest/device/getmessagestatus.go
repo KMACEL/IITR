@@ -18,19 +18,19 @@ import (
 */
 
 //MessageControl is
-func (d Device) MessageControl(deviceCode string, responseMessageID string, vasualFlag bool) (string, string) {
-	var setVasualFlag bool
+func (d Device) MessageControl(deviceCode string, responseMessageID string, visualFlag bool) (string, string) {
+	var setVisualFlag bool
 
 retry:
-	setQueryAdress := messageControlLink(deviceCode, responseMessageID)
+	setQueryAddress := messageControlLink(deviceCode, responseMessageID)
 
-	if vasualFlag == rest.Visible {
-		setVasualFlag = rest.Visible
-	} else if vasualFlag == rest.Invisible {
-		setVasualFlag = rest.Invisible
+	if visualFlag == rest.Visible {
+		setVisualFlag = rest.Visible
+	} else if visualFlag == rest.Invisible {
+		setVisualFlag = rest.Invisible
 	}
 
-	query, _ := rest.Query{}.GetQuery(setQueryAdress, setVasualFlag)
+	query, _ := q.GetQuery(setQueryAddress, setVisualFlag)
 
 	var counter int
 
@@ -40,23 +40,22 @@ retry:
 			responseResult := responseMessageJSONVariable.ExecutionInDeviceStatus.Result
 
 			if responseResult != "" {
-				json.Unmarshal([]byte(responseResult), &responsedescriptionJSONVariable)
+				json.Unmarshal([]byte(responseResult), &responseDescriptionJSONVariable)
 
-				responseCode := responsedescriptionJSONVariable.Code
+				responseCode := responseDescriptionJSONVariable.Code
 				if responseCode == 200 {
-					return strconv.Itoa(responsedescriptionJSONVariable.Code), responsedescriptionJSONVariable.State
+					return strconv.Itoa(responseDescriptionJSONVariable.Code), responseDescriptionJSONVariable.State
 				} else if responseCode == 500 {
-					json.Unmarshal([]byte(responseResult), &responseMesageErrorJSONVariable)
-					return strconv.Itoa(responseMesageErrorJSONVariable.Code), responseMesageErrorJSONVariable.Description
+					json.Unmarshal([]byte(responseResult), &responseMessageErrorJSONVariable)
+					return strconv.Itoa(responseMessageErrorJSONVariable.Code), responseMessageErrorJSONVariable.Description
 				}
-
 			}
 			counter++
 			if counter < 3 {
 				time.Sleep(1000 * time.Millisecond)
 				goto retry
 			} else {
-				return rest.ResponseNil, responsedescriptionJSONVariable.State
+				return rest.ResponseNil, responseDescriptionJSONVariable.State
 			}
 
 		}

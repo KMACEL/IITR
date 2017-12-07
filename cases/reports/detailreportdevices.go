@@ -144,12 +144,12 @@ func (d DetailReportDevices) applicationStatus(deviceCode string, setControlPack
 	var statusGlobal string
 	packageStatus := make([]string, 0)
 
-	appliacationQuery := d.devices.GetDownloadedList(deviceCode, rest.NOMarshal, rest.Invisible)
-	if appliacationQuery != nil {
-		if string(appliacationQuery) != rest.ResponseNotFound {
+	applicationQuery := d.devices.GetDownloadedApplicationsList(deviceCode, rest.NOMarshal, rest.Invisible)
+	if applicationQuery != nil {
+		if string(applicationQuery) != rest.ResponseNotFound {
 
 			deviceApplication := device.DownloadedApplicationListJSON{}
-			json.Unmarshal(appliacationQuery, &deviceApplication)
+			json.Unmarshal(applicationQuery, &deviceApplication)
 
 			// Looking at the situation will return to the desired application.
 			for _, controlPackages := range setControlPackage {
@@ -357,8 +357,8 @@ func (d DetailReportDevices) workingGroup(deviceID string, chWorkingGroup chan s
 func (d DetailReportDevices) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
 	var detailReportFile *os.File
 	writefile.CreateFile(fileName)
-	detailReportFile = writefile.OpenFile(fileName, detailReportFile)
-	writefile.WriteArray(writeCSVArray, detailReportFile)
+	detailReportFile = writefile.OpenFile(detailReportFile,fileName )
+	writefile.WriteArray(detailReportFile,writeCSVArray )
 
 	log.Println("Finish Write : ", setControlPackage)
 }
