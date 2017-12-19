@@ -127,6 +127,10 @@ func deviceID2CodeLink(setDeviceID string) string {
 	return device + location + devicesParam + setDeviceID
 }
 
+func deviceCode2IDLink(setDeviceCode string) string {
+	return api + setDeviceCode + deviceProfile + presence
+}
+
 func contentTypeJSON() map[string]string {
 	header := make(map[string]string)
 	header["content-type"] = "application/json"

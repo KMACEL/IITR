@@ -32,8 +32,8 @@ var (
 // ResponseNil: This constant is used to return a blank when we have a question.
 const (
 	ResponseOK       = "200 OK"
-	ResponseNotFound = "404 Not Found"
 	ResponseCreated  = "201 Created"
+	ResponseNotFound = "404 Not Found"
 	ResponseNil      = "Null Value"
 )
 
@@ -50,7 +50,7 @@ const (
 
 // Errors
 var (
-	ErrorResponseBadRequestCode400   = errors.New("Request is 40 Bad Request. Please check your request")
+	ErrorResponseBadRequestCode400   = errors.New("Request is 400 Bad Request. Please check your request")
 	ErrorResponseUnauthorizedCode401 = errors.New("Request is 401 Unauthorized. Please check the login information")
 	ErrorResponseForbiddenCode403    = errors.New("Request is 403 Forbidden. You are not authorized for this query")
 	ErrorNotFound404                 = errors.New("Request is 404 Not Found. Please check variables, queries, links and other parameters")
@@ -101,13 +101,13 @@ const (
 	doGetTag      = "Do Get : "
 	bodyGetTag    = "Body Get : "
 
-	requestPostTag = "Request Get :"
-	doPostTag      = "Do Get : "
-	bodyPostTag    = "Body Get : "
+	requestPostTag = "Request Post :"
+	doPostTag      = "Do Post : "
+	bodyPostTag    = "Body Post : "
 
-	requestPutTag = "Request Get : "
-	doPutTag      = "Do Get : "
-	bodyPutTag    = "Body Get : "
+	requestPutTag = "Request Put : "
+	doPutTag      = "Do Put : "
+	bodyPutTag    = "Body Put : "
 )
 
 /*

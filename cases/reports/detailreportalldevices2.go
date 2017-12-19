@@ -33,7 +33,7 @@ type DetailAllReport2 struct {
 // todo generic hazır olunca sil
 
 //Start is DetailAllReport. These Cases were created to get detailed reports
-func (d DetailAllReport2) Start(fileName string, setControlPackage []string) {
+func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 	// It performs the writing process in one step, not in every step of the way. The goal is to increase
 	// the speed and reduce the memory footprint. It is also used to write multiple files at the same time
 	//d.writeCsvArray = make([]string, 0)
@@ -44,9 +44,9 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage []string) {
 	if setControlPackage != nil {
 		for i, packageHeaderName := range setControlPackage {
 			if i == 0 {
-				packageHeader = packageHeaderName + "," + packageHeaderName
+				packageHeader = packageHeaderName + "," + packageHeaderName + "," + packageHeaderName
 			} else {
-				packageHeader = packageHeaderName + "," + packageHeaderName + "," + packageHeader
+				packageHeader = packageHeaderName + "," + packageHeaderName + "," + packageHeaderName + "," + packageHeader
 			}
 		}
 	} else {
@@ -68,7 +68,7 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage []string) {
 	// Last Online Time: Gives us the time that was last online.
 	// Read Time: The time of receiving information varies according to computer, inernet, cloud speed and is getting longer. This is why it is important when the device is read.
 	// Working Group: Any workgroup should be aware of this.
-	d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name","Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
+	d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
 
 	// For device information query
 	query := d.devices.LocationMap(rest.NOMarshal, rest.Invisible)
@@ -338,6 +338,8 @@ func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage [
 			var (
 				statusGlobal   string
 				blockedControl string
+				versionCode    float64
+				versionCodeStr string
 				findControl    int
 				notFindControl int
 			)
@@ -346,9 +348,9 @@ func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage [
 				var applicationsNil string
 				for j := 0; j < len(setControlPackage); j++ {
 					if j == 0 {
-						applicationsNil = rest.ResponseNil + "," + rest.ResponseNil
+						applicationsNil = rest.ResponseNil + "," + rest.ResponseNil + "," + rest.ResponseNil
 					} else {
-						applicationsNil = rest.ResponseNil + "," + rest.ResponseNil + "," + applicationsNil
+						applicationsNil = rest.ResponseNil + "," + rest.ResponseNil + "," + applicationsNil + "," + applicationsNil
 					}
 				}
 				strings.Trim(applicationsNil, " ")
@@ -397,7 +399,10 @@ func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage [
 									blockedControl = rest.ResponseNil
 								}
 
-								packageStatus = append(packageStatus, statusGlobal, blockedControl)
+								versionCode = downloadedApp.VersionCode
+								versionCodeStr = strconv.FormatFloat(versionCode, 'E', -1, 64)
+
+								packageStatus = append(packageStatus, statusGlobal, blockedControl, versionCodeStr)
 								findControl++
 								break
 							} else {
@@ -406,21 +411,21 @@ func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage [
 						}
 						// Absence of application
 						if notFindControl > 0 && findControl == 0 {
-							packageStatus = append(packageStatus, rest.NoApplication, rest.NoApplication)
+							packageStatus = append(packageStatus, rest.NoApplication, rest.NoApplication, rest.NoApplication)
 						}
 					}
 
 					// If 404 Not Found is
 				} else {
 					for j := 0; j < len(setControlPackage); j++ {
-						packageStatus = append(packageStatus, rest.ResponseNotFound, rest.ResponseNotFound)
+						packageStatus = append(packageStatus, rest.ResponseNotFound, rest.ResponseNotFound, rest.ResponseNotFound)
 					}
 				}
 
 				// If Nil is
 			} else {
 				for j := 0; j < len(setControlPackage); j++ {
-					packageStatus = append(packageStatus, rest.ResponseNil, rest.ResponseNil)
+					packageStatus = append(packageStatus, rest.ResponseNil, rest.ResponseNil, rest.ResponseNil)
 				}
 			}
 
@@ -774,7 +779,7 @@ func (d DetailAllReport2) writeCSVType(fileName string, writeCSVArray []string, 
 	var detailReportFile *os.File
 
 	writefile.CreateFile(fileName)
-	detailReportFile = writefile.OpenFile(detailReportFile,fileName)
-	writefile.WriteArray(detailReportFile,writeCSVArray )
+	detailReportFile = writefile.OpenFile(detailReportFile, fileName)
+	writefile.WriteArray(detailReportFile, writeCSVArray)
 	log.Println("Finish Write : ", setControlPackage)
 }

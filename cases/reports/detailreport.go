@@ -2,19 +2,19 @@ package reports
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
-	"errors"
 
+	"github.com/KMACEL/IITR/errc"
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/action"
 	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/writefile"
-	"github.com/KMACEL/IITR/errc"
-	"fmt"
 )
 
 /*
@@ -26,7 +26,7 @@ import (
 ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝        ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 */
 
-//DetailAllReport is
+//DetailReport is
 type DetailReport struct {
 	writeCsvArray []string
 	devices       device.Device
@@ -34,6 +34,7 @@ type DetailReport struct {
 	deviceList    []string
 }
 
+//ReportWants is
 type ReportWants struct {
 	FileName          string
 	SetControlPackage []string
@@ -45,9 +46,11 @@ const (
 )
 
 var (
-	packageNameNilError = errors.New("PACKAGE ARRAY IS NIL")
+	errPackageNameNil = errors.New("PACKAGE ARRAY IS NIL")
 )
-//todo generic olarak düzenle
+
+//TODO : generic olarak düzenle
+
 //Start is DetailAllReport. These Cases were created to get detailed reports
 func (d DetailReport) Start(reports ReportWants) {
 	// It performs the writing process in one step, not in every step of the way. The goal is to increase
@@ -73,7 +76,7 @@ func (d DetailReport) Start(reports ReportWants) {
 		// The title of the csv file to be made
 		//	d.writeCsvArray = append(d.writeCsvArray, ",,Observed Applications", "\n")
 	} else {
-		errc.ErrorCenter("PackageHeader", packageNameNilError)
+		errc.ErrorCenter("PackageHeader", errPackageNameNil)
 	}
 
 	// Device ID: It shows the number of the device from which we received the report. This number should be unique.
@@ -135,11 +138,11 @@ func (d DetailReport) Start(reports ReportWants) {
 
 	//todo kontroller ekle
 	/*
-	go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[10:20]...)
-	go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[20:30]...)
-	go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[30:40]...)
-	go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[40:50]...)
-	go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[50:]...)*/
+		go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[10:20]...)
+		go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[20:30]...)
+		go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[30:40]...)
+		go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[40:50]...)
+		go d.controlReport(reports.SetControlPackage,packageHeader, location, d.deviceList[50:]...)*/
 }
 
 func (d DetailReport) controlReport(packageList []string, packageHeader string, location map[string]map[string]string, deviceList ...string) {
@@ -664,7 +667,7 @@ func (d DetailReport) workingGroup(deviceID string, chWorkingGroup chan string) 
 func (d DetailReport) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
 	var detailReportFile *os.File
 
-	detailReportFile = writefile.OpenFile(detailReportFile,fileName)
-	writefile.WriteArray(detailReportFile,writeCSVArray)
+	detailReportFile = writefile.OpenFile(detailReportFile, fileName)
+	writefile.WriteArray(detailReportFile, writeCSVArray)
 	log.Println("Finish Write : ", setControlPackage)
 }

@@ -16,10 +16,11 @@ import (
 */
 
 //Device is
-type Device struct{}
+type Device struct {
+}
 
 const (
-	getDownloadApplicationListErrorTag = "Get Download Application List"
+	getDownloadApplicationListErrorTag = "Get Download Application List Code :"
 	getBuiltInApplicationListErrorTag  = "Get Built In Application List"
 	removeApplicationErrorTag          = "Remove Application"
 	presenceInfoErrorTag               = "Presence Info"

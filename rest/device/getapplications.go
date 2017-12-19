@@ -23,7 +23,8 @@ func (d Device) GetDownloadedApplicationsList(setCode string, setUnMarshal bool,
 	queryLink := applicationDownloadedLink(setCode)
 	visualFlag := setVisualFlag
 	query, errDownloadAppList := q.GetQuery(queryLink, visualFlag)
-	errc.ErrorCenter(getDownloadApplicationListErrorTag, errDownloadAppList)
+	errc.ErrorCenter(getDownloadApplicationListErrorTag+d.DeviceCode2ID(setCode), errDownloadAppList)
+
 	if query != nil {
 		if setUnMarshal {
 			json.Unmarshal(query, &downloadedApplicationListJSONVariable)

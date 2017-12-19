@@ -26,8 +26,7 @@ import (
 //    1: [] byte:
 //           If the incoming data is meaningful, that is, "Status" as the response,
 //           if "200 OK" is reached, the data that you read is sent as a byte array to the querying function.
-//           If it says "404 Not Found", it will send "404 Not Found" data as byte array.
-//           If the message is empty, it returns the value "nil".
+//           If the message is empty or is problem, it returns the value "nil".
 //    2: error:
 //           If it encounters an error during the query, it sends back an error.
 type Query struct{}
@@ -42,7 +41,7 @@ type Query struct{}
 */
 
 // GetQuery is the type of query that does not capture information.
-// It will not do this. Only gets the existing information.
+// It will not do operation. Only gets the existing information.
 // Take two parameters.
 //   1. "setQueryAdress":
 //          The name of this query. This adrese request is sent.
@@ -95,31 +94,6 @@ func (q Query) GetQuery(setQueryAddress string, visualFlag bool) ([]byte, error)
 			default:
 				return nil, ErrorElseProblem
 			}
-			/*	if responseGet.StatusCode == ResponseOKCode || responseGet.StatusCode == ResponseCreatedCode {
-					responseBodyGet, errBody := ioutil.ReadAll(responseGet.Body)
-					errc.ErrorCenter(bodyGetTag, errBody)
-
-					if visualFlag == Visible {
-						fmt.Println(string(responseBodyGet))
-					}
-					return responseBodyGet, nil
-
-				} else if responseGet.StatusCode == ResponseBadRequestCode {
-					return nil, ErrorResponseBadRequestCode400
-
-				} else if responseGet.StatusCode == ResponseUnauthorizedCode {
-					return nil, ErrorResponseUnauthorizedCode401
-
-				} else if responseGet.StatusCode == ResponseForbiddenCode {
-					return nil, ErrorResponseForbiddenCode403
-
-				} else if responseGet.StatusCode == ResponseNotFoundCode {
-					return nil, ErrorNotFound404
-
-				} else if responseGet.StatusCode == ResponseServerProblemCode {
-					return nil, ErrorServerProblemCode500
-				}
-				return nil, ErrorElseProblem*/
 		}
 		errc.ErrorCenter(requestGetTag, ErrorResponseNil)
 		return nil, ErrorResponseNil
@@ -185,37 +159,40 @@ func (q Query) PostQuery(setQueryAddress string, setBody string, setHeader map[s
 		defer responsePost.Body.Close()
 
 		if responsePost != nil {
-			if responsePost.StatusCode == ResponseCreatedCode || responsePost.StatusCode == ResponseOKCode {
+
+			switch responsePost.StatusCode {
+			case ResponseCreatedCode, ResponseOKCode:
 				responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)
 				errc.ErrorCenter(bodyPostTag, errBody)
 
 				if visualFlag == Visible {
 					fmt.Println(string(responseBodyPost))
 				}
-
 				return responseBodyPost, nil
 
-			} else if responsePost.StatusCode == ResponseBadRequestCode {
+			case ResponseBadRequestCode:
 				return nil, ErrorResponseBadRequestCode400
 
-			} else if responsePost.StatusCode == ResponseUnauthorizedCode {
+			case ResponseUnauthorizedCode:
 				return nil, ErrorResponseUnauthorizedCode401
 
-			} else if responsePost.StatusCode == ResponseForbiddenCode {
+			case ResponseForbiddenCode:
 				return nil, ErrorResponseForbiddenCode403
 
-			} else if responsePost.StatusCode == ResponseNotFoundCode {
+			case ResponseNotFoundCode:
 				return nil, ErrorNotFound404
 
-			} else if responsePost.StatusCode == ResponseServerProblemCode {
+			case ResponseServerProblemCode:
 				return nil, ErrorServerProblemCode500
+
+			default:
+				return nil, ErrorElseProblem
 			}
-			return nil, ErrorElseProblem
 		}
-		errc.ErrorCenter(requestGetTag, ErrorResponseNil)
+		errc.ErrorCenter(requestPostTag, ErrorResponseNil)
 		return nil, ErrorResponseNil
 	}
-	errc.ErrorCenter(requestGetTag, ErrorResponseNilRequest)
+	errc.ErrorCenter(requestPostTag, ErrorResponseNilRequest)
 	return nil, ErrorResponseNilRequest
 }
 
@@ -272,9 +249,10 @@ func (q Query) PutQuery(setQueryAddress string, setBody string, setHeader map[st
 		errc.ErrorCenter(doPutTag, errDo)
 		defer responsePut.Body.Close()
 
-		fmt.Println("Problem COde :", responsePut.StatusCode)
 		if responsePut != nil {
-			if responsePut.StatusCode == ResponseCreatedCode || responsePut.StatusCode == ResponseOKCode {
+
+			switch responsePut.StatusCode {
+			case ResponseCreatedCode, ResponseOKCode:
 				responseBodyPut, errBody := ioutil.ReadAll(responsePut.Body)
 				errc.ErrorCenter(bodyPutTag, errBody)
 
@@ -283,26 +261,27 @@ func (q Query) PutQuery(setQueryAddress string, setBody string, setHeader map[st
 				}
 				return responseBodyPut, nil
 
-			} else if responsePut.StatusCode == ResponseBadRequestCode {
+			case ResponseBadRequestCode:
 				return nil, ErrorResponseBadRequestCode400
-
-			} else if responsePut.StatusCode == ResponseUnauthorizedCode {
+			case ResponseUnauthorizedCode:
 				return nil, ErrorResponseUnauthorizedCode401
 
-			} else if responsePut.StatusCode == ResponseForbiddenCode {
+			case ResponseForbiddenCode:
 				return nil, ErrorResponseForbiddenCode403
 
-			} else if responsePut.StatusCode == ResponseNotFoundCode {
+			case ResponseNotFoundCode:
 				return nil, ErrorNotFound404
 
-			} else if responsePut.StatusCode == ResponseServerProblemCode {
+			case ResponseServerProblemCode:
 				return nil, ErrorServerProblemCode500
+
+			default:
+				return nil, ErrorElseProblem
 			}
-			return nil, ErrorElseProblem
 		}
-		errc.ErrorCenter(requestGetTag, ErrorResponseNil)
+		errc.ErrorCenter(requestPutTag, ErrorResponseNil)
 		return nil, ErrorResponseNil
 	}
-	errc.ErrorCenter(requestGetTag, ErrorResponseNilRequest)
+	errc.ErrorCenter(requestPutTag, ErrorResponseNilRequest)
 	return nil, ErrorResponseNilRequest
 }

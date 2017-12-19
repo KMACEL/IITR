@@ -37,7 +37,7 @@ func (d Device) DeviceID2Code(deviceID string) string {
 ██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║     ██╔══╝      ██║██║  ██║        ██╔═══╝         ██║     ██║   ██║██║  ██║██╔══╝      ██║     ██║   ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
 ██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗    ██║██████╔╝        ███████╗        ╚██████╗╚██████╔╝██████╔╝███████╗    ███████╗╚██████╔╝╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
 ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝    ╚═╝╚═════╝         ╚══════╝         ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝    ╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
- */
+*/
 
 //DeviceID2CodeLocation is
 func (d Device) DeviceID2CodeLocation(deviceID string) (string, string, string) {
@@ -52,4 +52,28 @@ func (d Device) DeviceID2CodeLocation(deviceID string) (string, string, string) 
 		return rest.ResponseNotFound, rest.ResponseNotFound, rest.ResponseNotFound
 	}
 	return rest.ResponseNil, rest.ResponseNil, rest.ResponseNil
+}
+
+/*
+██████╗ ███████╗██╗   ██╗██╗ ██████╗███████╗            ██████╗ ██████╗ ██████╗ ███████╗        ██████╗         ██╗██████╗
+██╔══██╗██╔════╝██║   ██║██║██╔════╝██╔════╝    ██╗    ██╔════╝██╔═══██╗██╔══██╗██╔════╝        ╚════██╗        ██║██╔══██╗
+██║  ██║█████╗  ██║   ██║██║██║     █████╗      ╚═╝    ██║     ██║   ██║██║  ██║█████╗           █████╔╝        ██║██║  ██║
+██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║     ██╔══╝      ██╗    ██║     ██║   ██║██║  ██║██╔══╝          ██╔═══╝         ██║██║  ██║
+██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗    ╚═╝    ╚██████╗╚██████╔╝██████╔╝███████╗        ███████╗        ██║██████╔╝
+╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝            ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝        ╚══════╝        ╚═╝╚═════╝
+*/
+
+//DeviceCode2ID is
+func (d Device) DeviceCode2ID(deviceCode string) string {
+	setQueryAddress := deviceCode2IDLink(deviceCode)
+	query, _ := q.GetQuery(setQueryAddress, rest.Invisible)
+	if query != nil {
+		if string(query) != rest.ResponseNotFound {
+			var codeJSON PresenceInfoJSON
+			json.Unmarshal(query, &codeJSON)
+			return codeJSON.DeviceID
+		}
+		return rest.ResponseNotFound
+	}
+	return rest.ResponseNil
 }

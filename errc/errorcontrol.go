@@ -32,6 +32,7 @@ func errorFile(args ...interface{}) {
 		log.Fatalf("Error IITR - Error File : Error opening file: %v", err)
 	}
 	defer f.Close()
+
 	log.SetOutput(f)
 	log.Println(args...)
 }

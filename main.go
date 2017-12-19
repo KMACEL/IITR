@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/KMACEL/IITR/cases/tests"
-	"github.com/KMACEL/IITR/rest"
+	"github.com/KMACEL/IITR/user"
 )
 
 func main() {
@@ -14,25 +13,11 @@ func main() {
 
 	start := time.Now()
 
-	rest.Connect("", "")
-
-	//user.Start()
-	//user.LoginTenant()
+	user.Start()
+	user.LoginTenant()
 
 	//var reportAll reports.DetailAllReport2
-	//reportAll.Start("TestReportSX.xlsx", nil)
-
-	/*
-		var ping reports.PingControl
-
-		ping.OutputFileName = "test"
-		ping.ControlLogFileName = "ping_access.log-20171130"
-		ping.Start()
-	*/
-
-	var mapsTest tests.MapsTest
-	//mapsTest.Start("867377020915728", "com.google.android.apps.maps") // itaksi
-	mapsTest.Start("867377020746784", "com.google.android.apps.maps") // test
+	//reportAll.Start("TestReportSX.xlsx", "tr.com.innology.itaksi.taxi.preprod", "tr.com.innology.itaksi.taxi")
 
 	var pressKey string
 	fmt.Scan(&pressKey)
