@@ -31,7 +31,7 @@ func (p Profile) PushMode(workingset string, setMode string, setPolicy string) s
 	return rest.ResponseNil
 }
 
-//PushMode is
+//PushModeAuto is
 func (p Profile) PushModeAuto(setMode string, setPolicy string, devicesID ...string) string {
 	var (
 		workingsets workingset.Workingset

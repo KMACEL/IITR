@@ -2,9 +2,11 @@ package operations
 
 import "github.com/KMACEL/IITR/rest/device"
 
+//RefreshGateway is
 type RefreshGateway struct{}
 
-func (o RefreshGateway) Start (devicesID ...string) {
+//Start is
+func (o RefreshGateway) Start(devicesID ...string) {
 	var (
 		devices device.Device
 	)

@@ -1,8 +1,8 @@
 package operations
 
 import (
-	"github.com/KMACEL/IITR/rest/download"
 	"github.com/KMACEL/IITR/rest/device"
+	"github.com/KMACEL/IITR/rest/download"
 )
 
 /*
@@ -12,11 +12,10 @@ import (
 ██║  ██║██║   ██║██║███╗██║██║╚██╗██║██║     ██║   ██║██╔══██║██║  ██║        ██║     ██║   ██║██║   ██║╚════██║
 ██████╔╝╚██████╔╝╚███╔███╔╝██║ ╚████║███████╗╚██████╔╝██║  ██║██████╔╝        ███████╗╚██████╔╝╚██████╔╝███████║
 ╚═════╝  ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝         ╚══════╝ ╚═════╝  ╚═════╝ ╚══════╝
- */
+*/
 // For use Example:
 //     var downloadLogOperations util.DownloadLogs
 //     downloadLogOperations.Start("867377020740787")
-
 
 // DownloadLogs is
 type DownloadLogs struct{}

@@ -9,8 +9,10 @@ import (
 	"github.com/KMACEL/IITR/writefile"
 )
 
+//Profile is
 type Profile struct{}
 
+//Start is
 func (p Profile) Start() {
 
 }

@@ -2,16 +2,18 @@ package operations
 
 import "github.com/KMACEL/IITR/rest/workingset"
 
+//PushApplicationExternal is
 type PushApplicationExternal struct {
 	ApplicationCode string
 	DeviceID        []string
+	URL             string
 }
 
-//Düzenlenecek
+//Start is
 func (p PushApplicationExternal) Start() {
 	var (
-		//workingsets workingset.Workingset
+		workingsets workingset.Workingset
 	)
 
-	//workingsets.PushApplicationsExternal(p.ApplicationCode, workingset.NotNotifyUser, p.DeviceID...)
+	workingsets.PushApplicationsExternal(p.ApplicationCode, p.URL, workingset.NotNotifyUser, p.DeviceID...)
 }

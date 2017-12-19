@@ -1,13 +1,13 @@
 package reports
 
 import (
-	"github.com/KMACEL/IITR/rest/device"
-	"github.com/KMACEL/IITR/rest"
 	"encoding/json"
 	"fmt"
-	"os"
-	"log"
+	"github.com/KMACEL/IITR/rest"
+	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/writefile"
+	"log"
+	"os"
 )
 
 // For use Example:
@@ -15,11 +15,13 @@ import (
 //     instantControl.PackageName = "com.estoty.game2048"
 //     instantControl.Start("867377020740787")
 
+//InstantApplication is
 type InstantApplication struct {
 	PackageName string
 	file        os.File
 }
 
+//Start is
 func (i InstantApplication) Start(devicesID ...string) {
 	var (
 		devices    device.Device
@@ -28,7 +30,7 @@ func (i InstantApplication) Start(devicesID ...string) {
 	)
 
 	writefile.CreateFile("instantControl.xlsx")
-	file = writefile.OpenFile(file,"instantControl.xlsx")
+	file = writefile.OpenFile(file, "instantControl.xlsx")
 
 	for _, deviceID := range devicesID {
 		query := devices.InstantApplicationInfo(deviceID, rest.NOMarshal, rest.Visible)
@@ -38,9 +40,9 @@ func (i InstantApplication) Start(devicesID ...string) {
 				json.Unmarshal(query, &instantApp)
 				if i.PackageName == instantApp.Data.PackageName {
 					fmt.Println(deviceID, " is install : ", i.PackageName)
-					writefile.WriteText(file,deviceID,"OK")
-				}else{
-					writefile.WriteText(file,deviceID,"NO")
+					writefile.WriteText(file, deviceID, "OK")
+				} else {
+					writefile.WriteText(file, deviceID, "NO")
 				}
 			}
 			//return []byte(rest.ResponseNotFound)

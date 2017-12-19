@@ -1,23 +1,25 @@
 package reports
 
 import (
-	"github.com/KMACEL/IITR/rest/device"
-	"github.com/KMACEL/IITR/rest"
 	"encoding/json"
 	"fmt"
+	"github.com/KMACEL/IITR/rest"
+	"github.com/KMACEL/IITR/rest/device"
 )
 
-type PresenceStatus struct{
+//PresenceStatus is
+type PresenceStatus struct {
 }
 
-func (p PresenceStatus) Start (devicesID ...string){
+//Start is
+func (p PresenceStatus) Start(devicesID ...string) {
 	var devices device.Device
 
-	for _,deviceId:=range devicesID{
+	for _, deviceID := range devicesID {
 		var presenceJSON device.PresenceInfoJSON
-		query:=devices.PresenceInfo(deviceId,rest.NOMarshal,rest.Invisible)
+		query := devices.PresenceInfo(deviceID, rest.NOMarshal, rest.Invisible)
 		json.Unmarshal(query, &presenceJSON)
-		fmt.Println(presenceJSON.DeviceID,presenceJSON.Data.State)
+		fmt.Println(presenceJSON.DeviceID, presenceJSON.Data.State)
 	}
 
 }

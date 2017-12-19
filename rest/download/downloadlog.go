@@ -46,6 +46,6 @@ func (d Download) readFile(url string, token string, fileName string) {
 func (d Download) saveFile(data []byte, fileName string) {
 	writefile.CreateFile(fileName)
 	var saveFile *os.File
-	saveFile = writefile.OpenFile(fileName, saveFile)
-	writefile.WriteByte(data, saveFile)
+	saveFile = writefile.OpenFile(saveFile, fileName)
+	writefile.WriteByte(saveFile, data)
 }

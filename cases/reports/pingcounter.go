@@ -3,20 +3,22 @@ package reports
 import (
 	"fmt"
 	"io/ioutil"
-	"strings"
 	"os"
 	"strconv"
+	"strings"
 
-	"github.com/KMACEL/IITR/writefile"
-	"github.com/KMACEL/IITR/timop"
 	"github.com/KMACEL/IITR/errc"
+	"github.com/KMACEL/IITR/timop"
+	"github.com/KMACEL/IITR/writefile"
 )
 
+//PingControl is
 type PingControl struct {
 	ControlLogFileName string
 	OutputFileName     string
 }
 
+//Start is
 func (p PingControl) Start() {
 	outputFileName := p.OutputFileName + "_" + timop.GetTimeNamesFormat() + ".xlsx"
 
@@ -50,7 +52,7 @@ func (p PingControl) Start() {
 
 		ip = pingFileColumn[0]
 		getCloudDate = pingFileColumn[3] + pingFileColumn[4]
-		getCloudDate = getCloudDate[1:len(getCloudDate)-1]
+		getCloudDate = getCloudDate[1 : len(getCloudDate)-1]
 
 		idPingDateArray := strings.Split(pingFileColumn[6]+" "+pingFileColumn[7], "id=")
 		idArray := strings.Split(idPingDateArray[1], "&time=")

@@ -14,13 +14,14 @@ import "strconv"
 //It is designed in such a way that the administration is easy.
 
 const (
-	workingset         = "https://api.ardich.com/api/v3/workingset/"
-	empty              = "empty"
-	deviceAdd          = "/devices/add/"
-	application        = "/application/"
-	applicationInstall = "/application/install"
-	externalApp        = "install-external-app"
-	devices            = "/device?page=0&size=500"
+	workingset          = "https://api.ardich.com/api/v3/workingset/"
+	empty               = "empty"
+	deviceAdd           = "/devices/add/"
+	application         = "/application/"
+	applicationInstall  = "install"
+	applicationReistall = "reinstall"
+	externalApp         = "install-external-app"
+	devices             = "/device?page=0&size=500"
 )
 
 //createWorkingsetLink is return
@@ -34,7 +35,7 @@ func addDeviceWorkingSetLink(setWorkingset string) string {
 }
 
 func pushApplicationsLink(workingsetKey string) string {
-	return workingset + workingsetKey + applicationInstall
+	return workingset + workingsetKey + application + applicationInstall
 }
 
 func pushApplicationsBody(applicationCode string, notifyUser bool) string {
@@ -43,7 +44,10 @@ func pushApplicationsBody(applicationCode string, notifyUser bool) string {
 
 func pushApplicationsExternalLink(workingsetKey string) string {
 	return workingset + workingsetKey + application + externalApp
+}
 
+func uninstallInstallApplicationLink(workingsetKey string) string {
+	return workingset + workingsetKey + application + applicationReistall
 }
 
 func pushApplicationsExternalBody(applicationCode string, notifyUser bool) string {

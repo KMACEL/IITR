@@ -23,7 +23,7 @@ import (
 ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝        ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 */
 
-//DetailAllReport is
+//DetailAllReport2 is
 type DetailAllReport2 struct {
 	writeCsvArray []string
 	devices       device.Device

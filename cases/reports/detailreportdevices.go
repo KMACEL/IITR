@@ -29,7 +29,9 @@ type DetailReportDevices struct {
 	devices       device.Device
 	actions       action.Action
 }
+
 // todo generic hazır olunca sil
+
 //Start is DetailReportDevices. These Cases were created to get detailed reports
 func (d DetailReportDevices) Start(fileName string, devicesID []string, setControlPackage []string) {
 	// It performs the writing process in one step, not in every step of the way. The goal is to increase
@@ -357,8 +359,8 @@ func (d DetailReportDevices) workingGroup(deviceID string, chWorkingGroup chan s
 func (d DetailReportDevices) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
 	var detailReportFile *os.File
 	writefile.CreateFile(fileName)
-	detailReportFile = writefile.OpenFile(detailReportFile,fileName )
-	writefile.WriteArray(detailReportFile,writeCSVArray )
+	detailReportFile = writefile.OpenFile(detailReportFile, fileName)
+	writefile.WriteArray(detailReportFile, writeCSVArray)
 
 	log.Println("Finish Write : ", setControlPackage)
 }

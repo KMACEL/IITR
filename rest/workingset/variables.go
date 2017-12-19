@@ -30,6 +30,7 @@ var (
 	responsePushApplicationJSONVariable responsePushApplicationJSON
 )
 
+// Is
 const (
 	NotNotifyUser = false
 	NotifyUser    = true

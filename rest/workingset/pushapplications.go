@@ -51,6 +51,16 @@ func (w Workingset) PushApplications(applicationCode string, notifyUser bool, de
 
 }
 
+/*
+██████╗ ██╗   ██╗███████╗██╗  ██╗         █████╗ ██████╗ ██████╗         ███████╗██╗  ██╗████████╗███████╗██████╗ ███╗   ██╗ █████╗ ██╗
+██╔══██╗██║   ██║██╔════╝██║  ██║        ██╔══██╗██╔══██╗██╔══██╗        ██╔════╝╚██╗██╔╝╚══██╔══╝██╔════╝██╔══██╗████╗  ██║██╔══██╗██║
+██████╔╝██║   ██║███████╗███████║        ███████║██████╔╝██████╔╝        █████╗   ╚███╔╝    ██║   █████╗  ██████╔╝██╔██╗ ██║███████║██║
+██╔═══╝ ██║   ██║╚════██║██╔══██║        ██╔══██║██╔═══╝ ██╔═══╝         ██╔══╝   ██╔██╗    ██║   ██╔══╝  ██╔══██╗██║╚██╗██║██╔══██║██║
+██║     ╚██████╔╝███████║██║  ██║        ██║  ██║██║     ██║             ███████╗██╔╝ ██╗   ██║   ███████╗██║  ██║██║ ╚████║██║  ██║███████╗
+╚═╝      ╚═════╝ ╚══════╝╚═╝  ╚═╝        ╚═╝  ╚═╝╚═╝     ╚═╝             ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
+*/
+
+// PushApplicationsExternal is
 func (w Workingset) PushApplicationsExternal(fileName string, url string, notifyUser bool, deviceID ...string) bool {
 
 	var workingsetVariables Workingset
@@ -90,4 +100,42 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, notify
 
 	}
 	return false
+}
+
+//E1E2D20E-C3A5-4B27-85AD-72C6C97BD837
+
+//UninstallInstallApplication is
+func (w Workingset) UninstallInstallApplication(applicationCode string, notifyUser bool, deviceID ...string) bool {
+	var workingsetVariables Workingset
+	workingsetKey := workingsetVariables.CreateWorkingset()
+	for _, devices := range deviceID {
+		workingsetVariables.AddDeviceWorkingSet(workingsetKey, device.Device{}.DeviceID2Code(devices))
+	}
+	// todo workingsete array olarak ver
+	fmt.Println("Workingset Device List : ", w.GetWorkingsetDevices(workingsetKey))
+
+	setQueryAddress := uninstallInstallApplicationLink(workingsetKey)
+
+	body := `{
+		"notifyUser":` + strconv.FormatBool(notifyUser) + `,
+		"apps": [
+			{
+				"code": "` + applicationCode + `"
+			}
+		]
+	}`
+
+	query, err := queryVariable.PostQuery(setQueryAddress, body, contentTypeJSON(), true)
+	errc.ErrorCenter("Push Application :", err)
+
+	if query != nil {
+		if string(query) != rest.ResponseNotFound {
+			json.Unmarshal(query, &responsePushApplicationJSONVariable)
+			//todo : succes bilgisini kontrol et
+			return true
+		}
+		return false
+	}
+	return false
+
 }

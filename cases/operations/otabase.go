@@ -146,10 +146,10 @@ const (
 ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝
 */
 
-// It is the point where the start ota application starts.
+// Start is: It is the point where the start ota application starts.
 // It receives data of type OtaDeviceArray which is at least the Imei number from the outside.
 func (o OtaOp) Start(otaDevices OtaDeviceArray) {
-	var(
+	var (
 		db *sql.DB
 	)
 	o.tableName = "otaOperations"
@@ -169,14 +169,12 @@ func (o OtaOp) Start(otaDevices OtaDeviceArray) {
 		db = o.dataBase.Open(o.databaseName)
 		defer o.dataBase.Close(db)
 		log.Println("DB is Open...")
-	}else {
+	} else {
 		db = o.dataBase.Open(o.databaseName)
 		defer o.dataBase.Close(db)
 		o.createDatabse(db)
 		log.Println("DB & Table is Created...")
 	}
-
-
 
 	//o.refreshGatewayInfo(otaDevices)
 	// todo 15 dk time delay
@@ -483,7 +481,7 @@ func (o OtaOp) reportDatabase() {
 	)
 
 	writefile.CreateFile(otaFileName)
-	file = writefile.OpenFile(otaFileName, file)
+	file = writefile.OpenFile(file, otaFileName)
 
 	// Column Header
 	writefile.WriteText(file, imei, pushApplication, pushTime, startApplication, startTime, controlOta, controlTime)
