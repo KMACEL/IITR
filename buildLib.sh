@@ -6,12 +6,28 @@ cd ..
 echo "=======> cases : OK"
 echo "----------------------"
 
+echo "=======> databasecenter"
+cd databasecenter
+go fmt .
+go build .
+cd ..
+echo "=======> databasecenter : OK"
+echo "----------------------"
+
 echo "=======> errc"
 cd errc
 go fmt .
 go build .
 cd ..
 echo "=======> errc : OK"
+echo "----------------------"
+
+echo "=======> logc"
+cd logc
+go fmt .
+go build .
+cd ..
+echo "=======> logc : OK"
 echo "----------------------"
 
 echo "=======> mail"

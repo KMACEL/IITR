@@ -18,7 +18,7 @@ const (
 	name    = "?name="
 )
 
-//PushProfileLink is retrun
+//PushProfileLink is return
 func pushProfileLink(setMode string, workingset string) string {
 	return profile + setMode + push + workingset
 }
@@ -31,4 +31,13 @@ func getProfileListLink() string {
 //GetProfileLink is
 func getProfileLink(setProfileName string) string {
 	return profile + name + setProfileName
+}
+
+func pushProfileBody(setPolicy string) string {
+	return "{\"defaultPolicy\":{\"code\": \"" + setPolicy + "\"}}"
+}
+func contentTypeJSON() map[string]string {
+	header := make(map[string]string)
+	header["content-type"] = "application/json"
+	return header
 }

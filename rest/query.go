@@ -18,7 +18,7 @@ import (
  ╚══▀▀═╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝
 */
 
-// Query is performs query operations. These operations are "Post", "Get", "Put".
+// Query is performs query util. These util are "Post", "Get", "Put".
 // With this class, it makes a stable query everywhere.
 // Retrieve values by query type. These values will be explained in the description of each questionnaire.
 // The queries were taken from https://api.ardich.com/api/v3/apidoc/
@@ -26,8 +26,7 @@ import (
 //    1: [] byte:
 //           If the incoming data is meaningful, that is, "Status" as the response,
 //           if "200 OK" is reached, the data that you read is sent as a byte array to the querying function.
-//           If it says "404 Not Found", it will send "404 Not Found" data as byte array.
-//           If the message is empty, it returns the value "nil".
+//           If the message is empty or is problem, it returns the value "nil".
 //    2: error:
 //           If it encounters an error during the query, it sends back an error.
 type Query struct{}
@@ -42,7 +41,7 @@ type Query struct{}
 */
 
 // GetQuery is the type of query that does not capture information.
-// It will not do this. Only gets the existing information.
+// It will not do operation. Only gets the existing information.
 // Take two parameters.
 //   1. "setQueryAdress":
 //          The name of this query. This adrese request is sent.
@@ -51,45 +50,56 @@ type Query struct{}
 //            the value is only processed but not shown to the user.
 //            But if it is 1, the incoming message is seen by the first
 //            user and then processed.
-func (q Query) GetQuery(setQueryAdress string, vasualFlag bool) ([]byte, error) {
+func (q Query) GetQuery(setQueryAddress string, visualFlag bool) ([]byte, error) {
 	// Query with the incoming address value and assign it to the variable "request"
-	requestGet, errGet := http.NewRequest("GET", setQueryAdress, nil)
-	errc.ErrorCenter(errc.RequestGet, errGet)
+	requestGet, errGet := http.NewRequest(GET, setQueryAddress, nil)
+	errc.ErrorCenter(requestGetTag, errGet)
 
 	if requestGet != nil {
 		// This header is not automatically taken from the outside.
 		//The intent is to query with the token number that was received from the login. If this number does not occur the query
-		requestGet.Header.Set(authorization, headerBearer+GetAccesToken())
+		requestGet.Header.Set(authorization, headerBearer+GetAccessToken())
 
 		responseGet, errDo := http.DefaultClient.Do(requestGet)
-		errc.ErrorCenter(errc.DoGet, errDo)
+		errc.ErrorCenter(doGetTag, errDo)
 
 		if responseGet != nil {
 			defer responseGet.Body.Close()
 
-			if responseGet.Status == ResponseOK {
+			switch responseGet.StatusCode {
+			case ResponseOKCode, ResponseCreatedCode:
 				responseBodyGet, errBody := ioutil.ReadAll(responseGet.Body)
-				errc.ErrorCenter(errc.BodyGet, errBody)
+				errc.ErrorCenter(bodyGetTag, errBody)
 
-				if vasualFlag == Visible {
+				if visualFlag == Visible {
 					fmt.Println(string(responseBodyGet))
 				}
 				return responseBodyGet, nil
-			} else if responseGet.Status == ResponseNotFound {
-				//errc.ErrorCenter(errc.BodyGet, errc.ErrorNotFound404)
-				return []byte(ResponseNotFound), errDo
-			} else {
-				//errc.ErrorCenter(errc.BodyGet, fmt.Errorf("500")) //TODO : Hata DÜzenle
-				return nil, errDo
+
+			case ResponseBadRequestCode:
+				return nil, ErrorResponseBadRequestCode400
+
+			case ResponseUnauthorizedCode:
+				return nil, ErrorResponseUnauthorizedCode401
+
+			case ResponseForbiddenCode:
+				return nil, ErrorResponseForbiddenCode403
+
+			case ResponseNotFoundCode:
+				return nil, ErrorNotFound404
+
+			case ResponseServerProblemCode:
+				return nil, ErrorServerProblemCode500
+
+			default:
+				return nil, ErrorElseProblem
 			}
-		} else {
-			errc.ErrorCenter(errc.RequestGet, fmt.Errorf(ResponseNil))
-			return nil, fmt.Errorf(ResponseNil)
 		}
-	} else {
-		errc.ErrorCenter(errc.RequestGet, fmt.Errorf("Request is Nil"))
+		errc.ErrorCenter(requestGetTag, ErrorResponseNil)
+		return nil, ErrorResponseNil
 	}
-	return nil, errGet
+	errc.ErrorCenter(requestGetTag, ErrorResponseNilRequest)
+	return nil, ErrorResponseNilRequest
 }
 
 /*
@@ -116,7 +126,7 @@ func (q Query) GetQuery(setQueryAdress string, vasualFlag bool) ([]byte, error) 
 //    4: "vasualFlag":
 //           The task is visual. If it is not 0, the value is only processed and not shown to the user.
 //           But if it is 1, the incoming message is seen by the first user and then processed.
-func (q Query) PostQuery(setQueryAdress string, setBody string, setHeader map[string]string, vasualFlag bool) ([]byte, error) {
+func (q Query) PostQuery(setQueryAddress string, setBody string, setHeader map[string]string, visualFlag bool) ([]byte, error) {
 	var (
 		requestPost *http.Request
 		errPost     error
@@ -124,45 +134,66 @@ func (q Query) PostQuery(setQueryAdress string, setBody string, setHeader map[st
 
 	// The possibility of whether or not the body is in question is checked.
 	if setBody == "" {
-		requestPost, errPost = http.NewRequest("POST", setQueryAdress, nil)
-		errc.ErrorCenter(errc.RequestPost, errPost)
+		requestPost, errPost = http.NewRequest(POST, setQueryAddress, nil)
+		errc.ErrorCenter(requestPostTag, errPost)
 	} else {
 		body := strings.NewReader(setBody)
-		requestPost, errPost = http.NewRequest("POST", setQueryAdress, body)
-		errc.ErrorCenter(errc.RequestPost, errPost)
+		requestPost, errPost = http.NewRequest(POST, setQueryAddress, body)
+		errc.ErrorCenter(requestPostTag, errPost)
 	}
+	if requestPost != nil {
+		// Access Token returned when login is reported in this section
+		requestPost.Header.Set(authorization, headerBearer+GetAccessToken())
 
-	// Access Token returned when login is reported in this section
-	requestPost.Header.Set(authorization, headerBearer+GetAccesToken())
-
-	// The possibility of whether or not the header is in question is checked.
-	if setHeader != nil {
-		for key, value := range setHeader {
-			requestPost.Header.Set(key, value)
-		}
-	}
-
-	// Query based on given information
-	responsePost, errDo := http.DefaultClient.Do(requestPost)
-	errc.ErrorCenter(errc.DoPost, errDo)
-
-	defer responsePost.Body.Close()
-
-	if responsePost.Status == ResponseCreated || responsePost.Status == ResponseOK {
-		responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)
-		errc.ErrorCenter(errc.BodyPost, errBody)
-
-		if vasualFlag == Visible {
-			fmt.Println(string(responseBodyPost))
+		// The possibility of whether or not the header is in question is checked.
+		if setHeader != nil {
+			for key, value := range setHeader {
+				requestPost.Header.Set(key, value)
+			}
 		}
 
-		return responseBodyPost, nil
+		// Query based on given information
+		responsePost, errDo := http.DefaultClient.Do(requestPost)
+		errc.ErrorCenter(doPostTag, errDo)
 
-	} else if responsePost.Status == ResponseNotFound {
-		return []byte(ResponseNotFound), fmt.Errorf(ResponseNotFound)
-	} else {
-		return nil, fmt.Errorf(ResponseNil)
+		defer responsePost.Body.Close()
+
+		if responsePost != nil {
+
+			switch responsePost.StatusCode {
+			case ResponseCreatedCode, ResponseOKCode:
+				responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)
+				errc.ErrorCenter(bodyPostTag, errBody)
+
+				if visualFlag == Visible {
+					fmt.Println(string(responseBodyPost))
+				}
+				return responseBodyPost, nil
+
+			case ResponseBadRequestCode:
+				return nil, ErrorResponseBadRequestCode400
+
+			case ResponseUnauthorizedCode:
+				return nil, ErrorResponseUnauthorizedCode401
+
+			case ResponseForbiddenCode:
+				return nil, ErrorResponseForbiddenCode403
+
+			case ResponseNotFoundCode:
+				return nil, ErrorNotFound404
+
+			case ResponseServerProblemCode:
+				return nil, ErrorServerProblemCode500
+
+			default:
+				return nil, ErrorElseProblem
+			}
+		}
+		errc.ErrorCenter(requestPostTag, ErrorResponseNil)
+		return nil, ErrorResponseNil
 	}
+	errc.ErrorCenter(requestPostTag, ErrorResponseNilRequest)
+	return nil, ErrorResponseNilRequest
 }
 
 /*
@@ -189,47 +220,68 @@ func (q Query) PostQuery(setQueryAdress string, setBody string, setHeader map[st
 //    4: "vasualFlag":
 //           The task is visual. If it is not 0, the value is only processed and not shown to the user.
 //           But if it is 1, the incoming message is seen by the first user and then processed.
-func (q Query) PutQuery(setQueryAdress string, setBody string, setHeader map[string]string, vasualFlag bool) ([]byte, error) {
+func (q Query) PutQuery(setQueryAddress string, setBody string, setHeader map[string]string, visualFlag bool) ([]byte, error) {
 	var (
 		requestPut *http.Request
 		errPut     error
 	)
 
 	if setBody == "" {
-		requestPut, errPut = http.NewRequest("PUT", setQueryAdress, nil)
-		errc.ErrorCenter(errc.RequestPut, errPut)
+		requestPut, errPut = http.NewRequest(PUT, setQueryAddress, nil)
+		errc.ErrorCenter(requestPutTag, errPut)
 	} else {
 		body := strings.NewReader(setBody)
-		requestPut, errPut = http.NewRequest("PUT", setQueryAdress, body)
-		errc.ErrorCenter(errc.RequestPut, errPut)
+		requestPut, errPut = http.NewRequest(PUT, setQueryAddress, body)
+		errc.ErrorCenter(requestPutTag, errPut)
 	}
 
-	requestPut.Header.Set(authorization, headerBearer+GetAccesToken())
+	if requestPut != nil {
 
-	if setHeader != nil {
-		for key, value := range setHeader {
-			requestPut.Header.Set(key, value)
-		}
-	}
+		requestPut.Header.Set(authorization, headerBearer+GetAccessToken())
 
-	responsePut, errDo := http.DefaultClient.Do(requestPut)
-	errc.ErrorCenter(errc.DoPut, errDo)
-
-	defer responsePut.Body.Close()
-
-	if responsePut.Status == ResponseOK {
-		responseBodyPut, errBody := ioutil.ReadAll(responsePut.Body)
-		errc.ErrorCenter(errc.BodyPut, errBody)
-
-		if vasualFlag == Visible {
-			fmt.Println(string(responseBodyPut))
+		if setHeader != nil {
+			for key, value := range setHeader {
+				requestPut.Header.Set(key, value)
+			}
 		}
 
-		return responseBodyPut, nil
+		responsePut, errDo := http.DefaultClient.Do(requestPut)
+		errc.ErrorCenter(doPutTag, errDo)
+		defer responsePut.Body.Close()
 
-	} else if responsePut.Status == ResponseNotFound {
-		return []byte(ResponseNotFound), fmt.Errorf(ResponseNotFound)
-	} else {
-		return nil, fmt.Errorf(ResponseNil)
+		if responsePut != nil {
+
+			switch responsePut.StatusCode {
+			case ResponseCreatedCode, ResponseOKCode:
+				responseBodyPut, errBody := ioutil.ReadAll(responsePut.Body)
+				errc.ErrorCenter(bodyPutTag, errBody)
+
+				if visualFlag == Visible {
+					fmt.Println(string(responseBodyPut))
+				}
+				return responseBodyPut, nil
+
+			case ResponseBadRequestCode:
+				return nil, ErrorResponseBadRequestCode400
+			case ResponseUnauthorizedCode:
+				return nil, ErrorResponseUnauthorizedCode401
+
+			case ResponseForbiddenCode:
+				return nil, ErrorResponseForbiddenCode403
+
+			case ResponseNotFoundCode:
+				return nil, ErrorNotFound404
+
+			case ResponseServerProblemCode:
+				return nil, ErrorServerProblemCode500
+
+			default:
+				return nil, ErrorElseProblem
+			}
+		}
+		errc.ErrorCenter(requestPutTag, ErrorResponseNil)
+		return nil, ErrorResponseNil
 	}
+	errc.ErrorCenter(requestPutTag, ErrorResponseNilRequest)
+	return nil, ErrorResponseNilRequest
 }

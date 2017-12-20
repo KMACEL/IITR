@@ -35,12 +35,14 @@ var (
 ╚════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 */
 
+//SetPolicyJSON is
 type SetPolicyJSON struct {
 	DefaultPolicy struct {
 		Code string `json:"code"`
 	} `json:"defaultPolicy"`
 }
 
+//ModeResponseJSON is
 type ModeResponseJSON []struct {
 	DeviceID []string `json:"deviceId"`
 	Result   string   `json:"result"`
@@ -48,6 +50,7 @@ type ModeResponseJSON []struct {
 	Ok       bool     `json:"ok"`
 }
 
+//ProfileInformationJSON is
 type ProfileInformationJSON []struct {
 	Code           string `json:"code"`
 	Name           string `json:"name"`

@@ -16,17 +16,26 @@ import (
 */
 
 //Device is
-type Device struct{}
+type Device struct {
+}
+
+const (
+	getDownloadApplicationListErrorTag = "Get Download Application List Code :"
+	getBuiltInApplicationListErrorTag  = "Get Built In Application List"
+	removeApplicationErrorTag          = "Remove Application"
+	presenceInfoErrorTag               = "Presence Info"
+)
 
 var (
-	queryVariable                         rest.Query
+	q                                     rest.Query
 	responseMessageCodeJSONVariable       ResponseMessageCodeJSON
 	responseMessageJSONVariable           ResponseMessageJSON
-	responsedescriptionJSONVariable       ResponseDescriptionJSON
-	responseMesageErrorJSONVariable       ResponseMesageErrorJSON
+	responseDescriptionJSONVariable       ResponseDescriptionJSON
+	responseMessageErrorJSONVariable      ResponseMesageErrorJSON
 	presenceInfoJSONVariable              PresenceInfoJSON
 	locationJSONVariable                  LocationJSON
 	downloadedApplicationListJSONVariable DownloadedApplicationListJSON
+	builtInApplicationListJSONVariable    BuiltInApplicationListJSON
 	activeProfilePolicyJSONVariable       ActiveProfilePolicyJSON
 	locationAllJSONVariable               LocationAllJSON
 	logListJSONVariable                   LogListJSON
@@ -34,6 +43,7 @@ var (
 	summaryJSONVariable                   SummaryJSON
 	applicationInfoJSONVariable           ApplicationInfoJSON
 	osProfileInfoJSONVariable             OSProfileInfoJSON
+	instantApplicationInfoJSONVariable    InstantApplicationInfoJSON
 )
 
 const (
@@ -41,6 +51,11 @@ const (
 	StartApp = 1
 	//StopApp Stop Parameter
 	StopApp = 0
+)
+
+// Rest -> Device Constant
+const (
+	summaryTag = "Summary : "
 )
 
 /*
@@ -186,6 +201,25 @@ type OSProfileInfoJSON struct {
 	CloudDate  int    `json:"cloudDate"`
 }
 
+// InstantApplicationInfoJSON is
+type InstantApplicationInfoJSON struct {
+	DeviceID string `json:"deviceId"`
+	Command  string `json:"command"`
+	Data     struct {
+		AppName        string  `json:"appName"`
+		Currentimezone string  `json:"currentimezone"`
+		PackageName    string  `json:"packageName"`
+		Currenttime    int64   `json:"currenttime"`
+		Action         string  `json:"action"`
+		VersionCode    float32 `json:"versionCode"`
+		VersionName    string  `json:"versionName"`
+	} `json:"data"`
+	CreateDate int64  `json:"createDate"`
+	NodeID     string `json:"nodeId"`
+	SensorID   string `json:"sensorId"`
+	CloudDate  int    `json:"cloudDate"`
+}
+
 // LocationJSON is
 type LocationJSON struct {
 	Code        interface{} `json:"code"`
@@ -223,6 +257,28 @@ type DownloadedApplicationListJSON []struct {
 	TotalSize    int           `json:"totalSize"`
 	Running      bool          `json:"running"`
 	Blocked      float64       `json:"blocked"`
+	SdcardSize   int           `json:"sdcardSize"`
+	UsbStoreSize int           `json:"usbStoreSize"`
+	UUID         int           `json:"uuid"`
+	DataSize     int           `json:"dataSize"`
+	CacheSize    int           `json:"cacheSize"`
+	AddedDate    int64         `json:"addedDate"`
+	Links        []interface{} `json:"links"`
+}
+
+// BuiltInApplicationListJSON is
+type BuiltInApplicationListJSON []struct {
+	PackageName  string        `json:"packageName"`
+	Notify       bool          `json:"notify"`
+	Name         string        `json:"name"`
+	VersionCode  string        `json:"versionCode"`
+	VersionName  string        `json:"versionName"`
+	Type         string        `json:"type"`
+	Size         int           `json:"size"`
+	DeviceID     string        `json:"deviceId"`
+	TotalSize    int           `json:"totalSize"`
+	Running      bool          `json:"running"`
+	Blocked      int           `json:"blocked"`
 	SdcardSize   int           `json:"sdcardSize"`
 	UsbStoreSize int           `json:"usbStoreSize"`
 	UUID         int           `json:"uuid"`

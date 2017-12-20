@@ -80,8 +80,8 @@ func newTest() {
 func saveCase(caseValue []byte, fileName string) {
 	var saveCaseFile *os.File
 	writefile.CreateFile("cases_lib/" + fileName)
-	saveCaseFile = writefile.OpenFile("cases_lib/"+fileName, saveCaseFile)
-	writefile.WriteByte(caseValue, saveCaseFile)
+	saveCaseFile = writefile.OpenFile(saveCaseFile,"cases_lib/"+fileName)
+	writefile.WriteByte(saveCaseFile, caseValue)
 
 }
 

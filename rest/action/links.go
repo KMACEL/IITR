@@ -20,6 +20,11 @@ var (
 	command    = "&command="
 )
 
+var (
+	getActionStatusTag          = "Action Status"
+	getActionStatusUnMarshalTag = "Action Status Unmarshal"
+)
+
 //GetActionStatusLink is
 func GetActionStatusLink(setDeviceCode string, setControlType string, setSize int) string {
 	return action + sort + strconv.Itoa(setSize) + deviceCode + setDeviceCode + command + setControlType
