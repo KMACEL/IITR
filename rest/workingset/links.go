@@ -22,6 +22,7 @@ const (
 	applicationReistall = "reinstall"
 	externalApp         = "install-external-app"
 	devices             = "/device?page=0&size=500"
+	controlAd           = "/control/ad"
 )
 
 //createWorkingsetLink is return
@@ -56,6 +57,14 @@ func pushApplicationsExternalBody(applicationCode string, notifyUser bool) strin
 
 func getWorkingsetDevicesLink(workingsetKey string) string {
 	return workingset + workingsetKey + devices
+}
+
+func sendRichMessage(workingsetKey string) string {
+	return workingset + workingsetKey + controlAd
+}
+
+func sendRichMessageBody(message string, messageType string, timeType string, time int64) string {
+	return `{"message":"` + message + `","type":"` + messageType + `","timeType":"` + timeType + `","time":` + strconv.FormatInt(time, 10) + `}`
 }
 
 func contentTypeJSON() map[string]string {

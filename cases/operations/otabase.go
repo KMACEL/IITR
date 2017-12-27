@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -13,7 +14,6 @@ import (
 	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/rest/workingset"
 	"github.com/KMACEL/IITR/writefile"
-	"log"
 )
 
 /*

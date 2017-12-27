@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/KMACEL/IITR/user"
+	"gerrit/DeviceReportApp/user"
 	"time"
 )
 
@@ -14,10 +14,6 @@ func main() {
 
 	user.Start()
 	user.LoginTenant()
-
-	/*var reportAll reports.DetailAllReport2
-	reportAll.Start("TestReportSX.xlsx", "tr.com.innology.itaksi.taxi.preprod", "tr.com.innology.itaksi.taxi")
-	*/
 
 	var pressKey string
 	fmt.Scan(&pressKey)

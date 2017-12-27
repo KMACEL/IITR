@@ -6,11 +6,12 @@ import (
 	"log"
 	"time"
 
+	"os"
+
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
-	"os"
-	"github.com/KMACEL/IITR/writefile"
 	"github.com/KMACEL/IITR/timop"
+	"github.com/KMACEL/IITR/writefile"
 )
 
 //Delete Packet
@@ -30,18 +31,18 @@ func (d DeviceInformation) Start(deviceID ...string) {
 		fileAll   *os.File
 	)
 	writefile.CreateFile("UpdateYes_" + timop.GetTimeNamesFormat() + ".xlsx")
-	file = writefile.OpenFile(file,"UpdateYes_"+timop.GetTimeNamesFormat()+".xlsx")
+	file = writefile.OpenFile(file, "UpdateYes_"+timop.GetTimeNamesFormat()+".xlsx")
 
 	writefile.CreateFile("UpdateNotYet_" + timop.GetTimeNamesFormat() + ".xlsx")
-	fileError = writefile.OpenFile(fileError,"UpdateNotYet_"+timop.GetTimeNamesFormat()+".xlsx")
+	fileError = writefile.OpenFile(fileError, "UpdateNotYet_"+timop.GetTimeNamesFormat()+".xlsx")
 
 	writefile.CreateFile("UpdateAll_" + timop.GetTimeNamesFormat() + ".xlsx")
-	fileAll = writefile.OpenFile(fileAll,"UpdateAll_"+timop.GetTimeNamesFormat()+".xlsx")
+	fileAll = writefile.OpenFile(fileAll, "UpdateAll_"+timop.GetTimeNamesFormat()+".xlsx")
 
-	writefile.WriteText(file, "Device ID", "Firmware", "Modiverse Version", "State", )
-	writefile.WriteText(fileError, "Device ID", "Firmware", "Modiverse Version", "State", )
-	writefile.WriteText(fileAll, "Device ID", "Firmware", "Modiverse Version", "State", )
-fmt.Println("dsdd")
+	writefile.WriteText(file, "Device ID", "Firmware", "Modiverse Version", "State")
+	writefile.WriteText(fileError, "Device ID", "Firmware", "Modiverse Version", "State")
+	writefile.WriteText(fileAll, "Device ID", "Firmware", "Modiverse Version", "State")
+
 	query := device.Device{}.LocationMap(rest.NOMarshal, rest.Invisible)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -50,8 +51,8 @@ fmt.Println("dsdd")
 			deviceCode := device.LocationJSON{}
 			json.Unmarshal(query, &deviceCode)
 
-			for _, deviceCodings := range deviceCode.Extras {
-				deviceCoding := deviceCodings.DeviceID
+			for _, deviceCodings := range deviceID {
+				deviceCoding := deviceCodings
 				queryInformation := devices.DeviceInformation(devices.DeviceID2Code(deviceCoding), rest.NOMarshal, rest.Invisible)
 
 				if queryInformation != nil {

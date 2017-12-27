@@ -338,7 +338,7 @@ func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage [
 			var (
 				statusGlobal   string
 				blockedControl string
-				versionCode    float64
+				versionCode    string
 				versionCodeStr string
 				findControl    int
 				notFindControl int
@@ -399,8 +399,13 @@ func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage [
 									blockedControl = rest.ResponseNil
 								}
 
-								versionCode = downloadedApp.VersionCode
-								versionCodeStr = strconv.FormatFloat(versionCode, 'E', -1, 64)
+								versionCode = downloadedApp.VersionName
+
+								if len(versionCode) <= 0 {
+									versionCodeStr = rest.ResponseNil
+								} else {
+									versionCodeStr = versionCode
+								}
 
 								packageStatus = append(packageStatus, statusGlobal, blockedControl, versionCodeStr)
 								findControl++
