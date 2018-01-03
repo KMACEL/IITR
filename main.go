@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"gerrit/DeviceReportApp/user"
 	"time"
+
+	"github.com/KMACEL/IITR/user"
 )
 
 func main() {

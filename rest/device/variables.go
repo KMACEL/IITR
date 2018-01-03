@@ -44,6 +44,7 @@ var (
 	applicationInfoJSONVariable           ApplicationInfoJSON
 	osProfileInfoJSONVariable             OSProfileInfoJSON
 	instantApplicationInfoJSONVariable    InstantApplicationInfoJSON
+	presenceHistroyJSONVariable           PresenceHistroyJSON
 )
 
 const (
@@ -557,4 +558,22 @@ type SummaryJSON struct {
 		TotalPages    int `json:"totalPages"`
 		Number        int `json:"number"`
 	} `json:"page"`
+}
+
+//PresenceHistroyJSON is
+type PresenceHistroyJSON struct {
+	List []struct {
+		DeviceID string `json:"deviceId"`
+		Command  string `json:"command"`
+		Data     struct {
+			State    string `json:"state"`
+			ClientIP string `json:"clientIp"`
+		} `json:"data"`
+		CreateDate int64  `json:"createDate"`
+		NodeID     string `json:"nodeId"`
+		SensorID   string `json:"sensorId"`
+		CloudDate  int    `json:"cloudDate"`
+	} `json:"list"`
+	Count  int    `json:"count"`
+	LastID string `json:"lastId"`
 }

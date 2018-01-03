@@ -1,6 +1,8 @@
 package operations
 
 import (
+	"encoding/json"
+
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
 )
@@ -26,7 +28,19 @@ type StartApp struct {
 
 //Start is
 func (s StartApp) Start(devicesID ...string) {
-	for _, deviceID := range devicesID {
-		s.devices.AppSS(device.StartApp, s.devices.DeviceID2Code(deviceID), s.StartPackageName, rest.Visible)
+
+	if devicesID != nil {
+		for _, deviceID := range devicesID {
+			s.devices.AppSS(device.StartApp, s.devices.DeviceID2Code(deviceID), s.StartPackageName, rest.Visible)
+		}
+	} else {
+		query := s.devices.LocationMap(rest.NOMarshal, rest.Invisible)
+		var locationJSONVariable device.LocationJSON
+		json.Unmarshal(query, &locationJSONVariable)
+
+		for _, deviceCoding := range locationJSONVariable.Extras {
+			s.devices.AppSS(device.StartApp, deviceCoding.DeviceCode, s.StartPackageName, rest.Visible)
+		}
 	}
+
 }

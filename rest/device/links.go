@@ -23,12 +23,15 @@ const (
 	startApp               = "/startapp"
 	stopApp                = "/stopapp"
 	control                = "/control/"
+	status                 = "status"
 	reboot                 = "reboot"
 	deviceProfile          = "/device-profile"
-	presence               = "?command=Presence"
-	applicationInfo        = "?command=ApplicationInfo"
-	osProfileInfo          = "?command=OSProfile"
-	instantApplicationInfo = "?command=InstantApplicationInfo"
+	deviceProfileHistory   = "/device-profile-history"
+	command                = "?command="
+	presence               = "Presence"
+	applicationInfo        = "ApplicationInfo"
+	osProfileInfo          = "OSProfile"
+	instantApplicationInfo = "InstantApplicationInfo"
 	packageName            = "{\"packageName\":\""
 	packageNameEnd         = "\"}"
 	deviceLogs             = "deviceLogs/"
@@ -39,7 +42,7 @@ const (
 	location               = "location"
 )
 
-//LocationMapLink is return
+//LocaapitionMapLink is return
 func locationMapLink() string {
 	return device + locationMap
 }
@@ -89,22 +92,22 @@ func rebootLink(setDeviceCode string) string {
 
 //PresenceInfoLink is return
 func presenceInfoLink(setDeviceID string) string {
-	return api + setDeviceID + deviceProfile + presence
+	return api + setDeviceID + deviceProfile + command + presence
 }
 
 //PresenceInfoLink is return
 func applicationInfoLink(setDeviceID string) string {
-	return api + setDeviceID + deviceProfile + applicationInfo
+	return api + setDeviceID + deviceProfile + command + applicationInfo
 }
 
 //OSProfileInfo is return
 func osProfileInfoLink(setDeviceID string) string {
-	return api + setDeviceID + deviceProfile + osProfileInfo
+	return api + setDeviceID + deviceProfile + command + osProfileInfo
 }
 
 //instantApplicationInfoLink is return
 func instantApplicationInfoLink(setDeviceID string) string {
-	return api + setDeviceID + deviceProfile + instantApplicationInfo
+	return api + setDeviceID + deviceProfile + command + instantApplicationInfo
 }
 
 func getLogListLink(setDeviceCode string) string {
@@ -128,7 +131,7 @@ func deviceID2CodeLink(setDeviceID string) string {
 }
 
 func deviceCode2IDLink(setDeviceCode string) string {
-	return api + setDeviceCode + deviceProfile + presence
+	return api + setDeviceCode + deviceProfile + command + presence
 }
 
 func contentTypeJSON() map[string]string {
@@ -145,4 +148,10 @@ func removeApplicationBody(setPackageName string) string {
 	return packageName + setPackageName + packageNameEnd
 }
 
-//
+func presenceHistoryLink(deviceID string) string {
+	return api + deviceID + deviceProfileHistory + command + presence
+}
+
+func refreshGatewayInfoLink(deviceCode string) string {
+	return device + deviceCode + control + status
+}
