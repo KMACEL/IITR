@@ -156,10 +156,8 @@ func (q Query) PostQuery(setQueryAddress string, setBody string, setHeader map[s
 		responsePost, errDo := http.DefaultClient.Do(requestPost)
 		errc.ErrorCenter(doPostTag, errDo)
 
-		defer responsePost.Body.Close()
-
 		if responsePost != nil {
-
+			defer responsePost.Body.Close()
 			switch responsePost.StatusCode {
 			case ResponseCreatedCode, ResponseOKCode:
 				responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)

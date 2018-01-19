@@ -1,3 +1,6 @@
+echo "Install build-essential"
+sudo apt-get install build-essential
+
 echo "Install sqlite3"
 sudo apt-get install sqlite3
 

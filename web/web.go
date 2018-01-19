@@ -2,18 +2,28 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
-	"strings"
-	"html/template"
-	"strconv"
 	"regexp"
+	"strconv"
+	"strings"
 	"time"
 )
 
 //https://astaxie.gitbooks.io/build-web-application-with-golang/en/
 
+/*
+████████╗███████╗███████╗████████╗
+╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝
+   ██║   █████╗  ███████╗   ██║
+   ██║   ██╔══╝  ╚════██║   ██║
+   ██║   ███████╗███████║   ██║
+   ╚═╝   ╚══════╝╚══════╝   ╚═╝
+*/
+
 func main() {
+
 	http.HandleFunc("/", sayhelloName) // setting router rule
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/from", formGet)
@@ -21,6 +31,19 @@ func main() {
 	err := http.ListenAndServe(":9090", nil) // setting listening port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
+	}
+}
+
+func deviceStatus(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("method:", r.Method) //get request method
+	if r.Method == "GET" {
+		t, err := template.ParseFiles("/home/acel/go/src/github.com/KMACEL/IITR/web/devicereport.gtpl")
+		fmt.Println("err : ", err)
+		t.Execute(w, nil)
+		fmt.Println("Hello Mert")
+	} else {
+		r.ParseForm()
+		fmt.Println("Hello Mert")
 	}
 }
 
@@ -58,17 +81,17 @@ func login(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 
-			slice2:=[]string{"1","2"}
+			slice2 := []string{"1", "2"}
 
-			for _, v2 := range  slice2{
+			for _, v2 := range slice2 {
 				if v2 == r.Form.Get("gender") {
 					fmt.Println("Yes ", v2)
 				}
 			}
 
-			slice3:=[]string{"football","basketball","tennis"}
-			a,_:=r.Form["interest"],slice3
-			fmt.Println("haha :",a)
+			slice3 := []string{"football", "basketball", "tennis"}
+			a, _ := r.Form["interest"], slice3
+			fmt.Println("haha :", a)
 
 			t := time.Date(2009, time.November, 10, 23, 0, 0, 0, time.UTC)
 			fmt.Printf("Go launched at %s\n", t.Local())

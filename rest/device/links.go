@@ -40,6 +40,9 @@ const (
 	deviceParam            = "?device="
 	devicesParam           = "?devices="
 	location               = "location"
+	sensorData             = "/sensor-data"
+	nodeID                 = "nodeId="
+	sensorID               = "sensorId="
 )
 
 //LocaapitionMapLink is return
@@ -154,4 +157,8 @@ func presenceHistoryLink(deviceID string) string {
 
 func refreshGatewayInfoLink(deviceCode string) string {
 	return device + deviceCode + control + status
+}
+
+func getSensorDataLink(deviceID string, nodeName string, sensorName string) string {
+	return device + deviceID + sensorData + "?" + nodeID + nodeName + "&" + sensorID + sensorName
 }

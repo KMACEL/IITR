@@ -39,7 +39,7 @@ func (d Device) LocationMap(setUnMarshal bool, visualFlag bool) []byte {
 ██║     ██║   ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║        ██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║     ██╔══╝
 ███████╗╚██████╔╝╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║        ██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗
 ╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝        ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝
- */
+*/
 
 //LocationDevice is
 func (d Device) LocationDevice(deviceID string) (string, string) {
@@ -55,4 +55,3 @@ func (d Device) LocationDevice(deviceID string) (string, string) {
 	}
 	return rest.ResponseNil, rest.ResponseNil
 }
-

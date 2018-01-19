@@ -1,7 +1,23 @@
+echo "Welcome to Library Build Script"
 echo "=======> cases"
 cd cases
 go fmt .
 go build .
+echo "=======> cases ======> operations"
+cd operations
+go fmt .
+go build .
+cd ..
+echo "=======> cases ======> reports"
+cd reports
+go fmt .
+go build .
+cd ..
+echo "=======> cases ======> tests"
+cd tests
+go fmt .
+go build .
+cd ..
 cd ..
 echo "=======> cases : OK"
 echo "----------------------"
@@ -36,14 +52,6 @@ go fmt .
 go build .
 cd ..
 echo "=======> mail : OK"
-echo "----------------------"
-
-echo "=======> operations"
-cd errc
-go fmt .
-go build .
-cd ..
-echo "=======> operations : OK"
 echo "----------------------"
 
 echo "----------------------"
@@ -108,4 +116,6 @@ go build .
 cd ..
 echo "=======> writefile : OK"
 
+go fmt .
+go build .
 echo "Build Finish"

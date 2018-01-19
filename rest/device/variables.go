@@ -45,6 +45,7 @@ var (
 	osProfileInfoJSONVariable             OSProfileInfoJSON
 	instantApplicationInfoJSONVariable    InstantApplicationInfoJSON
 	presenceHistroyJSONVariable           PresenceHistroyJSON
+	sensorDataJSONVariable                SensorDataJSON
 )
 
 const (
@@ -576,4 +577,22 @@ type PresenceHistroyJSON struct {
 	} `json:"list"`
 	Count  int    `json:"count"`
 	LastID string `json:"lastId"`
+}
+
+//SensorDataJSON is
+type SensorDataJSON struct {
+	Code        interface{} `json:"code"`
+	SubCode     interface{} `json:"subCode"`
+	Status      string      `json:"status"`
+	Description interface{} `json:"description"`
+	Data        struct {
+		DeviceID   string `json:"deviceId"`
+		Command    string `json:"command"`
+		Data       string `json:"data"`
+		CreateDate int64  `json:"createDate"`
+		NodeID     string `json:"nodeId"`
+		SensorID   string `json:"sensorId"`
+		CloudDate  int64  `json:"cloudDate"`
+	} `json:"data"`
+	Ok bool `json:"ok"`
 }

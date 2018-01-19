@@ -60,7 +60,7 @@ func CreateFile(fileName string) {
 // This function takes two external values.
 // openingFileName: This gets the name with the extension of the file to be opened.
 //     If it is in the same folder as the program, only the name is enough.
-// openedFile: This variable is important. Several files can be opened
+// openedOSFile: This variable is important. Several files can be opened
 //     at the same time and separate util can be performed on those files.
 //     If you have a single "os.File" variable, you can not do the same operation.
 //     For this reason, we expect the user to define a variable "var fileVarible * os.File"
@@ -71,12 +71,12 @@ func CreateFile(fileName string) {
 //      var openFile1 *os.File
 //      writefile.CreateFile("testFile.csv")
 //      openFile1 = writefile.OpenFile2("testFile.csv", openFile1)
-func OpenFile(openedFile *os.File, openingFileName string) *os.File {
-	if openedFile, errOpenFile := os.OpenFile(openingFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend); errOpenFile != nil {
+func OpenFile(openedOSFile *os.File, openingFileName string) *os.File {
+	if openedOSFile, errOpenFile := os.OpenFile(openingFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend); errOpenFile != nil {
 		errc.ErrorCenter(openFileTag, errOpenFile)
 		panic(errOpenFile)
 	} else {
-		return openedFile
+		return openedOSFile
 	}
 }
 

@@ -599,7 +599,7 @@ func (d DetailAllReport) writeCSVType(fileName string, writeCSVArray []string, s
 	var detailReportFile *os.File
 
 	writefile.CreateFile(fileName)
-	detailReportFile = writefile.OpenFile(detailReportFile,fileName)
-	writefile.WriteArray(detailReportFile,writeCSVArray )
+	detailReportFile = writefile.OpenFile(detailReportFile, fileName)
+	writefile.WriteArray(detailReportFile, writeCSVArray)
 	log.Println("Finish Write : ", setControlPackage)
 }
