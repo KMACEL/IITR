@@ -1,5 +1,7 @@
 package rest
 
+import "net/url"
+
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
 ██║     ██║████╗  ██║██║ ██╔╝██╔════╝
@@ -38,7 +40,7 @@ func loginLink() string {
 }
 
 func connectBodyLink(userName string, password string) string {
-	return grantType + passwordUsername + userName + passwordEntry + password
+	return grantType + passwordUsername + userName + passwordEntry + url.QueryEscape(password)
 }
 
 func refleshTokenBodyLink() string {

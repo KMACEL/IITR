@@ -14,7 +14,7 @@ type Profile struct{}
 
 //Start is
 func (p Profile) Start() {
-
+	p.profilePolicy()
 }
 
 func (p Profile) profilePolicy(devicesID ...string) {
@@ -22,7 +22,7 @@ func (p Profile) profilePolicy(devicesID ...string) {
 	var devices device.Device
 	var modePolicyOS *os.File
 	writefile.CreateFile("ModePolicy.xlsx")
-	writefile.OpenFile(modePolicyOS, "ModePolicy.xlsx")
+	modePolicyOS = writefile.OpenFile(modePolicyOS, "ModePolicy.xlsx")
 	writefile.WriteText(modePolicyOS, "Device ID", "Active Mode", "Active Policy", "Current Mode", "Current Policy")
 
 	query := devices.LocationMap(rest.NOMarshal, rest.Invisible)
