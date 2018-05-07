@@ -64,6 +64,11 @@ cd action
 go fmt .
 go build .
 cd ..
+echo "=======> rest ======> adminarea"
+cd adminarea
+go fmt .
+go build .
+cd ..
 echo "=======> rest ======> device"
 cd device
 go fmt .
@@ -81,6 +86,11 @@ go build .
 cd ..
 echo "=======> rest ======> profile"
 cd profile
+go fmt .
+go build .
+cd ..
+echo "=======> rest ======> workgroup"
+cd workgroup
 go fmt .
 go build .
 cd ..

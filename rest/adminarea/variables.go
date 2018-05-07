@@ -1,6 +1,6 @@
 package adminarea
 
-// Posted by Mehmet Akasayan
+// Posted by Mehmet Aksayan
 
 /*
 ██╗   ██╗ █████╗ ██████╗ ██╗ █████╗ ██████╗ ██╗     ███████╗███████╗
@@ -28,12 +28,6 @@ type AdminAreaBodyJSON struct {
 		Code string `json:"code"`
 	} `json:"devices"`
 	Name string `json:"name"`
-}
-
-func contentTypeJSON() map[string]string {
-	header := make(map[string]string)
-	header["content-type"] = "application/json"
-	return header
 }
 
 type CodeJSON struct {

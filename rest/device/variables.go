@@ -596,3 +596,21 @@ type SensorDataJSON struct {
 	} `json:"data"`
 	Ok bool `json:"ok"`
 }
+
+//AddIOTLabelJSON is
+type AddIOTLabelJSON struct {
+	DeviceNodeSensors []struct {
+		DeviceID string `json:"deviceId"`
+		NodeID   string `json:"nodeId"`
+		SensorID string `json:"sensorId"`
+	} `json:"deviceNodeSensors"`
+	Label     string `json:"label"`
+	LabelType string `json:"labelType"`
+}
+
+//AddIOTLabelDeviceIDJSON is
+type AddIOTLabelDeviceIDJSON struct {
+	DeviceID string `json:"deviceId"`
+	NodeID   string `json:"nodeId"`
+	SensorID string `json:"sensorId"`
+}

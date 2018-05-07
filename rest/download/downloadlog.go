@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
@@ -23,6 +24,7 @@ func (d Download) DownloadLog(setDeviceCode string) {
 	json.Unmarshal(query, &d.logListJSON)
 	for _, logs := range d.logListJSON {
 		go d.readFile(logs.URL, logs.Token, logs.DeviceID+"_"+logs.Name)
+		time.Sleep(200 * time.Millisecond)
 	}
 }
 

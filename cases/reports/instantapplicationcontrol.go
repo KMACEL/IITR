@@ -3,11 +3,12 @@ package reports
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/writefile"
-	"log"
-	"os"
 )
 
 // For use Example:

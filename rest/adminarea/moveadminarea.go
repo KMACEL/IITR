@@ -1,6 +1,6 @@
 package adminarea
 
-// Posted by Mehmet Akasayan
+// Posted by Mehmet Aksayan
 
 import (
 	"encoding/json"

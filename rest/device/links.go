@@ -43,6 +43,7 @@ const (
 	sensorData             = "/sensor-data"
 	nodeID                 = "nodeId="
 	sensorID               = "sensorId="
+	iotLabel               = "iotlabel/label/multi"
 )
 
 //LocaapitionMapLink is return
@@ -161,4 +162,8 @@ func refreshGatewayInfoLink(deviceCode string) string {
 
 func getSensorDataLink(deviceID string, nodeName string, sensorName string) string {
 	return device + deviceID + sensorData + "?" + nodeID + nodeName + "&" + sensorID + sensorName
+}
+
+func addIOTLabelLink() string {
+	return device + iotLabel
 }

@@ -2,12 +2,12 @@ package reports
 
 import (
 	"encoding/json"
-	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/KMACEL/IITR/logc"
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/action"
 	"github.com/KMACEL/IITR/rest/device"
@@ -234,37 +234,37 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 					// 				In some cases momentary time is very important. This gives the time of the recorded data.
 					// workingGroup: The devices give us information in any group.
 					case applicationsStatus == "":
-						log.Println("Application Status Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("Application Status Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case presence == "":
-						log.Println("Presence Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("Presence Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case lastOnlineTime == "":
-						log.Println("Last Online Time Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("Last Online Time Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case profile == "":
-						log.Println("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case policy == "":
-						log.Println("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case profileCurrent == "":
-						log.Println("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case policyCurrent == "":
-						log.Println("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case workingGroup == "":
-						log.Println("WorkingGroup Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("WorkingGroup Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case modiverseVersion == "":
-						log.Println("ModiverseVersion Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("ModiverseVersion Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case osDisplay == "":
-						log.Println("OsDisplay Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("OsDisplay Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					case reportTime == "":
-						log.Println("ReportTime Get Nil Passing Device : ", deviceCoding.DeviceID)
+						logc.ReportPrint("ReportTime Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
 					default:
 						d.writeCsvArray = append(d.writeCsvArray,
@@ -290,11 +290,11 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 					// The display shows the sequence and the duration of the operation. Every 100 devices will give us information.
 					if len(deviceCode.Extras) > 100 {
 						if i%100 == 0 {
-							log.Println(i, "/", len(deviceCode.Extras))
+							logc.ReportPrint(i, "/", len(deviceCode.Extras))
 						}
 					} else if len(deviceCode.Extras) > 10 {
 						if i%10 == 0 {
-							log.Println(i, "/", len(deviceCode.Extras))
+							logc.ReportPrint(i, "/", len(deviceCode.Extras))
 						}
 					}
 
@@ -302,14 +302,14 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 			}
 		}
 	} else {
-		log.Println("Querry Error ...")
+		logc.ReportPrint("Querry Error ...")
 	}
 
 	//The data sent to the array sends the necessary information to the function that performs the write operation.
 	//There is something that needs attention. All the data are collected and then sent for registration.
 	//This is set in this way to gain speed. If you do not want to risk it, check out the other functions in the 'writefile' library.
 	d.writeCSVType(fileName, d.writeCsvArray, packageHeader)
-	log.Println("Finish Read ...")
+	logc.ReportPrint("Finish Read ...")
 }
 
 /*
@@ -786,5 +786,5 @@ func (d DetailAllReport2) writeCSVType(fileName string, writeCSVArray []string, 
 	writefile.CreateFile(fileName)
 	detailReportFile = writefile.OpenFile(detailReportFile, fileName)
 	writefile.WriteArray(detailReportFile, writeCSVArray)
-	log.Println("Finish Write : ", setControlPackage)
+	logc.ReportPrint("Finish Write : ", setControlPackage)
 }

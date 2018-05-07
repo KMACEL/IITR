@@ -1,6 +1,6 @@
 package adminarea
 
-// Posted by Mehmet Akasayan
+// Posted by Mehmet Aksayan
 
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
@@ -17,4 +17,10 @@ const (
 
 func moveAdminAreaLink() string {
 	return setadminarea
+}
+
+func contentTypeJSON() map[string]string {
+	header := make(map[string]string)
+	header["content-type"] = "application/json"
+	return header
 }
