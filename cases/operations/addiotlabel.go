@@ -56,7 +56,8 @@ func (a AddIOTLabel) Start() {
 
 	if a.Label == "" {
 		iotLabel.Label = "DEVICES"
-
+	} else {
+		iotLabel.Label = a.Label
 	}
 	a.devices.AddIOTLabel(iotLabel, true)
 }
