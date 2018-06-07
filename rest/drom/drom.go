@@ -8,23 +8,22 @@ import (
 type Drom struct{}
 
 //SendDrom is
-func (d Drom) SendDrom(visualFlag bool, setDeviceID ...string) string {
-	for _, deviceID := range setDeviceID {
-		setAddress := sendDromLink(deviceID)
-		header := make(map[string]string)
-		header["content-type"] = "application/json"
+func (d Drom) SendDrom(visualFlag bool, setDeviceID string) string {
 
-		query, _ := queryVariable.PostQuery(setAddress, "", header, visualFlag)
+	setAddress := sendDromLink(setDeviceID)
+	header := make(map[string]string)
+	header["content-type"] = "application/json"
 
-		if query != nil {
-			if string(query) != rest.ResponseNotFound {
-				//json.Unmarshal(query, &responseMessageCodeJSONVariable)
-				return "OK" //responseMessageCodeJSONVariable.Response
-			}
-			return rest.ResponseNotFound
+	query, _ := queryVariable.PostQuery(setAddress, "", header, visualFlag)
 
+	if query != nil {
+		if string(query) != rest.ResponseNotFound {
+			//json.Unmarshal(query, &responseMessageCodeJSONVariable)
+			return "OK" //responseMessageCodeJSONVariable.Response
 		}
-		return rest.ResponseNil
+		return rest.ResponseNotFound
+
 	}
-	return "OK"
+	return rest.ResponseNil
+
 }

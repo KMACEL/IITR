@@ -40,7 +40,7 @@ func loginLink() string {
 }
 
 func connectBodyLink(userName string, password string) string {
-	return grantType + passwordUsername + userName + passwordEntry + url.QueryEscape(password)
+	return grantType + passwordUsername + url.QueryEscape(userName) + passwordEntry + url.QueryEscape(password)
 }
 
 func refleshTokenBodyLink() string {
