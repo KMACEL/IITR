@@ -2,6 +2,7 @@ package reports
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -95,6 +96,7 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 						reportTime         string
 						profileCurrent     string
 						policyCurrent      string
+						adminArea          string
 					)
 
 					// GoRoutine Message Channel
@@ -118,6 +120,7 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 					chModiverseVersion := make(chan string)
 					chOSDisplay := make(chan string)
 					chReportTime := make(chan string)
+					chAdminArea := make(chan string)
 
 					// Start GoRutines.
 					// applicationStatus: Returns the application status and block status of applications that are initially given a package name.
@@ -130,7 +133,7 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 					go d.profilePolicy(deviceCoding.DeviceID, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent)
 					go d.submittedDromSize(deviceCoding.DeviceCode, chDromSize)
 					go d.workingGroup(deviceCoding.DeviceID, chWorkingGroup)
-					go d.deviceInformation(deviceCoding.DeviceID, chModiverseVersion, chOSDisplay, chReportTime)
+					go d.deviceInformation(deviceCoding.DeviceID, chModiverseVersion, chOSDisplay, chReportTime, chAdminArea)
 
 					// This section writes the messages from the channels in the go routines to the variables.
 					for getItemApplicationsStatus, status := <-chApplicationsStatus; status; getItemApplicationsStatus, status = <-chApplicationsStatus {
@@ -217,6 +220,13 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 						}
 					}
 
+					for getItemAdminArea, status := <-chAdminArea; status; getItemAdminArea, status = <-chAdminArea {
+						adminArea = getItemAdminArea
+						if status {
+							break
+						}
+					}
+
 					//This place is bigger. Control of messages from the channels is done here. If the channel has not yet received data, it will look at it again.
 					//control:
 					switch {
@@ -266,6 +276,9 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 					case reportTime == "":
 						logc.ReportPrint("ReportTime Get Nil Passing Device : ", deviceCoding.DeviceID)
 						continue
+					case adminArea == "":
+						logc.ReportPrint("ReportTime Get Nil Passing Device : ", deviceCoding.DeviceID)
+						continue
 					default:
 						d.writeCsvArray = append(d.writeCsvArray,
 							deviceCoding.DeviceID,
@@ -291,13 +304,14 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 					if len(deviceCode.Extras) > 100 {
 						if i%100 == 0 {
 							logc.ReportPrint(i, "/", len(deviceCode.Extras))
+							fmt.Println(i, "/", len(deviceCode.Extras))
 						}
 					} else if len(deviceCode.Extras) > 10 {
 						if i%10 == 0 {
 							logc.ReportPrint(i, "/", len(deviceCode.Extras))
+							fmt.Println(i, "/", len(deviceCode.Extras))
 						}
 					}
-
 				}
 			}
 		}
@@ -536,7 +550,6 @@ func (d DetailAllReport2) presenceStatus(deviceCode string, chPresence, chLastOn
 ██║     ██║  ██║╚██████╔╝██║     ██║███████╗███████╗    ██║     ╚██████╔╝███████╗██║╚██████╗   ██║
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝   ╚═╝
 */
-
 func (d DetailAllReport2) profilePolicy(deviceID string, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent chan string) (string, string) {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
@@ -678,12 +691,21 @@ func (d DetailAllReport2) submittedDromSize(deviceCode string, chDromSize chan i
 	return -5
 }
 
-func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion chan string, chOSDisplay chan string, chReportTime chan string) (string, string, string) {
+/*
+██████╗ ███████╗██╗   ██╗██╗ ██████╗███████╗        ██╗███╗   ██╗███████╗ ██████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+██╔══██╗██╔════╝██║   ██║██║██╔════╝██╔════╝        ██║████╗  ██║██╔════╝██╔═══██╗██╔══██╗████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+██║  ██║█████╗  ██║   ██║██║██║     █████╗          ██║██╔██╗ ██║█████╗  ██║   ██║██████╔╝██╔████╔██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
+██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║     ██╔══╝          ██║██║╚██╗██║██╔══╝  ██║   ██║██╔══██╗██║╚██╔╝██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗        ██║██║ ╚████║██║     ╚██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝        ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+*/
+func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion chan string, chOSDisplay chan string, chReportTime chan string, chAdminArea chan string) (string, string, string, string) {
 	var (
 		devices          device.Device
 		osDisplay        string
 		modiverseVersion string
 		reportTime       string
+		adminArea        string
 	)
 
 	queryInformation := devices.DeviceInformation(devices.DeviceID2Code(deviceID), rest.NOMarshal, rest.Invisible)
@@ -696,6 +718,7 @@ func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion 
 			osDisplay = deviceInformation.OsProfile.Display
 			modiverseVersion = deviceInformation.ModeAppVersion
 			reportTime = deviceInformation.DeviceCurrentTime
+			adminArea = deviceInformation.AdminArea.Name
 
 			if osDisplay == "" {
 				osDisplay = rest.ResponseNil
@@ -709,6 +732,10 @@ func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion 
 				reportTime = rest.ResponseNil
 			}
 
+			if adminArea == "" {
+				adminArea = rest.ResponseNil
+			}
+
 			chModiverseVersion <- modiverseVersion
 			close(chModiverseVersion)
 
@@ -718,7 +745,10 @@ func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion 
 			chReportTime <- reportTime
 			close(chReportTime)
 
-			return osDisplay, modiverseVersion, reportTime
+			chAdminArea <- adminArea
+			close(chAdminArea)
+
+			return osDisplay, modiverseVersion, reportTime, adminArea
 		}
 
 		chModiverseVersion <- rest.ResponseNotFound
@@ -729,7 +759,7 @@ func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion 
 
 		chReportTime <- rest.ResponseNotFound
 		close(chReportTime)
-		return rest.ResponseNotFound, rest.ResponseNotFound, rest.ResponseNotFound
+		return rest.ResponseNotFound, rest.ResponseNotFound, rest.ResponseNotFound, rest.ResponseNotFound
 	}
 	chModiverseVersion <- rest.ResponseNil
 	close(chModiverseVersion)
@@ -739,7 +769,7 @@ func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion 
 
 	chReportTime <- rest.ResponseNil
 	close(chReportTime)
-	return rest.ResponseNil, rest.ResponseNil, rest.ResponseNil
+	return rest.ResponseNil, rest.ResponseNil, rest.ResponseNil, rest.ResponseNotFound
 }
 
 /*
@@ -761,6 +791,7 @@ func (d DetailAllReport2) workingGroup(deviceID string, chWorkingGroup chan stri
 		if workingGroup == "" {
 			workingGroup = rest.ResponseNil
 		}
+		workingGroup = strings.Replace(workingGroup, ",", ":", -1)
 
 		chWorkingGroup <- workingGroup
 		close(chWorkingGroup)
