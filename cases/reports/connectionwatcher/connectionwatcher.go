@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/KMACEL/IITR/timop"
@@ -39,7 +40,7 @@ func main() {
 	writeFileName := "ConnectionWatcher-" + timop.GetTimeNamesFormat() + ".csv"
 	writefile.CreateFile(writeFileName)
 	f = writefile.OpenFile(f, writeFileName)
-	writefile.WriteText(f, " ", "IP", "Server Time", "Device ID", "Send Time", "Counter", "Connection Type", "Signal DB", "New Time", "J", "W", "GPS Time", "PN", "Power State")
+	writefile.WriteText(f, " ", "IP", "Server Time", "Device ID", "Send Time", "Counter", "Connection Type", "DataState", "Signal DB", "New Time", "Long", "Lat", "GPS Time", "Satellite", "Power State")
 
 	writeArray = append(writeArray, "")
 
@@ -59,11 +60,80 @@ func main() {
 		ControlAdd(m["id"])
 		ControlAdd(m["time"])
 		ControlAdd(m["counter"])
-		ControlAdd(m["connType"])
+
+		//ControlAdd(m["connType"])
+		if m["connType"] != nil {
+			connTypeSplit := strings.Split(m["connType"][0], " ")
+			if len(connTypeSplit) != 0 {
+				var connType string
+
+				switch connTypeSplit[0] {
+				case "11":
+					connType = "2G"
+				case "12", "14", "15", "17":
+					connType = "3G"
+				case "13", "18", "19":
+					connType = "4G"
+				default:
+					connType = "?"
+				}
+				writeArray = append(writeArray, connType)
+			}
+		} else {
+			writeArray = append(writeArray, " ")
+		}
+
+		//ControlAdd(m["dataState"])
+		if m["dataState"] != nil {
+			dataStateSplit := strings.Split(m["dataState"][0], " ")
+			if len(dataStateSplit) != 0 {
+				var dataState string
+
+				switch dataStateSplit[0] {
+				case "0":
+					dataState = "DISCONNECTED"
+				case "1":
+					dataState = "CONNECTING"
+				case "2":
+					dataState = "CONNECTED"
+				case "3":
+					dataState = "SUSPENDED"
+				default:
+					dataState = "?"
+				}
+				writeArray = append(writeArray, dataState)
+			}
+		} else {
+			writeArray = append(writeArray, " ")
+		}
+
 		ControlAdd(m["signalDb"])
 		ControlAdd(m["NewTime"])
-		ControlAdd(m["J"])
-		ControlAdd(m["W"])
+
+		if m["J"] != nil {
+			counterSplit := strings.Split(m["J"][0], " ")
+			if len(counterSplit) != 0 {
+				long, _ := strconv.ParseFloat(counterSplit[0], 64)
+				long = long / 600000
+				writeArray = append(writeArray, strconv.FormatFloat(long, 'E', -1, 64))
+			}
+		} else {
+			writeArray = append(writeArray, " ")
+		}
+
+		if m["W"] != nil {
+			counterSplit := strings.Split(m["W"][0], " ")
+			if len(counterSplit) != 0 {
+				long, _ := strconv.ParseFloat(counterSplit[0], 64)
+				long = long / 600000
+				writeArray = append(writeArray, strconv.FormatFloat(long, 'E', -1, 64))
+			}
+		} else {
+			writeArray = append(writeArray, " ")
+		}
+
+		//ControlAdd(m["J"])
+		//ControlAdd(m["W"])
 		ControlAdd(m["T"])
 		ControlAdd(m["PN"])
 		ControlAdd(m["ACC"])
