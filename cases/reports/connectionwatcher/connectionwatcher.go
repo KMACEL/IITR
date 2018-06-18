@@ -46,7 +46,8 @@ func main() {
 	writefile.WriteText(f, " ", "IP", "Server Time", "Device ID", "Send Time", "Counter", "Connection Type", "DataState", "Signal DB", "New Time", "Long", "Lat", "GPS Time", "Satellite", "Power State")
 
 	writeArray = append(writeArray, "")
-
+	deviceCount := len(deviceList)
+	var percent float64
 	for i, rowData := range deviceList {
 
 		u, err := url.Parse(rowData)
@@ -146,8 +147,9 @@ func main() {
 
 		}
 
-		if i%100 == 0 {
-			fmt.Println(i, " - ", len(deviceList))
+		if i%1000 == 0 {
+			percent = float64(i) / float64(deviceCount) * 100
+			fmt.Printf("\r %%%.2f ", percent)
 		}
 	}
 	writefile.WriteArray(f, writeArray)
