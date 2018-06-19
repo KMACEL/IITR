@@ -22,7 +22,12 @@ func GetSecond() int {
 
 // GetTimeNamesFormat is
 func GetTimeNamesFormat() string {
-	return strconv.Itoa(time.Now().Day()) + "_" + time.Now().Month().String() + "___" + strconv.Itoa(time.Now().Hour()) + "_" + strconv.Itoa(time.Now().Minute())
+	return strconv.Itoa(time.Now().Day()) + "_" + strconv.Itoa(int(time.Now().Month())) + "_" + strconv.Itoa(time.Now().Year()) + "___" + strconv.Itoa(time.Now().Hour()) + "_" + strconv.Itoa(time.Now().Minute())
+}
+
+// GetTimeNamesFormat is
+func GetTimeNamesFormatDays() string {
+	return strconv.Itoa(time.Now().Day()) + "_" + strconv.Itoa(int(time.Now().Month())) + "_" + strconv.Itoa(time.Now().Year())
 }
 
 //CreateEpochTime is

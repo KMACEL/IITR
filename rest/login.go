@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"log"
 	"time"
+
+	"github.com/KMACEL/IITR/errc"
+	"github.com/KMACEL/IITR/logc"
 )
 
 /*
@@ -27,7 +30,7 @@ import (
 // The header section is important here. This is given as a constant.
 // This function returns "true" if the Connect operation has been performed. Sends "false" if the message
 // is empty and "false" if it gets an error.
-func Connect(userName, password string) bool {
+func Connect(userName string, password string) bool {
 	setQueryAddress := loginLink()
 	setBody := connectBodyLink(userName, password)
 
@@ -36,19 +39,23 @@ func Connect(userName, password string) bool {
 	setHeader[authorization] = authorizationKey
 	visualFlag := Invisible
 
-	query, _ := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
+	query, errConnectPost := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
+	errc.ErrorCenter("Connect", errConnectPost)
 
 	if query != nil {
 		if string(query) != ResponseNotFound {
 			json.Unmarshal(query, &getLogin)
 			go tokenControl()
 			log.Println("IoT - Ignite Connection : OK...")
+			logc.ConnectionPrint("Connection OK - User Name : %s \nGet DATA : %s", userName, getLogin)
 			return true
 		}
 		log.Println("IoT - Ignite Connection : NO - Response Not Found -404-!")
+		logc.ConnectionPrint("Connection Response Not Found 404 - User Name : %s \nGet DATA : %s", userName, getLogin)
 		return false
 	}
 	log.Println("IoT - Ignite Connection : NO - Query is nil ! Check Username - Password !")
+	logc.ConnectionPrint("Connection Query is nil - User Name : %s \nGet DATA : %s", userName, getLogin)
 	return false
 }
 
@@ -130,8 +137,8 @@ retry:
 	setHeader[authorization] = authorizationKey
 	visualFlag := Visible
 
-	query, _ := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
-
+	query, errRefreshToken := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
+	errc.ErrorCenter("Refresh Token", errRefreshToken)
 	json.Unmarshal(query, &getLogin)
 	goto retry
 }

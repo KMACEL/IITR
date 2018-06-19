@@ -3,7 +3,25 @@ package logc
 import (
 	"log"
 	"os"
+
+	"github.com/KMACEL/IITR/timop"
 )
+
+// ConnectionPrint is
+func ConnectionPrint(args ...interface{}) {
+	if _, err := os.Stat("./logc"); os.IsNotExist(err) {
+		os.MkdirAll("./logc", os.ModePerm)
+	}
+
+	f, err := os.OpenFile("logc/connectionLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer f.Close()
+
+	log.SetOutput(f)
+	log.Println(args...)
+}
 
 // OperationPrint is
 func OperationPrint(args ...interface{}) {
@@ -11,7 +29,7 @@ func OperationPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/operationLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/_"+timop.GetTimeNamesFormatDays()+"operationLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -27,7 +45,7 @@ func ReportPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/reportLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/reportLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -43,7 +61,7 @@ func TestPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/testLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/testLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -60,7 +78,7 @@ func GlobalPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/globalLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/globalLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
