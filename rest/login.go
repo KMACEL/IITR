@@ -30,7 +30,7 @@ import (
 // The header section is important here. This is given as a constant.
 // This function returns "true" if the Connect operation has been performed. Sends "false" if the message
 // is empty and "false" if it gets an error.
-func Connect(userName string, password string) bool {
+func Connect(userName string, password string) (bool, error) {
 	setQueryAddress := loginLink()
 	setBody := connectBodyLink(userName, password)
 
@@ -39,24 +39,24 @@ func Connect(userName string, password string) bool {
 	setHeader[authorization] = authorizationKey
 	visualFlag := Invisible
 
-	query, errConnectPost := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
-	errc.ErrorCenter("Connect", errConnectPost)
+	query, errConnectPostQuery := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
+	errc.ErrorCenter(errorTagConnect, errConnectPostQuery)
 
 	if query != nil {
 		if string(query) != ResponseNotFound {
 			json.Unmarshal(query, &getLogin)
 			go tokenControl()
 			log.Println("IoT - Ignite Connection : OK...")
-			logc.ConnectionPrint("Connection OK - User Name : %s \nGet DATA : %s", userName, getLogin)
-			return true
+			logc.ConnectionPrint("Connection OK - User Name : ", userName, " Get DATA : ", string(query))
+			return true, nil
 		}
-		log.Println("IoT - Ignite Connection : NO - Response Not Found -404-!")
-		logc.ConnectionPrint("Connection Response Not Found 404 - User Name : %s \nGet DATA : %s", userName, getLogin)
-		return false
+		log.Println("IoT - Ignite Connection : NO - Response Not Found - 404-!")
+		logc.ConnectionPrint("Connection Response Not Found 404 - User Name : "+userName+" Get DATA :", string(query))
+		return false, errConnectPostQuery
 	}
 	log.Println("IoT - Ignite Connection : NO - Query is nil ! Check Username - Password !")
-	logc.ConnectionPrint("Connection Query is nil - User Name : %s \nGet DATA : %s", userName, getLogin)
-	return false
+	logc.ConnectionPrint("Connection Query is nil - User Name : "+userName+" Get DATA :", string(query))
+	return false, errConnectPostQuery
 }
 
 /*

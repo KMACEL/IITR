@@ -110,6 +110,11 @@ const (
 	bodyPutTag    = "Body Put : "
 )
 
+// Rest -> Login TAG Constant
+const (
+	errorTagConnect = "Rest->Login->Connect"
+)
+
 /*
      ██╗███████╗ ██████╗ ███╗   ██╗
      ██║██╔════╝██╔═══██╗████╗  ██║
