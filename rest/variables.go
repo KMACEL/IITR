@@ -1,6 +1,9 @@
 package rest
 
-import "errors"
+import (
+	"errors"
+	"net/http"
+)
 
 /*
 ██╗   ██╗ █████╗ ██████╗ ██╗ █████╗ ██████╗ ██╗     ███████╗███████╗
@@ -133,4 +136,41 @@ type loginJSON struct {
 	RefreshToken string `json:"refresh_token"`
 	ExpiresIn    int    `json:"expires_in"`
 	Scope        string `json:"scope"`
+}
+
+type loginLog struct {
+	UserName  string    `json:"userName"`
+	Password  string    `json:"password"`
+	LoginJSON loginJSON `json:"loginResponse"`
+}
+
+// QueryMessage is used to push query parameters and return value to log
+type QueryMessage struct {
+	RequestParameter requestParameter `json:"requestParameter"`
+	ResponseMessage  response         `json:"response"`
+}
+
+// requestParameter contains the masks to be used in the query
+type requestParameter struct {
+	SetQueryAddress string            `json:"setQueryAddress"`
+	SetBody         string            `json:"setBody"`
+	SetHeader       map[string]string `json:"setHeader"`
+	VisualFlag      bool              `json:"visualFlag"`
+}
+
+// response is, performs inbound value json translation
+type response struct {
+	Status           string      `json:"status"`     // e.g. "200 OK"
+	StatusCode       int         `json:"statusCode"` // e.g. 200
+	Proto            string      `json:"proto"`      // e.g. "HTTP/1.0"
+	ProtoMajor       int         `json:"protoMajor"` // e.g. 1
+	ProtoMinor       int         `json:"protoMinor"` // e.g. 0
+	Header           http.Header `json:"header"`
+	Body             interface{} `json:"body"`
+	ContentLength    int64       `json:"contentLength"`
+	TransferEncoding []string    `json:"transferEncoding"`
+	Close            bool        `json:"close"`
+	Uncompressed     bool        `json:"uncompressed"`
+	Trailer          http.Header `json:"trailer"`
+	//TLS *tls.ConnectionState
 }

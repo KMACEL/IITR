@@ -1,9 +1,9 @@
 package rest
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/KMACEL/IITR/errc"
@@ -42,19 +42,29 @@ func Connect(userName string, password string) (bool, error) {
 	query, errConnectPostQuery := Query{}.PostQuery(setQueryAddress, setBody, setHeader, visualFlag)
 	errc.ErrorCenter(errorTagConnect, errConnectPostQuery)
 
+	var loginLogV loginLog
+	loginLogV.UserName = userName
+	loginLogV.Password = base64.StdEncoding.EncodeToString([]byte(password))
+
 	if query != nil {
+
+		errJSON := json.Unmarshal(query, &getLogin)
+		errc.ErrorCenter(errorTagConnect+"Json-Unmarshal", errJSON)
+		loginLogV.LoginJSON = getLogin
+		loginLogMarshal, errJSONMarshal := json.Marshal(loginLogV)
+		errc.ErrorCenter("Log Marshal : ", errJSONMarshal)
+
 		if string(query) != ResponseNotFound {
-			json.Unmarshal(query, &getLogin)
 			go tokenControl()
-			log.Println("IoT - Ignite Connection : OK...")
-			logc.ConnectionPrint("Connection OK - User Name : ", userName, " Get DATA : ", string(query))
+			fmt.Println("IoT - Ignite Connection : OK...")
+			logc.ConnectionPrint("Connection OK -", string(loginLogMarshal))
 			return true, nil
 		}
-		log.Println("IoT - Ignite Connection : NO - Response Not Found - 404-!")
-		logc.ConnectionPrint("Connection Response Not Found 404 - User Name : "+userName+" Get DATA :", string(query))
+		fmt.Println("IoT - Ignite Connection : NO - Response Not Found - 404-!")
+		logc.ConnectionPrint("Connection Response Not Found 404 -" + string(loginLogMarshal))
 		return false, errConnectPostQuery
 	}
-	log.Println("IoT - Ignite Connection : NO - Query is nil ! Check Username - Password !")
+	fmt.Println("IoT - Ignite Connection : NO - Query is nil ! Check Username - Password !")
 	logc.ConnectionPrint("Connection Query is nil - User Name : "+userName+" Get DATA :", string(query))
 	return false, errConnectPostQuery
 }

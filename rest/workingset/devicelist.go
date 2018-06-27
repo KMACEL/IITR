@@ -2,9 +2,20 @@ package workingset
 
 import (
 	"encoding/json"
+
 	"github.com/KMACEL/IITR/rest"
 )
 
+/*
+ ██████╗ ███████╗████████╗        ██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗██╗███╗   ██╗ ██████╗ ███████╗███████╗████████╗        ██████╗ ███████╗██╗   ██╗██╗ ██████╗███████╗███████╗
+██╔════╝ ██╔════╝╚══██╔══╝        ██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝██║████╗  ██║██╔════╝ ██╔════╝██╔════╝╚══██╔══╝        ██╔══██╗██╔════╝██║   ██║██║██╔════╝██╔════╝██╔════╝
+██║  ███╗█████╗     ██║           ██║ █╗ ██║██║   ██║██████╔╝█████╔╝ ██║██╔██╗ ██║██║  ███╗███████╗█████╗     ██║           ██║  ██║█████╗  ██║   ██║██║██║     █████╗  ███████╗
+██║   ██║██╔══╝     ██║           ██║███╗██║██║   ██║██╔══██╗██╔═██╗ ██║██║╚██╗██║██║   ██║╚════██║██╔══╝     ██║           ██║  ██║██╔══╝  ╚██╗ ██╔╝██║██║     ██╔══╝  ╚════██║
+╚██████╔╝███████╗   ██║           ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗██║██║ ╚████║╚██████╔╝███████║███████╗   ██║           ██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗███████║
+ ╚═════╝ ╚══════╝   ╚═╝            ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝   ╚═╝           ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝╚══════╝
+*/
+
+// GetWorkingsetDevices returns all devices in the workingset
 func (w Workingset) GetWorkingsetDevices(workingsetKey string) []string {
 	setQueryAddress := getWorkingsetDevicesLink(workingsetKey)
 	query, _ := rest.Query{}.GetQuery(setQueryAddress, false)
@@ -17,7 +28,6 @@ func (w Workingset) GetWorkingsetDevices(workingsetKey string) []string {
 				deviceList = append(deviceList, deviceID.DeviceID)
 			}
 			return deviceList
-
 		}
 		deviceList = append(deviceList, rest.ResponseNotFound)
 		return deviceList

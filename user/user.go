@@ -36,7 +36,7 @@ retry:
 	fmt.Println("********************************************************************************")
 	fmt.Println("********************************************************************************")
 
-	responseConnect := rest.Connect(username, password)
+	responseConnect, _ := rest.Connect(username, password)
 	if responseConnect {
 		entryParameter()
 	} else {

@@ -152,6 +152,8 @@ func main() {
 			fmt.Printf("\r %%%.2f ", percent)
 		}
 	}
+	log.Println("The data was processed...")
+	log.Println("Preparing Report.")
 	writefile.WriteArray(f, writeArray)
 
 }

@@ -1,6 +1,17 @@
 package rest
 
-import "net/url"
+import (
+	"net/url"
+)
+
+/*
+note : use :
+		u, _ := url.ParseRequestURI(api)
+		u.Path = l
+		urlStr := u.String() // 'https://api.com/user/'
+		https://stackoverflow.com/questions/19253469/make-a-url-encoded-post-request-using-http-newrequest
+
+*/
 
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
@@ -14,25 +25,19 @@ import "net/url"
 //It is designed in such a way that the administration is easy.
 
 const (
-	login       = "https://api.ardich.com/api/v3/login/oauth"
-	device      = "https://api.ardich.com:443/api/v3/device/"
-	locationMap = "device-location-map"
-	downloaded  = "/apps?type=downloaded"
-	modePolicy  = "/current-and-active-profile"
+	login = "https://api.ardich.com/api/v3/login/oauth"
 )
 
 const (
 	contentType   = "Content-Type"
 	authorization = "Authorization"
 
-	authorizationKey          = "Basic ZnJvbnRlbmQ6"
+	authorizationKey          = "Basic ZnJvbnRlbmQ6" // data := []byte("frontend:") 	str := base64.StdEncoding.EncodeToString(data)
 	contentTypeApplicationKey = "application/x-www-form-urlencoded"
 
-	grantType        = "grant_type="
-	passwordUsername = "password&&username="
-	passwordEntry    = "&&password="
-	refleshToken     = "refresh_token&refresh_token="
-	headerBearer     = "Bearer "
+	grantType    = "grant_type"
+	refleshToken = "refresh_token"
+	headerBearer = "Bearer "
 )
 
 func loginLink() string {
@@ -40,9 +45,16 @@ func loginLink() string {
 }
 
 func connectBodyLink(userName string, password string) string {
-	return grantType + passwordUsername + url.QueryEscape(userName) + passwordEntry + url.QueryEscape(password)
+	data := url.Values{}
+	data.Add(grantType, "password")
+	data.Add("username", userName)
+	data.Add("password", password)
+	return data.Encode()
 }
 
 func refleshTokenBodyLink() string {
-	return grantType + refleshToken + GetRefreshToken()
+	data := url.Values{}
+	data.Add(grantType, refleshToken)
+	data.Add(refleshToken, GetRefreshToken())
+	return data.Encode()
 }

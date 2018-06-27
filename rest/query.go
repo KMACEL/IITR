@@ -1,13 +1,19 @@
 package rest
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
 
 	"github.com/KMACEL/IITR/errc"
+	"github.com/KMACEL/IITR/logc"
 )
+
+/*
+Note : queryLog -> body : will be examined
+*/
 
 /*
  ██████╗ ██╗   ██╗███████╗██████╗ ██╗   ██╗
@@ -63,13 +69,18 @@ func (q Query) GetQuery(setQueryAddress string, visualFlag bool) ([]byte, error)
 		responseGet, errDo := http.DefaultClient.Do(requestGet)
 		errc.ErrorCenter(doGetTag, errDo)
 
+		responseBodyGet, errBody := ioutil.ReadAll(responseGet.Body)
+		errc.ErrorCenter(bodyGetTag, errBody)
+
+		queryLog(requestGetTag, setQueryAddress, "", nil, visualFlag, responseGet, string(responseBodyGet))
+
 		if responseGet != nil {
 			defer responseGet.Body.Close()
 
 			switch responseGet.StatusCode {
 			case ResponseOKCode, ResponseCreatedCode:
-				responseBodyGet, errBody := ioutil.ReadAll(responseGet.Body)
-				errc.ErrorCenter(bodyGetTag, errBody)
+				//responseBodyGet, errBody := ioutil.ReadAll(responseGet.Body)
+				//errc.ErrorCenter(bodyGetTag, errBody)
 
 				if visualFlag == Visible {
 					fmt.Println(string(responseBodyGet))
@@ -151,17 +162,22 @@ func (q Query) PostQuery(setQueryAddress string, setBody string, setHeader map[s
 				requestPost.Header.Set(key, value)
 			}
 		}
-
 		// Query based on given information
 		responsePost, errDo := http.DefaultClient.Do(requestPost)
 		errc.ErrorCenter(doPostTag, errDo)
 
+		responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)
+		errc.ErrorCenter(bodyPostTag, errBody)
+
+		queryLog(requestPostTag, setQueryAddress, setBody, setHeader, visualFlag, responsePost, string(responseBodyPost))
+
 		if responsePost != nil {
 			defer responsePost.Body.Close()
+
 			switch responsePost.StatusCode {
 			case ResponseCreatedCode, ResponseOKCode:
-				responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)
-				errc.ErrorCenter(bodyPostTag, errBody)
+				//responseBodyPost, errBody := ioutil.ReadAll(responsePost.Body)
+				//errc.ErrorCenter(bodyPostTag, errBody)
 
 				if visualFlag == Visible {
 					fmt.Println(string(responseBodyPost))
@@ -247,12 +263,16 @@ func (q Query) PutQuery(setQueryAddress string, setBody string, setHeader map[st
 		errc.ErrorCenter(doPutTag, errDo)
 		defer responsePut.Body.Close()
 
-		if responsePut != nil {
+		responseBodyPut, errBody := ioutil.ReadAll(responsePut.Body)
+		errc.ErrorCenter(bodyPutTag, errBody)
 
+		queryLog(requestPutTag, setQueryAddress, setBody, setHeader, visualFlag, responsePut, string(responseBodyPut))
+
+		if responsePut != nil {
 			switch responsePut.StatusCode {
 			case ResponseCreatedCode, ResponseOKCode:
-				responseBodyPut, errBody := ioutil.ReadAll(responsePut.Body)
-				errc.ErrorCenter(bodyPutTag, errBody)
+				//responseBodyPut, errBody := ioutil.ReadAll(responsePut.Body)
+				//errc.ErrorCenter(bodyPutTag, errBody)
 
 				if visualFlag == Visible {
 					fmt.Println(string(responseBodyPut))
@@ -282,4 +302,35 @@ func (q Query) PutQuery(setQueryAddress string, setBody string, setHeader map[st
 	}
 	errc.ErrorCenter(requestPutTag, ErrorResponseNilRequest)
 	return nil, ErrorResponseNilRequest
+}
+
+/*
+ ██████╗ ██╗   ██╗███████╗██████╗ ██╗   ██╗        ██╗      ██████╗  ██████╗
+██╔═══██╗██║   ██║██╔════╝██╔══██╗╚██╗ ██╔╝        ██║     ██╔═══██╗██╔════╝
+██║   ██║██║   ██║█████╗  ██████╔╝ ╚████╔╝         ██║     ██║   ██║██║  ███╗
+██║▄▄ ██║██║   ██║██╔══╝  ██╔══██╗  ╚██╔╝          ██║     ██║   ██║██║   ██║
+╚██████╔╝╚██████╔╝███████╗██║  ██║   ██║           ███████╗╚██████╔╝╚██████╔╝
+ ╚══▀▀═╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝           ╚══════╝ ╚═════╝  ╚═════╝
+*/
+// queryLog is incoming parameters and query return value to keep log of return value
+func queryLog(tag string, setQueryAddress string, setBody string, setHeader map[string]string, visualFlag bool, getResponse *http.Response, body interface{}) {
+	var queryMessage QueryMessage
+
+	request := requestParameter{SetQueryAddress: setQueryAddress, SetBody: setBody, SetHeader: setHeader, VisualFlag: visualFlag}
+
+	queryMessage.RequestParameter = request
+
+	//responseBodyPost, errBody := ioutil.ReadAll(response.Body)
+	//errc.ErrorCenter(bodyPostTag, errBody)
+
+	res := response{Status: getResponse.Status, StatusCode: getResponse.StatusCode,
+		Proto: getResponse.Proto, ProtoMajor: getResponse.ProtoMajor, ProtoMinor: getResponse.ProtoMinor,
+		Header: getResponse.Header, Body: body, ContentLength: getResponse.ContentLength,
+		TransferEncoding: getResponse.TransferEncoding, Close: getResponse.Close, Uncompressed: getResponse.Uncompressed,
+		Trailer: getResponse.Trailer}
+
+	queryMessage.ResponseMessage = res
+	logMessage, err := json.Marshal(queryMessage)
+	errc.ErrorCenter("Error Query Log", err)
+	logc.QueryPrint(tag, "Response : ", string(logMessage))
 }
