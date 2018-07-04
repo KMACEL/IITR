@@ -24,8 +24,15 @@ note : use :
 //This page is the part that shows the links that the queries will use.
 //It is designed in such a way that the administration is easy.
 
+// Const is
 const (
-	login = "https://api.ardich.com/api/v3/login/oauth"
+	APIScheme = "https"
+	APIHost   = "api.ardich.com"
+	APIPath   = "api/v3/"
+)
+
+const (
+	oauth = "login/oauth"
 )
 
 const (
@@ -41,7 +48,9 @@ const (
 )
 
 func loginLink() string {
-	return login
+	u := GetAPITemplate()
+	u.Path = u.Path + oauth
+	return u.String()
 }
 
 func connectBodyLink(userName string, password string) string {
@@ -57,4 +66,12 @@ func refleshTokenBodyLink() string {
 	data.Add(grantType, refleshToken)
 	data.Add(refleshToken, GetRefreshToken())
 	return data.Encode()
+}
+
+// GetAPITemplate is
+func GetAPITemplate() url.URL {
+	return url.URL{
+		Scheme: APIScheme,
+		Host:   APIHost,
+		Path:   APIPath}
 }

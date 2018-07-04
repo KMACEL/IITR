@@ -13,3 +13,6 @@ The program does not currently have an interface to perform all operations. But 
 > https://devzone.iot-ignite.com/
 
 > https://www.ardictech.com/
+
+### For Incomplete and Suggested;
+> mertacel@gmail.com

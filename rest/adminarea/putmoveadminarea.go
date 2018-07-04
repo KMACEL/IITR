@@ -1,11 +1,9 @@
 package adminarea
 
-// Posted by Mehmet Aksayan
-
 import (
 	"encoding/json"
-	"fmt"
 
+	"github.com/KMACEL/IITR/errc"
 	"github.com/KMACEL/IITR/rest"
 )
 
@@ -18,29 +16,25 @@ import (
 ╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝        ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝        ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 */
 
-//MoveAdminArea
-func (a AdminArea) MoveAdminArea(adr AdminAreaRequirements) string {
+// MoveAdminArea is
+func (a AdminArea) MoveAdminArea(adr QueryRequirements) string {
 	setAddress := moveAdminAreaLink()
 
-	var adminAreaBodyJSON AdminAreaBodyJSON
+	var adminAreaBodyJSON QueryBodyJSON
 
 	for _, addDevice := range adr.AddToAdminAreaDeviceCode {
 		adminAreaBodyJSON.Devices = append(adminAreaBodyJSON.Devices, CodeJSON{Code: addDevice})
 	}
-	adminAreaBodyJSON.Name = adr.AdminAreaName
+	adminAreaBodyJSON.Code = AdminArea{}.GetAdminArea(adr.AdminAreaName).Code
 
 	jsonConvert, _ := json.Marshal(adminAreaBodyJSON)
-	fmt.Println(string(jsonConvert))
-
 	setBody := string(jsonConvert)
 
-	query, _ := rest.Query{}.PutQuery(setAddress, setBody, contentTypeJSON(), true)
-	fmt.Println(string(query))
-	//	errc.ErrorCenter(removeApplicationErrorTag, removeError)
+	query, errMoveAdminArea := rest.Query{}.PutQuery(setAddress, setBody, contentTypeJSON(), rest.Invisible)
+	errc.ErrorCenter("MoveAdminArea-PutQuery", errMoveAdminArea)
 
-	/*if query != nil {
-		json.Unmarshal(query, &responseMessageCodeJSONVariable)
-		return responseMessageCodeJSONVariable.Response
-	}*/
+	if query != nil {
+		return string(query)
+	}
 	return ""
 }

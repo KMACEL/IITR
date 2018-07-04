@@ -40,7 +40,7 @@ func (m MoveArea) Start(areaName string) {
 
 	var adminAreaVar adminarea.AdminArea
 
-	var adr adminarea.AdminAreaRequirements
+	var adr adminarea.QueryRequirements
 	adr.AdminAreaName = areaName
 	adr.AddToAdminAreaDeviceCode = deviceCodeList
 
