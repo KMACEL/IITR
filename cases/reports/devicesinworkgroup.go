@@ -24,6 +24,7 @@ type DevicesInWorkGroup struct {
 	WorkgroupName string
 }
 
+// Start is
 func (d DevicesInWorkGroup) Start() {
 
 	var f *os.File

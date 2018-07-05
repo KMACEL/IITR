@@ -15,7 +15,30 @@ import "time"
 type Action struct{}
 
 var (
-	messageJSONVariable MessageJSON
+	messageJSONVariable ResponseActionMessageJSON
+)
+
+// These constants help to identify future types of action messages
+const (
+	RingStart             = "ringStart"
+	SendSensorAgent       = "sendSensorAgent"
+	RingStop              = "ringStop"
+	OpenURL               = "openUrl"
+	LockDevice            = "lockDevice"
+	WakeUpDevice          = "wakeUpDevice"
+	SwitchContainer       = "switchContainer"
+	StartApp              = "startApp"
+	RemoveModeApplication = "removeModeApplication"
+	RemoveNodeSensor      = "removeNodeSensor"
+	UnLockDevice          = "unLockDevice"
+	Wipe                  = "wipe"
+	Reboot                = "reboot"
+	TakeScreenShot        = "takeScreenShot"
+	SendMessage           = "sendMessage"
+	LogOff                = "logOff"
+	PushDROM              = "PUSH_CMD_DROM"
+	SendProductProfile    = "sendProductProfile"
+	GetCurrentStatus      = "getCurrentStatus"
 )
 
 /*
@@ -27,8 +50,8 @@ var (
 ╚════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 */
 
-//MessageJSON is
-type MessageJSON struct {
+// ResponseActionMessageJSON is the JSON template created to use the action message.
+type ResponseActionMessageJSON struct {
 	Links []struct {
 		Rel  string `json:"rel"`
 		Href string `json:"href"`

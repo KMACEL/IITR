@@ -668,7 +668,7 @@ func (d DetailAllReport2) submittedDromSize(deviceCode string, chDromSize chan i
 		if actionStatueQuery != nil {
 			if string(actionStatueQuery) != rest.ResponseNotFound {
 
-				actionMessage := action.MessageJSON{}
+				actionMessage := action.ResponseActionMessageJSON{}
 				json.Unmarshal(actionStatueQuery, &actionMessage)
 
 				for _, submittedDrom := range actionMessage.Content {

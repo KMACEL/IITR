@@ -599,11 +599,12 @@ func (d DetailReport) submittedDromSize(deviceCode string, chDromSize chan int) 
 	if deviceCode != "" {
 		var dromCounter int
 
-		actionStatueQuery := d.actions.GetActionStatus(deviceCode, "PUSH_CMD_DROM", 1000, rest.Invisible)
+		actionStatueQuery := d.actions.GetActionStatus(deviceCode, action.PushDROM, 1000, rest.Invisible)
+
 		if actionStatueQuery != nil {
 			if string(actionStatueQuery) != rest.ResponseNotFound {
 
-				actionMessage := action.MessageJSON{}
+				actionMessage := action.ResponseActionMessageJSON{}
 				json.Unmarshal(actionStatueQuery, &actionMessage)
 
 				for _, submittedDrom := range actionMessage.Content {

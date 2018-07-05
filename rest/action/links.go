@@ -1,6 +1,11 @@
 package action
 
-import "strconv"
+import (
+	"net/url"
+	"strconv"
+
+	"github.com/KMACEL/IITR/rest"
+)
 
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
@@ -14,10 +19,7 @@ import "strconv"
 //It is designed in such a way that the administration is easy.
 
 var (
-	action     = "https://api.ardich.com/api/v3/action"
-	sort       = "?sort=sentDate,desc&size="
-	deviceCode = "&deviceCode="
-	command    = "&command="
+	action = "action"
 )
 
 var (
@@ -26,6 +28,17 @@ var (
 )
 
 //GetActionStatusLink is
-func GetActionStatusLink(setDeviceCode string, setControlType string, setSize int) string {
-	return action + sort + strconv.Itoa(setSize) + deviceCode + setDeviceCode + command + setControlType
+func getActionStatusLink(setDeviceCode string, setControlType string, setSize int) string {
+	data := url.Values{}
+	data.Add("sort", "sentDate")
+	data.Add("sort", "desc")
+	data.Add("size", strconv.Itoa(setSize))
+	data.Add("deviceCode", setDeviceCode)
+	data.Add("command", setControlType)
+
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + action
+	u.RawQuery = data.Encode()
+
+	return u.String()
 }
