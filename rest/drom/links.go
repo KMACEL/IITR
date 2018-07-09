@@ -1,5 +1,9 @@
 package drom
 
+import (
+	"github.com/KMACEL/IITR/rest"
+)
+
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
 ██║     ██║████╗  ██║██║ ██╔╝██╔════╝
@@ -12,11 +16,13 @@ package drom
 //It is designed in such a way that the administration is easy.
 
 var (
-	apiV3                   = "https://api.ardich.com:443/api/v3/"
 	dromdeviceconfiguration = "dromdeviceconfiguration/"
 	push                    = "push/"
 )
 
 func sendDromLink(setDeviceID string) string {
-	return apiV3 + dromdeviceconfiguration + push + setDeviceID
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + dromdeviceconfiguration + push + setDeviceID
+
+	return u.String()
 }

@@ -15,9 +15,11 @@ func (p Profile) GetProfileList() {
 }
 
 //GetProfile is
-func (p Profile) GetProfile(setProfileName string) {
+func (p Profile) GetProfile(setProfileName string) string {
 	setQueryAddress := getProfileLink(setProfileName)
 	visualFlag := rest.Invisible
 	query, _ := queryVariable.GetQuery(setQueryAddress, visualFlag)
 	fmt.Println(string(query))
+
+	return string(query)
 }

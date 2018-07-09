@@ -2,7 +2,6 @@ package profile
 
 import (
 	"encoding/json"
-
 	"fmt"
 
 	"github.com/KMACEL/IITR/rest"
@@ -14,11 +13,9 @@ import (
 func (p Profile) PushMode(workingset string, setMode string, setPolicy string) string {
 
 	setAddress := pushProfileLink(setMode, workingset)
-	setBody := "{\"defaultPolicy\":{\"code\": \"" + setPolicy + "\"}}"
+	setBody := pushProfileBody(setPolicy)
 
-	header := make(map[string]string)
-	header["content-type"] = "application/json"
-
+	header := contentTypeJSON()
 	query, _ := queryVariable.PostQuery(setAddress, setBody, header, rest.Invisible)
 
 	if query != nil {
@@ -44,8 +41,6 @@ func (p Profile) PushModeAuto(setMode string, setPolicy string, devicesID ...str
 	for _, deviceID := range devicesID {
 		workingsets.AddDeviceWorkingSet(workingsetKey, devices.DeviceID2Code(deviceID))
 	}
-
-	fmt.Println("Workingset Device List : ", workingsets.GetWorkingsetDevices(workingsetKey))
 
 	setAddress := pushProfileLink(setMode, workingsetKey)
 

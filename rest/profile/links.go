@@ -1,5 +1,12 @@
 package profile
 
+import (
+	"encoding/json"
+	"net/url"
+
+	"github.com/KMACEL/IITR/rest"
+)
+
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
 ██║     ██║████╗  ██║██║ ██╔╝██╔════╝
@@ -12,7 +19,8 @@ package profile
 //It is designed in such a way that the administration is easy.
 
 const (
-	profile = "https://api.ardich.com/api/v3/profile/"
+	//profile = "https://api.ardich.com/api/v3/profile/"
+	profile = "profile/"
 	push    = "/push/"
 	list    = "list"
 	name    = "?name="
@@ -20,22 +28,39 @@ const (
 
 //PushProfileLink is return
 func pushProfileLink(setMode string, workingset string) string {
-	return profile + setMode + push + workingset
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + profile + setMode + push + workingset
+	return u.String()
+	//return profile + setMode + push + workingset
 }
 
 //GetProfileListLink is
 func getProfileListLink() string {
-	return profile + list
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + profile + list
+	return u.String()
+	//return profile + list
 }
 
 //GetProfileLink is
 func getProfileLink(setProfileName string) string {
-	return profile + name + setProfileName
+	data := url.Values{}
+	data.Add("name", setProfileName)
+
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + profile
+	u.RawQuery = data.Encode()
+	return u.String()
 }
 
 func pushProfileBody(setPolicy string) string {
-	return "{\"defaultPolicy\":{\"code\": \"" + setPolicy + "\"}}"
+	var pushProfile PushProfileJSON
+	pushProfile.DefaultPolicy.Code = setPolicy
+	jsonConvert, _ := json.Marshal(pushProfile)
+
+	return string(jsonConvert)
 }
+
 func contentTypeJSON() map[string]string {
 	header := make(map[string]string)
 	header["content-type"] = "application/json"

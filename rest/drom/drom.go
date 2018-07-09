@@ -1,6 +1,8 @@
 package drom
 
 import (
+	"fmt"
+
 	"github.com/KMACEL/IITR/rest"
 )
 
@@ -18,11 +20,18 @@ func (d Drom) SendDrom(visualFlag bool, setDeviceID string) string {
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
-			//json.Unmarshal(query, &responseMessageCodeJSONVariable)
-			return "OK" //responseMessageCodeJSONVariable.Response
+			if visualFlag {
+				fmt.Println("Drom SEND : OK")
+			}
+			return "OK"
+		}
+		if visualFlag {
+			fmt.Println("Drom SEND : ResponseNotFound")
 		}
 		return rest.ResponseNotFound
-
+	}
+	if visualFlag {
+		fmt.Println("Drom SEND : QUERY is NIL")
 	}
 	return rest.ResponseNil
 
