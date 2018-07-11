@@ -1,7 +1,5 @@
 package workgroup
 
-// Posted by Mehmet Akasayan
-
 import (
 	"time"
 )

@@ -16,7 +16,11 @@ import (
  ╚═════╝ ╚══════╝   ╚═╝           ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝        ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 */
 
-// GetAdminArea is
+/*
+	AdminArea{}.GetAdminArea({Your_Admin_Area_Name}).Code
+*/
+
+// GetAdminArea returns information for a given admin domain given a name.
 func (a AdminArea) GetAdminArea(adminAreaName string) ResponseGetAdminAreaJSON {
 	setAddress := getAdminAreaLink(adminAreaName)
 
@@ -48,7 +52,11 @@ func (a AdminArea) GetAdminArea(adminAreaName string) ResponseGetAdminAreaJSON {
  ╚═════╝ ╚══════╝   ╚═╝           ╚═╝  ╚═╝╚══════╝╚══════╝        ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝        ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 */
 
-// GetAllAdminArea is
+/*
+	AdminArea{}.GetAllAdminArea()
+*/
+
+// GetAllAdminArea returns information for all existing admin area.
 func (a AdminArea) GetAllAdminArea() ResponseGetAllAdminAreaJSON {
 	setAddress := getAllAdminAreaLink()
 

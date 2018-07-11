@@ -16,7 +16,17 @@ import (
  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝        ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝         ╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝        ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝        ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 */
 
-// CreateAndMoveAdminArea is
+/*
+	var adminArea adminarea.AdminArea
+	var adminAreaReq adminarea.QueryRequirements
+
+	adminAreaReq.AdminAreaName = "{Created_Admin_Area_Name}"
+	adminAreaReq.AddToAdminAreaDeviceCode = []string{"{Device_ID}"}
+
+	adminArea.CreateAndMoveAdminArea(adminAreaReq)
+*/
+
+// CreateAndMoveAdminArea is creates a new admin area and the given devices perform the assigned admin area.
 func (a AdminArea) CreateAndMoveAdminArea(adr QueryRequirements) string {
 	setAddress := moveAdminAreaLink()
 

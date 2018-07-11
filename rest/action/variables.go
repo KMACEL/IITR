@@ -14,10 +14,6 @@ import "time"
 //Action is
 type Action struct{}
 
-var (
-	messageJSONVariable ResponseActionMessageJSON
-)
-
 // These constants help to identify future types of action messages
 const (
 	RingStart             = "ringStart"

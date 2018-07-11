@@ -1,7 +1,5 @@
 package profile
 
-import "github.com/KMACEL/IITR/rest"
-
 /*
 ██╗   ██╗ █████╗ ██████╗ ██╗ █████╗ ██████╗ ██╗     ███████╗███████╗
 ██║   ██║██╔══██╗██╔══██╗██║██╔══██╗██╔══██╗██║     ██╔════╝██╔════╝
@@ -14,16 +12,19 @@ import "github.com/KMACEL/IITR/rest"
 //Profile is
 type Profile struct{}
 
-var (
-	queryVariable rest.Query
-	err           error
-	respBody      []byte
-)
+// The Profile package is used to send predefined operations to the device such as applications, configurations, constraints.
+const (
+	errPushModeQueryTAG     = "profile->profile.go::PushMode->PostQuery"
+	errPushModeUnmarshalTAG = "profile->profile.go::PushMode->Unmarshal"
 
-var (
-	profileInformationJSONVariable ProfileInformationJSON
-	modeResponseJSONVariable       ModeResponseJSON
-	profileAllListJSONVariable     ProfileAllListJSON
+	errPushModeAutoQueryTAG     = "profile->profile.go::PushModeAuto->PostQuery"
+	errPushModeAutoUnmarshalTAG = "profile->profile.go::PushModeAuto->Unmarshal"
+
+	errGetProfileListQueryTAG     = "profile->profileinformation.go::GetProfileList->GetQuery"
+	errGetProfileListUnmarshalTAG = "profile->profileinformation.go::GetProfileList->Unmarshal"
+
+	errGetProfileQueryTAG     = "profile->profileinformation.go::GetProfile->GetQuery"
+	errGetProfileUnmarshalTAG = "profile->profileinformation.go::GetProfile->Unmarshal"
 )
 
 /*
@@ -35,7 +36,7 @@ var (
 ╚════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 */
 
-//ModeResponseJSON is
+// ModeResponseJSON profile is used for query result returning data
 type ModeResponseJSON []struct {
 	DeviceID []string `json:"deviceId"`
 	Result   string   `json:"result"`
@@ -43,15 +44,15 @@ type ModeResponseJSON []struct {
 	Ok       bool     `json:"ok"`
 }
 
-// PushProfileJSON is
+// PushProfileJSON is used for the body part in the profile submission query
 type PushProfileJSON struct {
 	DefaultPolicy struct {
 		Code string `json:"code"`
 	} `json:"defaultPolicy"`
 }
 
-//ProfileInformationJSON is
-type ProfileInformationJSON []struct {
+// ResponseProfileJSONArray includes the return values when performing the profile query
+type ResponseProfileJSONArray []struct {
 	Code           string `json:"code"`
 	Name           string `json:"name"`
 	Desc           string `json:"desc"`
@@ -80,7 +81,38 @@ type ProfileInformationJSON []struct {
 	} `json:"links"`
 }
 
-type ProfileAllListJSON struct {
+// ResponseProfileJSON includes the return a values when performing the profile query
+type ResponseProfileJSON struct {
+	Code           string `json:"code"`
+	Name           string `json:"name"`
+	Desc           string `json:"desc"`
+	DefaultProfile bool   `json:"defaultProfile"`
+	DefaultPolicy  struct {
+		Code string      `json:"code"`
+		Name interface{} `json:"name"`
+	} `json:"defaultPolicy"`
+	Configurations struct {
+		EmergencySettings interface{} `json:"emergencySettings"`
+		LocationSettings  interface{} `json:"locationSettings"`
+		BatterySettings   interface{} `json:"batterySettings"`
+		DeactivatedMode   interface{} `json:"deactivatedMode"`
+		OlaSettings       interface{} `json:"olaSettings"`
+	} `json:"configurations"`
+	Scheduled                interface{} `json:"scheduled"`
+	IsSwitchable             bool        `json:"isSwitchable"`
+	IsInContainer            bool        `json:"isInContainer"`
+	SwitchPassword           string      `json:"switchPassword"`
+	IsBypassGoogleActivation bool        `json:"isBypassGoogleActivation"`
+	IsEmpoweredMode          bool        `json:"isEmpoweredMode"`
+	ActivationCode           string      `json:"activationCode"`
+	Links                    []struct {
+		Rel  string `json:"rel"`
+		Href string `json:"href"`
+	} `json:"links"`
+}
+
+// ResponseProfileListJSON gives a list of all existing profiles
+type ResponseProfileListJSON struct {
 	Code        string      `json:"code"`
 	SubCode     interface{} `json:"subCode"`
 	Status      string      `json:"status"`

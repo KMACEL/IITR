@@ -20,18 +20,23 @@ const (
 	setadminarea = "device/setadminarea"
 )
 
+// https://api.ardich.com/api/v3/device/setadminarea
 func moveAdminAreaLink() string {
 	u := rest.GetAPITemplate()
 	u.Path = u.Path + setadminarea
+
 	return u.String()
 }
 
+// https://api.ardich.com/api/v3/adminarea
 func getAllAdminAreaLink() string {
 	u := rest.GetAPITemplate()
 	u.Path = u.Path + adminarea
+
 	return u.String()
 }
 
+// https://api.ardich.com/api/v3/adminarea?name={getAdminAreaName}
 func getAdminAreaLink(getAdminAreaName string) string {
 	data := url.Values{}
 	data.Add("name", getAdminAreaName)

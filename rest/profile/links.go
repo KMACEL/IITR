@@ -2,6 +2,7 @@ package profile
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/url"
 
 	"github.com/KMACEL/IITR/rest"
@@ -19,30 +20,29 @@ import (
 //It is designed in such a way that the administration is easy.
 
 const (
-	//profile = "https://api.ardich.com/api/v3/profile/"
 	profile = "profile/"
 	push    = "/push/"
 	list    = "list"
-	name    = "?name="
 )
 
-//PushProfileLink is return
+// https://api.ardich.com/api/v3/profile/{setMode}/push/{workingset}
 func pushProfileLink(setMode string, workingset string) string {
 	u := rest.GetAPITemplate()
 	u.Path = u.Path + profile + setMode + push + workingset
+
 	return u.String()
-	//return profile + setMode + push + workingset
 }
 
-//GetProfileListLink is
+// https://api.ardich.com/api/v3/profile/list
 func getProfileListLink() string {
 	u := rest.GetAPITemplate()
 	u.Path = u.Path + profile + list
+	fmt.Println(u.String())
+
 	return u.String()
-	//return profile + list
 }
 
-//GetProfileLink is
+// https://api.ardich.com/api/v3/profile/?name={YOUR_PROFILE_NAME}}
 func getProfileLink(setProfileName string) string {
 	data := url.Values{}
 	data.Add("name", setProfileName)
@@ -50,9 +50,11 @@ func getProfileLink(setProfileName string) string {
 	u := rest.GetAPITemplate()
 	u.Path = u.Path + profile
 	u.RawQuery = data.Encode()
+
 	return u.String()
 }
 
+// {"defaultPolicy":{"code":"{setPolicy}"}}
 func pushProfileBody(setPolicy string) string {
 	var pushProfile PushProfileJSON
 	pushProfile.DefaultPolicy.Code = setPolicy

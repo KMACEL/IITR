@@ -1,7 +1,5 @@
 package workgroup
 
-// Posted by Mehmet Akasayan
-
 import "encoding/json"
 
 /*
@@ -13,7 +11,7 @@ import "encoding/json"
  ╚═════╝ ╚══════╝   ╚═╝        ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝         ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝    ╚═╝╚═════╝ ╚══════╝
 */
 
-// GetGroupDeviceIDs
+// GetGroupDeviceIDs is
 func (w WorkGroup) GetGroupDeviceIDs(query []byte) []string {
 	json.Unmarshal(query, &getGroupDevicesJSONVariable)
 	var did []string
@@ -32,6 +30,7 @@ func (w WorkGroup) GetGroupDeviceIDs(query []byte) []string {
 ╚═════╝ ╚══════╝   ╚═╝            ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝             ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝         ╚═════╝ ╚══════╝╚══════╝
 */
 
+// GetGroupDeviceOSs is
 func (w WorkGroup) GetGroupDeviceOSs(query []byte) []string {
 	json.Unmarshal(query, &getGroupDevicesJSONVariable)
 	var os []string

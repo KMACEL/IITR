@@ -20,6 +20,7 @@ var (
 	push                    = "push/"
 )
 
+// https://api.ardich.com/api/v3/dromdeviceconfiguration/push/{YOUR_DEVICE_ID}
 func sendDromLink(setDeviceID string) string {
 	u := rest.GetAPITemplate()
 	u.Path = u.Path + dromdeviceconfiguration + push + setDeviceID

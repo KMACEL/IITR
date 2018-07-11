@@ -16,7 +16,17 @@ import (
 ╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝        ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝        ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 */
 
-// MoveAdminArea is
+/*
+	var adminArea adminarea.AdminArea
+	var adminAreaReq adminarea.QueryRequirements
+
+	adminAreaReq.AdminAreaName = "{Move_Admin_Area_Name}"
+	adminAreaReq.AddToAdminAreaDeviceCode = []string{"{Device_ID}"}
+
+	adminArea.MoveAdminArea(adminAreaReq)
+*/
+
+// MoveAdminArea is performs an action to assign the specified devices to an existing admin area.
 func (a AdminArea) MoveAdminArea(adr QueryRequirements) string {
 	setAddress := moveAdminAreaLink()
 
@@ -25,6 +35,7 @@ func (a AdminArea) MoveAdminArea(adr QueryRequirements) string {
 	for _, addDevice := range adr.AddToAdminAreaDeviceCode {
 		adminAreaBodyJSON.Devices = append(adminAreaBodyJSON.Devices, CodeJSON{Code: addDevice})
 	}
+
 	adminAreaBodyJSON.Code = AdminArea{}.GetAdminArea(adr.AdminAreaName).Code
 
 	jsonConvert, _ := json.Marshal(adminAreaBodyJSON)

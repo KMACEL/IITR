@@ -1,7 +1,5 @@
 package workgroup
 
-// Posted by Mehmet Akasayan
-
 import (
 	"encoding/json"
 	"fmt"
@@ -9,9 +7,9 @@ import (
 	"github.com/KMACEL/IITR/rest"
 )
 
+// MoveWorkGroup is
 func (a WorkGroup) MoveWorkGroup(wgr WorkGroupRequirements) string {
 	setAddress := moveWorkGroupLink()
-
 	var workGroupBodyJSON WorkGroupBodyJSON
 
 	for _, addDevice := range wgr.AddToWorkGroupDeviceCode {

@@ -9,7 +9,7 @@ package adminarea
   ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚══════╝
 */
 
-// AdminArea is
+// AdminArea is used to group devices, provide control, and limit user access.
 type AdminArea struct {
 }
 
@@ -22,7 +22,7 @@ type AdminArea struct {
 ╚════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 */
 
-// QueryBodyJSON is
+// QueryBodyJSON is contains the parameters required to perform the query.
 type QueryBodyJSON struct {
 	Code    string `json:"code"`
 	Devices []struct {
@@ -31,18 +31,18 @@ type QueryBodyJSON struct {
 	Name string `json:"name"`
 }
 
-// CodeJSON is
+// CodeJSON was created to assist in passing arrays to the Devices field in QueryBodyJSON.
 type CodeJSON struct {
 	Code string `json:"code"`
 }
 
-// QueryRequirements is
+// QueryRequirements specifies the parameters that the functions receive when querying
 type QueryRequirements struct {
 	AdminAreaName            string
 	AddToAdminAreaDeviceCode []string
 }
 
-// GetAllAdminAreaJSON is
+// ResponseGetAllAdminAreaJSON query result is used to parse and use return values.
 type ResponseGetAllAdminAreaJSON []struct {
 	Code         string        `json:"code"`
 	Name         string        `json:"name"`
@@ -55,7 +55,7 @@ type ResponseGetAllAdminAreaJSON []struct {
 	} `json:"links"`
 }
 
-// GetAdminAreaJSON is
+// ResponseGetAdminAreaJSON query result is used to parse and use return values.
 type ResponseGetAdminAreaJSON struct {
 	Code         string        `json:"code"`
 	Name         string        `json:"name"`

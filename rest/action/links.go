@@ -27,7 +27,7 @@ var (
 	getActionStatusUnMarshalTag = "Action Status Unmarshal"
 )
 
-//GetActionStatusLink is
+// https://api.ardich.com/api/v3/action?command={setControlType}&deviceCode={setDeviceCode}&size={setSize}&sort=sentDate&sort=desc
 func getActionStatusLink(setDeviceCode string, setControlType string, setSize int) string {
 	data := url.Values{}
 	data.Add("sort", "sentDate")

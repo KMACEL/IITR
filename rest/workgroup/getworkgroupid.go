@@ -1,7 +1,5 @@
 package workgroup
 
-// Posted by Mehmet Akasayan
-
 import (
 	"encoding/json"
 
@@ -17,7 +15,7 @@ import (
  ╚═════╝ ╚══════╝   ╚═╝            ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝             ╚═╝╚═════╝
 */
 
-// GetGroupID
+// GetGroupID is
 func (w WorkGroup) GetGroupID(workGroupName string, visualFlag bool) string {
 	setQueryAddress := getGroupIDLink(workGroupName)
 	query, _ := rest.Query{}.GetQuery(setQueryAddress, visualFlag)

@@ -23,7 +23,7 @@ var (
 
 var (
 	workingsetJSONVariable        DWorkingsetJSON
-	workingsetDevicesJSONVariable WorkingsetDevicesJSON
+	workingsetDevicesJSONVariable WSDevicesJSON
 )
 
 var (
@@ -55,8 +55,8 @@ type DWorkingsetJSON struct {
 	CreatedDate        int64         `json:"createdDate"`
 }
 
-// WorkingsetDevicesJSON is
-type WorkingsetDevicesJSON struct {
+// WSDevicesJSON is
+type WSDevicesJSON struct {
 	Links []struct {
 		Rel  string `json:"rel"`
 		Href string `json:"href"`
