@@ -1,8 +1,23 @@
 package device
 
-//https://api.ardich.com:443/api/v3/device/fffffsdfdsfdsfdsf/control/wipe
+import (
+	"github.com/KMACEL/IITR/errc"
+	"github.com/KMACEL/IITR/rest"
+)
+
+/*
+██╗    ██╗██╗██████╗ ███████╗
+██║    ██║██║██╔══██╗██╔════╝
+██║ █╗ ██║██║██████╔╝█████╗
+██║███╗██║██║██╔═══╝ ██╔══╝
+╚███╔███╔╝██║██║     ███████╗
+ ╚══╝╚══╝ ╚═╝╚═╝     ╚══════╝
+*/
+// 	device.Device{}.Wipe(device.Device{}.DeviceID2Code("{YOUR_DEVICE_ID}"))
 
 //Wipe is
 func (d Device) Wipe(deviceCode string) {
-
+	setQueryAddress := wipeLink(deviceCode)
+	_, errWipe := q.PostQuery(setQueryAddress, "", contentTypeJSON(), rest.Invisible)
+	errc.ErrorCenter("Wipe", errWipe)
 }

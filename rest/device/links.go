@@ -21,6 +21,8 @@ const (
 	dev     = "device/"
 	control = "/control/"
 	status  = "status"
+	wipe    = "wipe"
+	label   = "/label"
 )
 
 const (
@@ -106,6 +108,13 @@ func rebootLink(setDeviceCode string) string {
 	return device + setDeviceCode + control + reboot
 }
 
+// https://api.ardich.com:443/api/v3/device/{YOUR_DEVICE_CODE}/control/wipe
+func wipeLink(setDeviceCode string) string {
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + dev + setDeviceCode + control + wipe
+	return u.String()
+}
+
 //PresenceInfoLink is return
 func presenceInfoLink(setDeviceID string) string {
 	return api + setDeviceID + deviceProfile + command + presence
@@ -182,6 +191,13 @@ func getSensorDataLink(deviceID string, nodeName string, sensorName string) stri
 
 func addIOTLabelLink() string {
 	return device + iotLabel
+}
+
+// https://api.ardich.com/api/v3/device/{YOUR_DEVICE_ID}/label
+func setLabelLink(setDeviceID string) string {
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + dev + setDeviceID + label
+	return u.String()
 }
 
 func contentTypeJSON() map[string]string {

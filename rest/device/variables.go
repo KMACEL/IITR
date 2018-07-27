@@ -631,3 +631,8 @@ type AddIOTLabelDeviceIDJSON struct {
 	NodeID   string `json:"nodeId"`
 	SensorID string `json:"sensorId"`
 }
+
+// SetLabelBodyJSON is
+type SetLabelBodyJSON struct {
+	Label string `json:"label"`
+}
