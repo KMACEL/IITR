@@ -14,6 +14,7 @@ import (
 ╚██████╔╝███████╗   ██║           ███████║███████╗██║ ╚████║███████║╚██████╔╝██║  ██║        ██████╔╝██║  ██║   ██║   ██║  ██║
  ╚═════╝ ╚══════╝   ╚═╝           ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝        ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝
 */
+
 // GetSensorData is
 func (d Device) GetSensorData(setDeviceID string, setNodeName string, setThingName string, setUnMarshal bool, visualFlag bool) []byte {
 	setQueryAddress := getSensorDataLink(setDeviceID, setNodeName, setThingName)

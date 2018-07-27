@@ -7,6 +7,7 @@ import (
 	"github.com/KMACEL/IITR/errc"
 )
 
+// AddIOTLabel is
 func (d Device) AddIOTLabel(iotLabelREQ AddIOTLabelJSON, visualFlag bool) {
 	setQueryAddress := addIOTLabelLink()
 	setBody, _ := json.Marshal(iotLabelREQ)

@@ -1,5 +1,11 @@
 package device
 
+import (
+	"net/url"
+
+	"github.com/KMACEL/IITR/rest"
+)
+
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
 ██║     ██║████╗  ██║██║ ██╔╝██╔════╝
@@ -12,6 +18,12 @@ package device
 //It is designed in such a way that the administration is easy.
 
 const (
+	dev     = "device/"
+	control = "/control/"
+	status  = "status"
+)
+
+const (
 	api                    = "https://api.ardich.com/api/v3/"
 	device                 = "https://api.ardich.com:443/api/v3/device/"
 	locationMap            = "device-location-map"
@@ -22,8 +34,6 @@ const (
 	clearAppData           = "/clearappdata"
 	startApp               = "/startapp"
 	stopApp                = "/stopapp"
-	control                = "/control/"
-	status                 = "status"
 	reboot                 = "reboot"
 	deviceProfile          = "/device-profile"
 	deviceProfileHistory   = "/device-profile-history"
@@ -46,8 +56,10 @@ const (
 	iotLabel               = "iotlabel/label/multi"
 )
 
-//LocaapitionMapLink is return
+// https://api.ardich.com:443/api/v3/device/device-location-map
 func locationMapLink() string {
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + dev
 	return device + locationMap
 }
 
@@ -138,12 +150,6 @@ func deviceCode2IDLink(setDeviceCode string) string {
 	return api + setDeviceCode + deviceProfile + command + presence
 }
 
-func contentTypeJSON() map[string]string {
-	header := make(map[string]string)
-	header["content-type"] = "application/json"
-	return header
-}
-
 func removeApplicationLink(setDeviceID string) string {
 	return device + setDeviceID + apps
 }
@@ -156,8 +162,18 @@ func presenceHistoryLink(deviceID string) string {
 	return api + deviceID + deviceProfileHistory + command + presence
 }
 
-func refreshGatewayInfoLink(deviceCode string) string {
-	return device + deviceCode + control + status
+// https://api.ardich.com/api/v3/device/5a2f475efd6a4fb7ad347131f27e94f3/control/status?command={REFRESH-TYPE}
+func refreshGatewayInfoLink(deviceCode string, specificParameter ...string) string {
+	u := rest.GetAPITemplate()
+	data := url.Values{}
+	if specificParameter != nil {
+		for _, param := range specificParameter {
+			data.Add("command", param)
+		}
+		u.RawQuery = data.Encode()
+	}
+	u.Path = u.Path + dev + deviceCode + control + status
+	return u.String()
 }
 
 func getSensorDataLink(deviceID string, nodeName string, sensorName string) string {
@@ -166,4 +182,10 @@ func getSensorDataLink(deviceID string, nodeName string, sensorName string) stri
 
 func addIOTLabelLink() string {
 	return device + iotLabel
+}
+
+func contentTypeJSON() map[string]string {
+	header := make(map[string]string)
+	header["content-type"] = "application/json"
+	return header
 }

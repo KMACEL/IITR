@@ -60,6 +60,23 @@ const (
 	summaryTag = "Summary : "
 )
 
+// This Const is
+const (
+	OSProfile             = "OSProfile"
+	BatteryInfo           = "BatteryInfo"
+	ModiverseInfo         = "ModiverseInfo"
+	NetworkInfo           = "NetworkInfo"
+	RootedInfo            = "RootedInfo"
+	ProcessInfo           = "ProcessInfo"
+	StorageInfo           = "StorageInfo"
+	UsageInfo             = "UsageInfo"
+	ApplicationInfo       = "ApplicationInfo"
+	LocationInfo          = "LocationInfo"
+	DeviceNodeInventory   = "DeviceNodeInventory"
+	DeviceFlowInventory   = "DeviceFlowInventory"
+	DeviceConfigInventory = "DeviceConfigInventory"
+)
+
 /*
      ██╗███████╗ ██████╗ ███╗   ██╗███████╗
      ██║██╔════╝██╔═══██╗████╗  ██║██╔════╝

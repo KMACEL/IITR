@@ -6,8 +6,7 @@ import (
 	"github.com/KMACEL/IITR/errc"
 )
 
-//
-
+// SetLabel is
 func (d Device) SetLabel(setDeviceID string, labelName string, visualFlag bool) string {
 	setAddress := "https://api.ardich.com/api/v3/device/" + setDeviceID + "/label"
 	var setBodyJSON SetLabelBodyJSON
@@ -24,6 +23,7 @@ func (d Device) SetLabel(setDeviceID string, labelName string, visualFlag bool) 
 	return ""
 }
 
+// SetLabelBodyJSON is
 type SetLabelBodyJSON struct {
 	Label string `json:"label"`
 }

@@ -6,11 +6,34 @@ import (
 	"github.com/KMACEL/IITR/rest"
 )
 
-//POST : https://api.ardich.com/api/v3/device/cea9bbd434b04a7db1865d210f449f0e/control/status
+/*
+██████╗ ███████╗███████╗██████╗ ███████╗███████╗██╗  ██╗         ██████╗  █████╗ ████████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗        ██╗███╗   ██╗███████╗ ██████╗
+██╔══██╗██╔════╝██╔════╝██╔══██╗██╔════╝██╔════╝██║  ██║        ██╔════╝ ██╔══██╗╚══██╔══╝██╔════╝██║    ██║██╔══██╗╚██╗ ██╔╝        ██║████╗  ██║██╔════╝██╔═══██╗
+██████╔╝█████╗  █████╗  ██████╔╝█████╗  ███████╗███████║        ██║  ███╗███████║   ██║   █████╗  ██║ █╗ ██║███████║ ╚████╔╝         ██║██╔██╗ ██║█████╗  ██║   ██║
+██╔══██╗██╔══╝  ██╔══╝  ██╔══██╗██╔══╝  ╚════██║██╔══██║        ██║   ██║██╔══██║   ██║   ██╔══╝  ██║███╗██║██╔══██║  ╚██╔╝          ██║██║╚██╗██║██╔══╝  ██║   ██║
+██║  ██║███████╗██║     ██║  ██║███████╗███████║██║  ██║        ╚██████╔╝██║  ██║   ██║   ███████╗╚███╔███╔╝██║  ██║   ██║           ██║██║ ╚████║██║     ╚██████╔╝
+╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝         ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝           ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝
+*/
 
-// RefreshGatewayInfo is
-func (d Device) RefreshGatewayInfo(deviceCode string) string {
-	setAddress := refreshGatewayInfoLink(deviceCode)
+// 	device.Device{}.RefreshGatewayInfo(device.Device{}.DeviceID2Code("00:09:4c:4f:8d:53@iotigniteagent"), device.ApplicationInfo)
+
+// RefreshGatewayInfo is contains commands that request information from the device.
+// specificParameter :
+//			OSProfile
+//			BatteryInfo
+//			ModiverseInfo
+//			NetworkInfo
+//			RootedInfo
+//			ProcessInfo
+//			StorageInfo
+//			UsageInfo
+//			ApplicationInfo
+//			LocationInfo
+//			DeviceNodeInventory
+//			DeviceFlowInventory
+//			DeviceConfigInventory
+func (d Device) RefreshGatewayInfo(deviceCode string, specificParameter ...string) string {
+	setAddress := refreshGatewayInfoLink(deviceCode, specificParameter...)
 	query, _ := q.PostQuery(setAddress, "", contentTypeJSON(), true)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
@@ -18,7 +41,6 @@ func (d Device) RefreshGatewayInfo(deviceCode string) string {
 			return responseMessageCodeJSONVariable.Response
 		}
 		return rest.ResponseNotFound
-
 	}
 	return rest.ResponseNil
 }
