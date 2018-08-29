@@ -22,10 +22,31 @@ func GetSecond() int {
 
 // GetTimeNamesFormat is
 func GetTimeNamesFormat() string {
-	return strconv.Itoa(time.Now().Day()) + "_" + strconv.Itoa(int(time.Now().Month())) + "_" + strconv.Itoa(time.Now().Year()) + "___" + strconv.Itoa(time.Now().Hour()) + "_" + strconv.Itoa(time.Now().Minute())
+	//	return strconv.Itoa(time.Now().Day()) + "_" + strconv.Itoa(int(time.Now().Month())) + "_" + strconv.Itoa(time.Now().Year()) + "___" + strconv.Itoa(time.Now().Hour()) + "_" + strconv.Itoa(time.Now().Minute())
+	month := strconv.Itoa(int(time.Now().Month()))
+	if int(time.Now().Month()) < 10 {
+		month = "0" + strconv.Itoa(int(time.Now().Month()))
+	}
+
+	day := strconv.Itoa(time.Now().Day())
+	if time.Now().Day() < 10 {
+		day = "0" + strconv.Itoa(time.Now().Day())
+	}
+
+	hour := strconv.Itoa(time.Now().Hour())
+	if time.Now().Hour() < 10 {
+		hour = "0" + strconv.Itoa(time.Now().Hour())
+	}
+
+	minute := strconv.Itoa(time.Now().Minute())
+	if time.Now().Minute() < 10 {
+		minute = "0" + strconv.Itoa(time.Now().Minute())
+	}
+
+	return strconv.Itoa(time.Now().Year()) + "-" + month + "-" + day + "_" + hour + "-" + minute
 }
 
-// GetTimeNamesFormat is
+// GetTimeNamesFormatDays is
 func GetTimeNamesFormatDays() string {
 	return strconv.Itoa(time.Now().Day()) + "_" + strconv.Itoa(int(time.Now().Month())) + "_" + strconv.Itoa(time.Now().Year())
 }

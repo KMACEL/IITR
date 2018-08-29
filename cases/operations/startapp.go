@@ -35,7 +35,7 @@ func (s StartApp) Start(devicesID ...string) {
 	if devicesID != nil {
 		for i, deviceID := range devicesID {
 			s.devices.AppSS(device.StartApp, s.devices.DeviceID2Code(deviceID), s.StartPackageName, rest.Visible)
-			fmt.Println("Device : ", deviceID, " | ", i, " - ", len(devicesID))
+			fmt.Println("Device : ", deviceID, " | ", i+1, " - ", len(devicesID))
 			if s.DelayTime != 0 {
 				time.Sleep(s.DelayTime * time.Second)
 			}
@@ -49,5 +49,5 @@ func (s StartApp) Start(devicesID ...string) {
 			s.devices.AppSS(device.StartApp, deviceCoding.DeviceCode, s.StartPackageName, rest.Visible)
 		}
 	}
-
+	fmt.Println("Success")
 }

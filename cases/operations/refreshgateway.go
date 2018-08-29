@@ -27,9 +27,13 @@ func (o RefreshGateway) Start(devicesID ...string) {
 	var (
 		devices device.Device
 	)
-	for _, deviceID := range devicesID {
+	for i, deviceID := range devicesID {
 		fmt.Println("Device : ", deviceID)
 		devices.RefreshGatewayInfo(devices.DeviceID2Code(deviceID), o.RefreshParam)
 		time.Sleep(o.DelayTime * time.Second)
+		if i%10 == 0 {
+			fmt.Println(i+1, "/", len(devicesID))
+		}
 	}
+	fmt.Println("Refresh Succes")
 }

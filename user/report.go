@@ -7,9 +7,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/KMACEL/IITR/cases/reports"
 	"github.com/KMACEL/IITR/errc"
-	"github.com/KMACEL/IITR/timop"
 )
 
 func report() {
@@ -54,7 +52,7 @@ func devicesReport() {
 	fmt.Println("Devices : ", reportDevices.Case.Devices)
 	fmt.Println("Applications : ", reportDevices.Case.Packages)
 
-	reports.DetailReportDevices{}.Start("ApplicationPackage_"+timop.GetTimeNamesFormat()+".xlsx", reportDevices.Case.Devices, reportDevices.Case.Packages)
+	//reports.DetailReportDevices{}.Start("ApplicationPackage_"+timop.GetTimeNamesFormat()+".xlsx", reportDevices.Case.Devices, reportDevices.Case.Packages)
 }
 
 func allReport() {
@@ -67,6 +65,6 @@ func allReport() {
 
 	splitString := strings.Split(applicationPackage, ",")
 	fmt.Println("Split : ", splitString)
-	reports.DetailAllReport{}.Start("ApplicationPackage_"+timop.GetTimeNamesFormat()+".xlsx", splitString)
+	//reports.DetailAllReport{}.Start("ApplicationPackage_"+timop.GetTimeNamesFormat()+".xlsx", splitString)
 
 }

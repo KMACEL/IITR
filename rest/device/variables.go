@@ -636,3 +636,22 @@ type AddIOTLabelDeviceIDJSON struct {
 type SetLabelBodyJSON struct {
 	Label string `json:"label"`
 }
+
+// ModiverseInfoJSON is
+type ModiverseInfoJSON struct {
+	DeviceID string `json:"deviceId"`
+	Command  string `json:"command"`
+	Data     struct {
+		DeviceAdmin        bool   `json:"deviceAdmin"`
+		ModeApkVersionCode string `json:"modeApkVersionCode"`
+		ModeApkVersionName string `json:"modeApkVersionName"`
+		ProfileOwner       bool   `json:"profileOwner"`
+		UsageStatsEnabled  bool   `json:"usageStatsEnabled"`
+		DeviceOwner        bool   `json:"deviceOwner"`
+		AfexMode           string `json:"afexMode"`
+	} `json:"data"`
+	CreateDate int64  `json:"createDate"`
+	NodeID     string `json:"nodeId"`
+	SensorID   string `json:"sensorId"`
+	CloudDate  int    `json:"cloudDate"`
+}

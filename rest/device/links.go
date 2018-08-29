@@ -44,6 +44,7 @@ const (
 	applicationInfo        = "ApplicationInfo"
 	osProfileInfo          = "OSProfile"
 	instantApplicationInfo = "InstantApplicationInfo"
+	modiverseInfo          = "ModiverseInfo"
 	packageName            = "{\"packageName\":\""
 	packageNameEnd         = "\"}"
 	deviceLogs             = "deviceLogs/"
@@ -133,6 +134,11 @@ func osProfileInfoLink(setDeviceID string) string {
 //instantApplicationInfoLink is return
 func instantApplicationInfoLink(setDeviceID string) string {
 	return api + setDeviceID + deviceProfile + command + instantApplicationInfo
+}
+
+//modiverseInfo is return
+func modiverseInfoLink(setDeviceID string) string {
+	return api + setDeviceID + deviceProfile + command + ModiverseInfo
 }
 
 func getLogListLink(setDeviceCode string) string {
