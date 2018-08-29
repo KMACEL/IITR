@@ -9,3 +9,6 @@ const (
 	writeByteTag  = "Write Byte : "
 	writeTextTag  = "Write Text : "
 )
+
+// SplitCharacter is
+var SplitCharacter = ","

@@ -2,6 +2,7 @@ package writefile
 
 import (
 	"os"
+	"strings"
 
 	"github.com/KMACEL/IITR/errc"
 )
@@ -94,9 +95,16 @@ func OpenFile(openedOSFile *os.File, openingFileName string) *os.File {
 // openedFile: The file to be opened.
 func WriteArray(openedFile *os.File, writeTextArray []string) {
 	for _, text := range writeTextArray {
-		if _, errWriteArray := openedFile.WriteString(text + ","); errWriteArray != nil {
-			errc.ErrorCenter(writeArrayTag, errWriteArray)
-			panic(errWriteArray)
+		if !strings.Contains(text, "\n") {
+			if _, errWriteArray := openedFile.WriteString(text + ","); errWriteArray != nil {
+				errc.ErrorCenter(writeArrayTag, errWriteArray)
+				panic(errWriteArray)
+			}
+		} else {
+			if _, errWriteArray := openedFile.WriteString(text); errWriteArray != nil {
+				errc.ErrorCenter(writeArrayTag, errWriteArray)
+				panic(errWriteArray)
+			}
 		}
 	}
 	/*defer func() {
@@ -150,7 +158,7 @@ func WriteByte(openedFile *os.File, writeTextByte []byte) {
 // writeText: a serialized variable of type string. This function can be sent as a string type by putting "," between them.
 func WriteText(openedFile *os.File, writeText ...string) {
 	for _, text := range writeText {
-		if _, errWriteText := openedFile.WriteString(text + ","); errWriteText != nil {
+		if _, errWriteText := openedFile.WriteString(text + SplitCharacter); errWriteText != nil {
 			errc.ErrorCenter(writeTextTag, errWriteText)
 			panic(errWriteText)
 		}
