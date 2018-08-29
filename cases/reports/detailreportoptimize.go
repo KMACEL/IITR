@@ -3,6 +3,7 @@ package reports
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -24,20 +25,24 @@ import (
 ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝        ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 */
 
-//DetailAllReport2 is
-type DetailAllReport2 struct {
-	writeCsvArray []string
-	devices       device.Device
-	actions       action.Action
+//DetailAllReportReal is
+type DetailAllReportReal struct {
+	writeCsvArray    []string
+	devices          device.Device
+	actions          action.Action
+	detailReportFile *os.File
+	FileName         string
+	DeviceList       []string
+	Unit             int
 }
 
-// todo generic hazır olunca sil
-
 //Start is DetailAllReport. These Cases were created to get detailed reports
-func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
+func (d DetailAllReportReal) Start(setControlPackage ...string) {
 	// It performs the writing process in one step, not in every step of the way. The goal is to increase
 	// the speed and reduce the memory footprint. It is also used to write multiple files at the same time
-	//d.writeCsvArray = make([]string, 0)
+	writefile.CreateFile(d.FileName)
+	d.detailReportFile = writefile.OpenFile(d.detailReportFile, d.FileName)
+	writefile.SplitCharacter = ";"
 
 	// His section allows you to write them in the title if the number of applications to be checked is reached.
 	// The reason for the substitution assignment is that it will be used later when writing csv
@@ -56,7 +61,8 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 
 	strings.Trim(packageHeader, " ")
 	// The title of the csv file to be made
-	d.writeCsvArray = append(d.writeCsvArray, ",,Observed Applications", "\n")
+	//d.writeCsvArray = append(d.writeCsvArray, ",,Observed Applications", "\n")
+	writefile.WriteText(d.detailReportFile, ",,Observed Applications")
 
 	// Device ID: It shows the number of the device from which we received the report. This number should be unique.
 	// packageHeader: This indicates the name of the application on which we have checked the status on the device.
@@ -69,261 +75,313 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 	// Last Online Time: Gives us the time that was last online.
 	// Read Time: The time of receiving information varies according to computer, inernet, cloud speed and is getting longer. This is why it is important when the device is read.
 	// Working Group: Any workgroup should be aware of this.
-	d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
+	//d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
+	writefile.WriteText(d.detailReportFile, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "Modiverse Version", "OS Version", "Report Time")
+	//todo başlık ekle
 
-	// For device information query
-	query := d.devices.LocationMap(rest.NOMarshal, rest.Invisible)
-	if query != nil {
-		if string(query) != rest.ResponseNotFound {
+	var deviceList []string
+	location := make(map[string]map[string]string)
+	//TODO AÇIKLAMA EKLE
+	if d.DeviceList == nil {
+		query := d.devices.LocationMap(rest.NOMarshal, rest.Invisible)
+		if query != nil {
+			if string(query) != rest.ResponseNotFound {
+				// This assignment is aimed at resetting the variable
+				deviceCode := device.LocationJSON{}
+				json.Unmarshal(query, &deviceCode)
 
-			// This assignment is aimed at resetting the variable
-			deviceCode := device.LocationJSON{}
-			json.Unmarshal(query, &deviceCode)
+				for _, getDeviceID := range deviceCode.Extras {
+					deviceList = append(deviceList, getDeviceID.DeviceID)
 
-			for i, deviceCoding := range deviceCode.Extras {
-				if deviceCoding.DeviceID != "" {
-
-					var (
-						applicationsStatus string
-						presence           string
-						lastOnlineTime     string
-						profile            string
-						policy             string
-						dromSize           int
-						workingGroup       string
-						modiverseVersion   string
-						osDisplay          string
-						reportTime         string
-						profileCurrent     string
-						policyCurrent      string
-						adminArea          string
-					)
-
-					// GoRoutine Message Channel
-					// chApplicationsStatus: The channel in the string type that gives application information.
-					// chPresence: Online - The channel in the string type that provides offline information.
-					// chLastOnlineTime: The channel in the string type that gives the time to be last online.
-					// chProfile: The channel in string type that gives active mode information.
-					// chPolicy: The channel in string type that provides active policy information.
-					// chDromSize is the integer type channel that reports the number of droms
-					// chWorkingGroup: The channel in the string type that reports the group.
-
-					chApplicationsStatus := make(chan string)
-					chPresence := make(chan string)
-					chLastOnlineTime := make(chan string)
-					chProfile := make(chan string)
-					chPolicy := make(chan string)
-					chProfileCurrent := make(chan string)
-					chPolicyCurrent := make(chan string)
-					chDromSize := make(chan int)
-					chWorkingGroup := make(chan string)
-					chModiverseVersion := make(chan string)
-					chOSDisplay := make(chan string)
-					chReportTime := make(chan string)
-					chAdminArea := make(chan string)
-
-					// Start GoRutines.
-					// applicationStatus: Returns the application status and block status of applications that are initially given a package name.
-					// presenceStatus: The status of the device is online - offline. If offline, it will tell you when it was last online.
-					// profilePolicy: Provides the mode and policy information of the device.
-					// submittedDromSize: How many DROMs are sent to the device.
-					// workingGroup: Tells us if there is a group on the device.
-					go d.applicationStatus(deviceCoding.DeviceID, setControlPackage, chApplicationsStatus)
-					go d.presenceStatus(deviceCoding.DeviceID, chPresence, chLastOnlineTime)
-					go d.profilePolicy(deviceCoding.DeviceID, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent)
-					go d.submittedDromSize(deviceCoding.DeviceCode, chDromSize)
-					go d.workingGroup(deviceCoding.DeviceID, chWorkingGroup)
-					go d.deviceInformation(deviceCoding.DeviceID, chModiverseVersion, chOSDisplay, chReportTime, chAdminArea)
-
-					// This section writes the messages from the channels in the go routines to the variables.
-					for getItemApplicationsStatus, status := <-chApplicationsStatus; status; getItemApplicationsStatus, status = <-chApplicationsStatus {
-						applicationsStatus = getItemApplicationsStatus
-						if status {
-							break
-						}
-					}
-
-					for getItemPresence, status := <-chPresence; status; getItemPresence, status = <-chPresence {
-						presence = getItemPresence
-						if status {
-							break
-						}
-					}
-
-					for getItemLastOnlineTime, status := <-chLastOnlineTime; status; getItemLastOnlineTime, status = <-chLastOnlineTime {
-						lastOnlineTime = getItemLastOnlineTime
-						if status {
-							break
-						}
-					}
-
-					for getItemProfile, status := <-chProfile; status; getItemProfile, status = <-chProfile {
-						profile = getItemProfile
-						if status {
-							break
-						}
-					}
-
-					for getItemPolicy, status := <-chPolicy; status; getItemPolicy, status = <-chPolicy {
-						policy = getItemPolicy
-						if status {
-							break
-						}
-					}
-
-					for getItemProfileCurrent, status := <-chProfileCurrent; status; getItemProfileCurrent, status = <-chProfileCurrent {
-						profileCurrent = getItemProfileCurrent
-						if status {
-							break
-						}
-					}
-
-					for getItemPolicyCurrent, status := <-chPolicyCurrent; status; getItemPolicyCurrent, status = <-chPolicyCurrent {
-						policyCurrent = getItemPolicyCurrent
-						if status {
-							break
-						}
-					}
-
-					for getItemDromSize, status := <-chDromSize; status; getItemDromSize, status = <-chDromSize {
-						dromSize = getItemDromSize
-						if status {
-							break
-						}
-					}
-
-					for getItemWorkingGroup, status := <-chWorkingGroup; status; getItemWorkingGroup, status = <-chWorkingGroup {
-						workingGroup = getItemWorkingGroup
-						if status {
-							break
-						}
-					}
-
-					for getItemModiverseVersion, status := <-chModiverseVersion; status; getItemModiverseVersion, status = <-chModiverseVersion {
-						modiverseVersion = getItemModiverseVersion
-						if status {
-							break
-						}
-					}
-
-					for getItemOSDisplay, status := <-chOSDisplay; status; getItemOSDisplay, status = <-chOSDisplay {
-						osDisplay = getItemOSDisplay
-						if status {
-							break
-						}
-					}
-
-					for getItemReportTime, status := <-chReportTime; status; getItemReportTime, status = <-chReportTime {
-						reportTime = getItemReportTime
-						if status {
-							break
-						}
-					}
-
-					for getItemAdminArea, status := <-chAdminArea; status; getItemAdminArea, status = <-chAdminArea {
-						adminArea = getItemAdminArea
-						if status {
-							break
-						}
-					}
-
-					//This place is bigger. Control of messages from the channels is done here. If the channel has not yet received data, it will look at it again.
-					//control:
-					switch {
-					// Here, array is written. After all the data is complete, the array is saved. Then '\ n' is passed to the next batch.
-					//				This process is processed for all devices. The tabloda order to be created is as follows.
-					//deviceCoding.DevicesID: Get the ID of this device.
-					// applicationsStatus: This will retrieve the application information as previously set.
-					// strConv.Itoa (dromSize): Changes the number of drom numbers to string type and returns the information inside.
-					// Presence: brings the device 's online - offline information.
-					// profile: gets active mode information.
-					// policy: retrieves active policy information.
-					// deviceCoding.Latitude: Get position information in latitude type.
-					// deviceCoding.Longitude: Get position information in longitude type.
-					// lastOnlineTime, time.Now (). String (): Writes the time the data is read. The longer the process, the longer it is given.
-					// 				In some cases momentary time is very important. This gives the time of the recorded data.
-					// workingGroup: The devices give us information in any group.
-					case applicationsStatus == "":
-						logc.ReportPrint("Application Status Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case presence == "":
-						logc.ReportPrint("Presence Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case lastOnlineTime == "":
-						logc.ReportPrint("Last Online Time Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case profile == "":
-						logc.ReportPrint("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case policy == "":
-						logc.ReportPrint("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case profileCurrent == "":
-						logc.ReportPrint("Profile Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case policyCurrent == "":
-						logc.ReportPrint("Policy Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case workingGroup == "":
-						logc.ReportPrint("WorkingGroup Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case modiverseVersion == "":
-						logc.ReportPrint("ModiverseVersion Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case osDisplay == "":
-						logc.ReportPrint("OsDisplay Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case reportTime == "":
-						logc.ReportPrint("ReportTime Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					case adminArea == "":
-						logc.ReportPrint("ReportTime Get Nil Passing Device : ", deviceCoding.DeviceID)
-						continue
-					default:
-						d.writeCsvArray = append(d.writeCsvArray,
-							deviceCoding.DeviceID,
-							applicationsStatus,
-							strconv.Itoa(dromSize),
-							presence,
-							profile,
-							policy,
-							profileCurrent,
-							policyCurrent,
-							deviceCoding.Latitude,
-							deviceCoding.Longitude,
-							lastOnlineTime,
-							time.Now().String(),
-							workingGroup,
-							modiverseVersion,
-							osDisplay,
-							reportTime,
-							"\n")
-					}
-
-					// The display shows the sequence and the duration of the operation. Every 100 devices will give us information.
-					if len(deviceCode.Extras) > 100 {
-						if i%100 == 0 {
-							logc.ReportPrint(i, "/", len(deviceCode.Extras))
-							fmt.Println(i, "/", len(deviceCode.Extras))
-						}
-					} else if len(deviceCode.Extras) > 10 {
-						if i%10 == 0 {
-							logc.ReportPrint(i, "/", len(deviceCode.Extras))
-							fmt.Println(i, "/", len(deviceCode.Extras))
-						}
+					location[getDeviceID.DeviceID] = map[string]string{
+						"Latitude":  getDeviceID.Latitude,
+						"Longitude": getDeviceID.Longitude}
+				}
+				if d.Unit == 0 {
+					if len(deviceCode.Extras) > 10 {
+						d.Unit = 10
+					} else {
+						d.Unit = 1
 					}
 				}
 			}
-		}
+		} //TODO DURUM KONTROL EKLE
 	} else {
-		logc.ReportPrint("Querry Error ...")
+		//TODO AÇIKLAMA EKLE
+		deviceList = append(deviceList, d.DeviceList...)
+		for _, getDeviceID := range d.DeviceList {
+			latitude, longitude := d.devices.LocationDevice(getDeviceID)
+
+			location[getDeviceID] = map[string]string{
+				"Latitude":  latitude,
+				"Longitude": longitude}
+		}
+		if d.Unit == 0 {
+			if len(deviceList) > 10 {
+				d.Unit = 10
+			} else {
+				d.Unit = 1
+			}
+		}
+	}
+
+	var unit = d.Unit
+
+	for i := 1; i < len(deviceList)+1; i++ {
+		if i%unit == 0 {
+			fmt.Println("Begin : ", i-unit, " End : ", i)
+			go d.controlReport(setControlPackage, packageHeader, location, deviceList[i-unit:i]...)
+		}
+		if i%unit == 0 && i+unit > len(deviceList) {
+			go d.controlReport(setControlPackage, packageHeader, location, deviceList[i:]...)
+			fmt.Println("Begin : ", i, " End : ", len(deviceList))
+		}
+	}
+}
+
+func (d DetailAllReportReal) controlReport(packageList []string, packageHeader string, location map[string]map[string]string, deviceList ...string) {
+	fmt.Println(deviceList)
+	for i, deviceID := range deviceList {
+		if deviceID != "" {
+
+			var (
+				applicationsStatus string
+				presence           string
+				lastOnlineTime     string
+				profile            string
+				policy             string
+				dromSize           int
+				workingGroup       string
+				modiverseVersion   string
+				osDisplay          string
+				reportTime         string
+				profileCurrent     string
+				policyCurrent      string
+				adminArea          string
+			)
+
+			// GoRoutine Message Channel
+			// chApplicationsStatus: The channel in the string type that gives application information.
+			// chPresence: Online - The channel in the string type that provides offline information.
+			// chLastOnlineTime: The channel in the string type that gives the time to be last online.
+			// chProfile: The channel in string type that gives active mode information.
+			// chPolicy: The channel in string type that provides active policy information.
+			// chDromSize is the integer type channel that reports the number of droms
+			// chWorkingGroup: The channel in the string type that reports the group.
+
+			chApplicationsStatus := make(chan string)
+			chPresence := make(chan string)
+			chLastOnlineTime := make(chan string)
+			chProfile := make(chan string)
+			chPolicy := make(chan string)
+			chProfileCurrent := make(chan string)
+			chPolicyCurrent := make(chan string)
+			chDromSize := make(chan int)
+			chWorkingGroup := make(chan string)
+			chModiverseVersion := make(chan string)
+			chOSDisplay := make(chan string)
+			chReportTime := make(chan string)
+			chAdminArea := make(chan string)
+
+			// Start GoRutines.
+			// applicationStatus: Returns the application status and block status of applications that are initially given a package name.
+			// presenceStatus: The status of the device is online - offline. If offline, it will tell you when it was last online.
+			// profilePolicy: Provides the mode and policy information of the device.
+			// submittedDromSize: How many DROMs are sent to the device.
+			// workingGroup: Tells us if there is a group on the device.
+			go d.applicationStatus(deviceID, packageList, chApplicationsStatus)
+			go d.presenceStatus(deviceID, chPresence, chLastOnlineTime)
+			go d.profilePolicy(deviceID, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent)
+			go d.submittedDromSize(deviceID, chDromSize)
+			go d.workingGroup(deviceID, chWorkingGroup)
+			go d.deviceInformation(deviceID, chModiverseVersion, chOSDisplay, chReportTime, chAdminArea)
+
+			// This section writes the messages from the channels in the go routines to the variables.
+			for getItemApplicationsStatus, status := <-chApplicationsStatus; status; getItemApplicationsStatus, status = <-chApplicationsStatus {
+				applicationsStatus = getItemApplicationsStatus
+				if status {
+					break
+				}
+			}
+
+			for getItemPresence, status := <-chPresence; status; getItemPresence, status = <-chPresence {
+				presence = getItemPresence
+				if status {
+					break
+				}
+			}
+
+			for getItemLastOnlineTime, status := <-chLastOnlineTime; status; getItemLastOnlineTime, status = <-chLastOnlineTime {
+				lastOnlineTime = getItemLastOnlineTime
+				if status {
+					break
+				}
+			}
+
+			for getItemProfile, status := <-chProfile; status; getItemProfile, status = <-chProfile {
+				profile = getItemProfile
+				if status {
+					break
+				}
+			}
+
+			for getItemPolicy, status := <-chPolicy; status; getItemPolicy, status = <-chPolicy {
+				policy = getItemPolicy
+				if status {
+					break
+				}
+			}
+
+			for getItemProfileCurrent, status := <-chProfileCurrent; status; getItemProfileCurrent, status = <-chProfileCurrent {
+				profileCurrent = getItemProfileCurrent
+				if status {
+					break
+				}
+			}
+
+			for getItemPolicyCurrent, status := <-chPolicyCurrent; status; getItemPolicyCurrent, status = <-chPolicyCurrent {
+				policyCurrent = getItemPolicyCurrent
+				if status {
+					break
+				}
+			}
+
+			for getItemDromSize, status := <-chDromSize; status; getItemDromSize, status = <-chDromSize {
+				dromSize = getItemDromSize
+				if status {
+					break
+				}
+			}
+
+			for getItemWorkingGroup, status := <-chWorkingGroup; status; getItemWorkingGroup, status = <-chWorkingGroup {
+				workingGroup = getItemWorkingGroup
+				if status {
+					break
+				}
+			}
+
+			for getItemModiverseVersion, status := <-chModiverseVersion; status; getItemModiverseVersion, status = <-chModiverseVersion {
+				modiverseVersion = getItemModiverseVersion
+				if status {
+					break
+				}
+			}
+
+			for getItemOSDisplay, status := <-chOSDisplay; status; getItemOSDisplay, status = <-chOSDisplay {
+				osDisplay = getItemOSDisplay
+				if status {
+					break
+				}
+			}
+
+			for getItemReportTime, status := <-chReportTime; status; getItemReportTime, status = <-chReportTime {
+				reportTime = getItemReportTime
+				if status {
+					break
+				}
+			}
+
+			for getItemAdminArea, status := <-chAdminArea; status; getItemAdminArea, status = <-chAdminArea {
+				adminArea = getItemAdminArea
+				if status {
+					break
+				}
+			}
+
+			//This place is bigger. Control of messages from the channels is done here. If the channel has not yet received data, it will look at it again.
+			//control:
+			switch {
+			// Here, array is written. After all the data is complete, the array is saved. Then '\ n' is passed to the next batch.
+			//				This process is processed for all devices. The tabloda order to be created is as follows.
+			//deviceCoding.DevicesID: Get the ID of this device.
+			// applicationsStatus: This will retrieve the application information as previously set.
+			// strConv.Itoa (dromSize): Changes the number of drom numbers to string type and returns the information inside.
+			// Presence: brings the device 's online - offline information.
+			// profile: gets active mode information.
+			// policy: retrieves active policy information.
+			// deviceCoding.Latitude: Get position information in latitude type.
+			// deviceCoding.Longitude: Get position information in longitude type.
+			// lastOnlineTime, time.Now (). String (): Writes the time the data is read. The longer the process, the longer it is given.
+			// 				In some cases momentary time is very important. This gives the time of the recorded data.
+			// workingGroup: The devices give us information in any group.
+			case applicationsStatus == "":
+				logc.ReportPrint("Application Status Get Nil Passing Device : ", deviceID)
+				continue
+			case presence == "":
+				logc.ReportPrint("Presence Get Nil Passing Device : ", deviceID)
+				continue
+			case lastOnlineTime == "":
+				logc.ReportPrint("Last Online Time Get Nil Passing Device : ", deviceID)
+				continue
+			case profile == "":
+				logc.ReportPrint("Profile Get Nil Passing Device : ", deviceID)
+				continue
+			case policy == "":
+				logc.ReportPrint("Policy Get Nil Passing Device : ", deviceID)
+				continue
+			case profileCurrent == "":
+				logc.ReportPrint("Profile Get Nil Passing Device : ", deviceID)
+				continue
+			case policyCurrent == "":
+				logc.ReportPrint("Policy Get Nil Passing Device : ", deviceID)
+				continue
+			case workingGroup == "":
+				logc.ReportPrint("WorkingGroup Get Nil Passing Device : ", deviceID)
+				continue
+			case modiverseVersion == "":
+				logc.ReportPrint("ModiverseVersion Get Nil Passing Device : ", deviceID)
+				continue
+			case osDisplay == "":
+				logc.ReportPrint("OsDisplay Get Nil Passing Device : ", deviceID)
+				continue
+			case reportTime == "":
+				logc.ReportPrint("ReportTime Get Nil Passing Device : ", deviceID)
+				continue
+			case adminArea == "":
+				logc.ReportPrint("ReportTime Get Nil Passing Device : ", deviceID)
+				continue
+			default:
+				d.writeCsvArray = append(d.writeCsvArray,
+					deviceID,
+					applicationsStatus,
+					strconv.Itoa(dromSize),
+					presence,
+					profile,
+					policy,
+					profileCurrent,
+					policyCurrent,
+					location[deviceID]["Latitude"],
+					location[deviceID]["Longitude"],
+					lastOnlineTime,
+					time.Now().String(),
+					workingGroup,
+					modiverseVersion,
+					osDisplay,
+					reportTime+
+						"\n")
+			}
+
+			// The display shows the sequence and the duration of the operation. Every 100 devices will give us information.
+			deviceListLen := len(deviceList)
+			if deviceListLen > 100 {
+				if i%100 == 0 {
+					fmt.Println(i, "/", deviceListLen)
+				}
+			} else if deviceListLen > 10 {
+				if i%10 == 0 {
+					fmt.Println(i, "/", deviceListLen)
+				}
+			} else if deviceListLen <= 10 {
+				fmt.Println(i+1, "/", deviceListLen)
+			}
+		}
 	}
 
 	//The data sent to the array sends the necessary information to the function that performs the write operation.
 	//There is something that needs attention. All the data are collected and then sent for registration.
 	//This is set in this way to gain speed. If you do not want to risk it, check out the other functions in the 'writefile' library.
-	d.writeCSVType(fileName, d.writeCsvArray, packageHeader)
-	logc.ReportPrint("Finish Read ...")
+	d.writeCSVType(d.writeCsvArray, packageHeader)
+	log.Println("Finish Read ...")
 }
 
 /*
@@ -339,7 +397,7 @@ func (d DetailAllReport2) Start(fileName string, setControlPackage ...string) {
 // deviceID: The number of the device to be controlled. String type. one is sent. So you can only look at one device at a time. The entire query is carried out using this ID number.
 // setControlPackage: Contains packages to be checked. The String is of type Array. It checks all the packets if they are entered.
 // chApplicationsStatus: Go creates a message channel for the routine
-func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage []string, chApplicationsStatus chan string) string {
+func (d DetailAllReportReal) applicationStatus(deviceID string, setControlPackage []string, chApplicationsStatus chan string) string {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceID != "" {
@@ -493,7 +551,7 @@ func (d DetailAllReport2) applicationStatus(deviceID string, setControlPackage [
 ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝ ╚═════╝╚══════╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 */
 
-func (d DetailAllReport2) presenceStatus(deviceCode string, chPresence, chLastOnlineTime chan string) (string, string) {
+func (d DetailAllReportReal) presenceStatus(deviceCode string, chPresence, chLastOnlineTime chan string) (string, string) {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceCode != "" {
@@ -550,7 +608,7 @@ func (d DetailAllReport2) presenceStatus(deviceCode string, chPresence, chLastOn
 ██║     ██║  ██║╚██████╔╝██║     ██║███████╗███████╗    ██║     ╚██████╔╝███████╗██║╚██████╗   ██║
 ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝   ╚═╝
 */
-func (d DetailAllReport2) profilePolicy(deviceID string, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent chan string) (string, string) {
+func (d DetailAllReportReal) profilePolicy(deviceID string, chProfile, chPolicy, chProfileCurrent, chPolicyCurrent chan string) (string, string) {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceID != "" {
@@ -658,7 +716,7 @@ func (d DetailAllReport2) profilePolicy(deviceID string, chProfile, chPolicy, ch
 ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═════╝     ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝    ╚══════╝╚═╝╚══════╝╚══════╝
 */
 
-func (d DetailAllReport2) submittedDromSize(deviceCode string, chDromSize chan int) int {
+func (d DetailAllReportReal) submittedDromSize(deviceCode string, chDromSize chan int) int {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceCode != "" {
@@ -699,7 +757,7 @@ func (d DetailAllReport2) submittedDromSize(deviceCode string, chDromSize chan i
 ██████╔╝███████╗ ╚████╔╝ ██║╚██████╗███████╗        ██║██║ ╚████║██║     ╚██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
 ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝        ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 */
-func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion chan string, chOSDisplay chan string, chReportTime chan string, chAdminArea chan string) (string, string, string, string) {
+func (d DetailAllReportReal) deviceInformation(deviceID string, chModiverseVersion chan string, chOSDisplay chan string, chReportTime chan string, chAdminArea chan string) (string, string, string, string) {
 	var (
 		devices          device.Device
 		osDisplay        string
@@ -781,7 +839,7 @@ func (d DetailAllReport2) deviceInformation(deviceID string, chModiverseVersion 
  ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝
 */
 
-func (d DetailAllReport2) workingGroup(deviceID string, chWorkingGroup chan string) string {
+func (d DetailAllReportReal) workingGroup(deviceID string, chWorkingGroup chan string) string {
 	// This section specifies the space - fill state of the values that come into the function.
 	// If this information is empty, the util performed in the function will fail.
 	if deviceID != "" {
@@ -792,6 +850,7 @@ func (d DetailAllReport2) workingGroup(deviceID string, chWorkingGroup chan stri
 			workingGroup = rest.ResponseNil
 		}
 		workingGroup = strings.Replace(workingGroup, ",", ":", -1)
+		workingGroup = strings.Replace(workingGroup, ";", ":", -1)
 
 		chWorkingGroup <- workingGroup
 		close(chWorkingGroup)
@@ -811,11 +870,9 @@ func (d DetailAllReport2) workingGroup(deviceID string, chWorkingGroup chan stri
  ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝     ╚═════╝╚══════╝  ╚═══╝         ╚═╝      ╚═╝   ╚═╝     ╚══════╝
 */
 
-func (d DetailAllReport2) writeCSVType(fileName string, writeCSVArray []string, setControlPackage string) {
-	var detailReportFile *os.File
+func (d DetailAllReportReal) writeCSVType(writeCSVArray []string, setControlPackage string) {
 
-	writefile.CreateFile(fileName)
-	detailReportFile = writefile.OpenFile(detailReportFile, fileName)
-	writefile.WriteArray(detailReportFile, writeCSVArray)
+	d.detailReportFile = writefile.OpenFile(d.detailReportFile, d.FileName)
+	writefile.WriteArray(d.detailReportFile, writeCSVArray)
 	logc.ReportPrint("Finish Write : ", setControlPackage)
 }
