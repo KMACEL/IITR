@@ -16,6 +16,13 @@ import (
 ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝         ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝
 */
 
+/*
+For use Example:
+	var ref operations.RefreshGateway
+	ref.RefreshParam = device.OSProfile
+	ref.Start("123456", "123746")
+*/
+
 //RefreshGateway is
 type RefreshGateway struct {
 	DelayTime    time.Duration

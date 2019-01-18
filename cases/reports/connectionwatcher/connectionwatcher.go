@@ -129,9 +129,9 @@ func main() {
 			if m["W"] != nil {
 				counterSplit := strings.Split(m["W"][0], " ")
 				if len(counterSplit) != 0 {
-					long, _ := strconv.ParseFloat(counterSplit[0], 64)
-					long = long / 600000
-					writeArray = append(writeArray, strconv.FormatFloat(long, 'E', -1, 64))
+					lat, _ := strconv.ParseFloat(counterSplit[0], 64)
+					lat = lat / 600000
+					writeArray = append(writeArray, strconv.FormatFloat(lat, 'E', -1, 64))
 				}
 			} else {
 				writeArray = append(writeArray, " ")

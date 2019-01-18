@@ -21,6 +21,11 @@ import (
 ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝        ╚═╝  ╚═╝╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝
 */
 
+/*
+For use Example:
+	reports.DeviceAdmin{}.Start()
+*/
+
 // DeviceAdmin is
 type DeviceAdmin struct{}
 

@@ -25,6 +25,14 @@ import (
 ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝        ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 */
 
+/*
+For use Example:
+	var detail reports.DetailAllReportReal
+	detail.FileName = "DetailReport_" + timop.GetTimeNamesFormat() + ".csv"
+	detail.DeviceList = []string{"0000", "1111", "2222"}
+	detail.Start("package_name_1", "package_name_2")
+*/
+
 //DetailAllReportReal is
 type DetailAllReportReal struct {
 	writeCsvArray    []string
@@ -126,20 +134,23 @@ func (d DetailAllReportReal) Start(setControlPackage ...string) {
 	}
 
 	var unit = d.Unit
+	var threadValue = 0
 
 	for i := 1; i < len(deviceList)+1; i++ {
 		if i%unit == 0 {
 			fmt.Println("Begin : ", i-unit, " End : ", i)
-			go d.controlReport(setControlPackage, packageHeader, location, deviceList[i-unit:i]...)
+			threadValue++
+			go d.controlReport(setControlPackage, packageHeader, location, threadValue, deviceList[i-unit:i]...)
 		}
 		if i%unit == 0 && i+unit > len(deviceList) {
-			go d.controlReport(setControlPackage, packageHeader, location, deviceList[i:]...)
+			threadValue++
+			go d.controlReport(setControlPackage, packageHeader, location, threadValue, deviceList[i:]...)
 			fmt.Println("Begin : ", i, " End : ", len(deviceList))
 		}
 	}
 }
 
-func (d DetailAllReportReal) controlReport(packageList []string, packageHeader string, location map[string]map[string]string, deviceList ...string) {
+func (d DetailAllReportReal) controlReport(packageList []string, packageHeader string, location map[string]map[string]string, threadValue int, deviceList ...string) {
 	fmt.Println(deviceList)
 	for i, deviceID := range deviceList {
 		if deviceID != "" {
@@ -365,14 +376,14 @@ func (d DetailAllReportReal) controlReport(packageList []string, packageHeader s
 			deviceListLen := len(deviceList)
 			if deviceListLen > 100 {
 				if i%100 == 0 {
-					fmt.Println(i, "/", deviceListLen)
+					fmt.Println(threadValue, " : ", i, "/", deviceListLen)
 				}
 			} else if deviceListLen > 10 {
 				if i%10 == 0 {
-					fmt.Println(i, "/", deviceListLen)
+					fmt.Println(threadValue, " : ", i, "/", deviceListLen)
 				}
 			} else if deviceListLen <= 10 {
-				fmt.Println(i+1, "/", deviceListLen)
+				fmt.Println(threadValue, " : ", i+1, "/", deviceListLen)
 			}
 		}
 	}

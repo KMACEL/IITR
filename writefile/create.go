@@ -2,7 +2,6 @@ package writefile
 
 import (
 	"os"
-	"strings"
 
 	"github.com/KMACEL/IITR/errc"
 )
@@ -95,17 +94,17 @@ func OpenFile(openedOSFile *os.File, openingFileName string) *os.File {
 // openedFile: The file to be opened.
 func WriteArray(openedFile *os.File, writeTextArray []string) {
 	for _, text := range writeTextArray {
-		if !strings.Contains(text, "\n") {
-			if _, errWriteArray := openedFile.WriteString(text + ","); errWriteArray != nil {
-				errc.ErrorCenter(writeArrayTag, errWriteArray)
-				panic(errWriteArray)
-			}
-		} else {
+		//if !strings.Contains(text, "\n") {
+		if _, errWriteArray := openedFile.WriteString(text + ","); errWriteArray != nil {
+			errc.ErrorCenter(writeArrayTag, errWriteArray)
+			panic(errWriteArray)
+		}
+		/*} else {
 			if _, errWriteArray := openedFile.WriteString(text); errWriteArray != nil {
 				errc.ErrorCenter(writeArrayTag, errWriteArray)
 				panic(errWriteArray)
 			}
-		}
+		}*/
 	}
 	/*defer func() {
 		if _, errWriteArray := openedFile.WriteString("\n"); errWriteArray != nil {

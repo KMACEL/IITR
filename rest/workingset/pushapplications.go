@@ -18,8 +18,8 @@ import (
 ██║     ╚██████╔╝███████║██║  ██║            ██║  ██║██║     ██║     ███████╗██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║
 ╚═╝      ╚═════╝ ╚══════╝╚═╝  ╚═╝            ╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 */
-// Example :
-//     workingset.Workingset{}.PushApplications("DD76AFEA-E0A3-4B61-97CA-509B66A884E1", false, "867377020740787","867377020747089")
+// For use Example :
+//     workingset.Workingset{}.PushApplications("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", false, "1234","1234")
 
 // PushApplications is
 func (w Workingset) PushApplications(applicationCode string, notifyUser bool, deviceID ...string) bool {
