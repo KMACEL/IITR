@@ -8,20 +8,6 @@ import (
 )
 
 /*
-██████╗ ██████╗  ██████╗ ███╗   ███╗
-██╔══██╗██╔══██╗██╔═══██╗████╗ ████║
-██║  ██║██████╔╝██║   ██║██╔████╔██║
-██║  ██║██╔══██╗██║   ██║██║╚██╔╝██║
-██████╔╝██║  ██║╚██████╔╝██║ ╚═╝ ██║
-╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝
-*/
-
-// Drom is a method for remotely licensing a device.
-// The important thing to note here is that the device
-// must have a drom-recording. Otherwise, no licensing will be done.
-type Drom struct{}
-
-/*
 ███████╗███████╗███╗   ██╗██████╗         ██████╗ ██████╗  ██████╗ ███╗   ███╗
 ██╔════╝██╔════╝████╗  ██║██╔══██╗        ██╔══██╗██╔══██╗██╔═══██╗████╗ ████║
 ███████╗█████╗  ██╔██╗ ██║██║  ██║        ██║  ██║██████╔╝██║   ██║██╔████╔██║
@@ -36,14 +22,12 @@ drom.Drom{}.SendDrom(true, "{YOUR_DEVICE_ID}")
 
 // SendDrom carries out the transmission of the drom configuration to
 // which it was previously registered to a device with the Device ID.
-func (d Drom) SendDrom(visualFlag bool, setDeviceID string) string {
+func (d Drom) SendDrom(setDeviceID string, visualFlag bool) string {
 
 	setAddress := sendDromLink(setDeviceID)
-	header := make(map[string]string)
-	header["content-type"] = "application/json"
 
 	var queryVariable rest.Query
-	query, errQuery := queryVariable.PostQuery(setAddress, "", header, visualFlag)
+	query, errQuery := queryVariable.PostQuery(setAddress, "", contentTypeJSON(), visualFlag)
 	errc.ErrorCenter("SendDrom-PostQuery", errQuery)
 
 	if query != nil {
