@@ -38,7 +38,7 @@ func (d DromTest) Start(deviceID string) {
 }
 
 func (d DromTest) sendDrom(deviceID string) {
-	d.dromes.SendDrom(rest.Invisible, deviceID)
+	d.dromes.SendDrom(deviceID, rest.Invisible)
 }
 
 func (d DromTest) reboot(deviceID string) {
