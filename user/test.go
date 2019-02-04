@@ -127,7 +127,7 @@ func startTestCase(testCases string) {
 				*/
 				if casesSplit[0] == "drom" {
 					for _, dromDevices := range changeTestCase.Devices {
-						drom.Drom{}.SendDrom(rest.Invisible, dromDevices)
+						drom.Drom{}.SendDrom(dromDevices, rest.Invisible)
 						log.Println("Send Drom : ", dromDevices)
 					}
 				}
