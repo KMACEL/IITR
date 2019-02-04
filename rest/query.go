@@ -305,6 +305,97 @@ func (q Query) PutQuery(setQueryAddress string, setBody string, setHeader map[st
 }
 
 /*
+███████╗██████╗ ██████╗  ██████╗ ██████╗          ██████╗ ██╗   ██╗███████╗██████╗ ██╗   ██╗
+██╔════╝██╔══██╗██╔══██╗██╔═══██╗██╔══██╗        ██╔═══██╗██║   ██║██╔════╝██╔══██╗╚██╗ ██╔╝
+█████╗  ██████╔╝██████╔╝██║   ██║██████╔╝        ██║   ██║██║   ██║█████╗  ██████╔╝ ╚████╔╝
+██╔══╝  ██╔══██╗██╔══██╗██║   ██║██╔══██╗        ██║▄▄ ██║██║   ██║██╔══╝  ██╔══██╗  ╚██╔╝
+███████╗██║  ██║██║  ██║╚██████╔╝██║  ██║        ╚██████╔╝╚██████╔╝███████╗██║  ██║   ██║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝         ╚══▀▀═╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝
+*/
+
+// DeleteQuery is used to perform an event. For example turning off the device, running the application etc. .
+// You need to be careful when using this query.
+// Because it can make changes for many devices in the wrong steps.
+// You need to send the parameters correctly. Otherwise, unwanted situations may occur.
+// First test it on a test device in your hand.
+// This query takes 4 parameters.
+//    1: "setQueryAdress":
+//           This query will show the address to be made.
+//    2: "setBody":
+//           This will show the parameters to be added to the body part of the address to be sent.
+//    3: "setHeader":
+//           Shows the portion of the address to be sent. The example access token is sent in this way.
+//    4: "vasualFlag":
+//           The task is visual. If it is not 0, the value is only processed and not shown to the user.
+//           But if it is 1, the incoming message is seen by the first user and then processed.
+func (q Query) DeleteQuery(setQueryAddress string, setBody string, setHeader map[string]string, visualFlag bool) ([]byte, error) {
+	var (
+		requestDelete *http.Request
+		errDelete     error
+	)
+
+	if setBody == "" {
+		requestDelete, errDelete = http.NewRequest(DELETE, setQueryAddress, nil)
+		errc.ErrorCenter(requestDeleteTag, errDelete)
+	} else {
+		body := strings.NewReader(setBody)
+		requestDelete, errDelete = http.NewRequest(DELETE, setQueryAddress, body)
+		errc.ErrorCenter(requestDeleteTag, errDelete)
+	}
+
+	if requestDelete != nil {
+
+		requestDelete.Header.Set(authorization, headerBearer+GetAccessToken())
+
+		if setHeader != nil {
+			for key, value := range setHeader {
+				requestDelete.Header.Set(key, value)
+			}
+		}
+
+		responseDelete, errDo := http.DefaultClient.Do(requestDelete)
+		errc.ErrorCenter(doDeleteTag, errDo)
+		defer responseDelete.Body.Close()
+
+		responseBodyDelete, errBody := ioutil.ReadAll(responseDelete.Body)
+		errc.ErrorCenter(bodyDeleteTag, errBody)
+
+		queryLog(requestDeleteTag, setQueryAddress, setBody, setHeader, visualFlag, responseDelete, string(responseBodyDelete))
+
+		if responseDelete != nil {
+			switch responseDelete.StatusCode {
+			case ResponseCreatedCode, ResponseOKCode:
+				if visualFlag == Visible {
+					fmt.Println(string(responseBodyDelete))
+				}
+				return responseBodyDelete, nil
+
+			case ResponseBadRequestCode:
+				return nil, ErrorResponseBadRequestCode400
+			case ResponseUnauthorizedCode:
+				return nil, ErrorResponseUnauthorizedCode401
+
+			case ResponseForbiddenCode:
+				return nil, ErrorResponseForbiddenCode403
+
+			case ResponseNotFoundCode:
+				return nil, ErrorNotFound404
+
+			case ResponseServerProblemCode:
+				return nil, ErrorServerProblemCode500
+
+			default:
+				return nil, ErrorElseProblem
+			}
+		}
+		errc.ErrorCenter(requestDeleteTag, ErrorResponseNil)
+		return nil, ErrorResponseNil
+	}
+	errc.ErrorCenter(requestDeleteTag, ErrorResponseNilRequest)
+	return nil, ErrorResponseNilRequest
+}
+
+/*
  ██████╗ ██╗   ██╗███████╗██████╗ ██╗   ██╗        ██╗      ██████╗  ██████╗
 ██╔═══██╗██║   ██║██╔════╝██╔══██╗╚██╗ ██╔╝        ██║     ██╔═══██╗██╔════╝
 ██║   ██║██║   ██║█████╗  ██████╔╝ ╚████╔╝         ██║     ██║   ██║██║  ███╗

@@ -65,9 +65,10 @@ var (
 
 // Query Type
 const (
-	POST = "POST"
-	GET  = "GET"
-	PUT  = "PUT"
+	POST   = "POST"
+	GET    = "GET"
+	PUT    = "PUT"
+	DELETE = "DELETE"
 )
 
 // These constants are used throughout the program. They have functions such as displaying yawning values.
@@ -111,6 +112,10 @@ const (
 	requestPutTag = "Request Put : "
 	doPutTag      = "Do Put : "
 	bodyPutTag    = "Body Put : "
+
+	requestDeleteTag = "Request Delete : "
+	doDeleteTag      = "Do Delete : "
+	bodyDeleteTag    = "Body Delete : "
 )
 
 // Rest -> Login TAG Constant
