@@ -84,6 +84,11 @@ cd drom
 go fmt .
 go build .
 cd ..
+echo "=======> rest ======> license"
+cd license
+go fmt .
+go build .
+cd ..
 echo "=======> rest ======> profile"
 cd profile
 go fmt .
