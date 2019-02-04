@@ -29,11 +29,11 @@ func (d Device) SetLabel(setDeviceID string, labelName string, visualFlag bool) 
 	if query != nil {
 		json.Unmarshal(query, &responseMessageCodeJSONVariable)
 		if visualFlag {
-			return "Device ID : " + setDeviceID + " Label Name : " + labelName + "Status : " + responseMessageCodeJSONVariable.Response
+			return "Device ID : " + setDeviceID + " Label Name : " + labelName + " Status : " + responseMessageCodeJSONVariable.Response
 		}
 	} else {
 		if visualFlag {
-			return "Device ID : " + setDeviceID + " Label Name : " + labelName + "Status : False"
+			return "Device ID : " + setDeviceID + " Label Name : " + labelName + " Status : False"
 		}
 	}
 	return ""
