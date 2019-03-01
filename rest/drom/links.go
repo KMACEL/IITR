@@ -23,6 +23,7 @@ var (
 	delete                  = "delete/"
 	list                    = "list"
 	add                     = "add"
+	dromconfiguration       = "dromconfiguration/"
 )
 
 // https://api.ardich.com/api/v3/dromdeviceconfiguration/push/{YOUR_DEVICE_ID}
@@ -44,7 +45,7 @@ func deleteDromLink(setDeviceID string) string {
 // https://api.ardich.com:443/api/v3/dromconfiguration/list
 func configurationListLink() string {
 	u := rest.GetAPITemplate()
-	u.Path = u.Path + dromdeviceconfiguration + list
+	u.Path = u.Path + dromconfiguration + list
 
 	return u.String()
 }
