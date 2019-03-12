@@ -137,3 +137,63 @@ type ResponseProfileListJSON struct {
 	Ok   bool `json:"ok"`
 	Sent bool `json:"sent"`
 }
+
+// ResponseGetProfileInPolicyListJSON is
+type ResponseGetProfileInPolicyListJSON []struct {
+	Code          string `json:"code"`
+	Type          string `json:"type"`
+	Desc          string `json:"desc"`
+	PolicyProfile struct {
+		Name      string        `json:"name"`
+		Bookmarks []interface{} `json:"bookmarks"`
+		Settings  []struct {
+			Name  string `json:"name"`
+			Value string `json:"value"`
+		} `json:"settings"`
+		ApplicationPolicies []struct {
+			PackageName        string        `json:"packageName"`
+			PackageBlocked     bool          `json:"packageBlocked"`
+			NetworkBlocked     bool          `json:"networkBlocked"`
+			ForceStopBlocked   bool          `json:"forceStopBlocked"`
+			UninstallBlocked   bool          `json:"uninstallBlocked"`
+			ClearDataBlocked   bool          `json:"clearDataBlocked"`
+			BlockedPermissions []interface{} `json:"blockedPermissions"`
+			RunBlocked         bool          `json:"runBlocked"`
+			KillBlocked        bool          `json:"killBlocked"`
+		} `json:"applicationPolicies"`
+		ApplicationBlackPermissions []interface{} `json:"applicationBlackPermissions"`
+		InstallationPolicies        struct {
+			BlackList []interface{} `json:"blackList"`
+			WhiteList []struct {
+				PackageName string      `json:"packageName"`
+				Signature   interface{} `json:"signature"`
+			} `json:"whiteList"`
+			TrustedStores []interface{} `json:"trustedStores"`
+			RuleOrders    []interface{} `json:"ruleOrders"`
+		} `json:"installationPolicies"`
+		WifiApnPolicies struct {
+			BlackList          []interface{} `json:"blackList"`
+			WhiteList          []interface{} `json:"whiteList"`
+			UnconfigurableList []interface{} `json:"unconfigurableList"`
+			RuleOrders         []interface{} `json:"ruleOrders"`
+		} `json:"wifiApnPolicies"`
+		ApplicationShortcuts []interface{} `json:"applicationShortcuts"`
+		Wificonfigs          []interface{} `json:"wificonfigs"`
+		MobileApnConfigs     []interface{} `json:"mobileApnConfigs"`
+		HotspotConfig        struct {
+			Ssid     string `json:"ssid"`
+			Password string `json:"password"`
+			Security string `json:"security"`
+		} `json:"hotspotConfig"`
+		EcrSettings    interface{} `json:"ecrSettings"`
+		PasswordPolicy interface{} `json:"passwordPolicy"`
+	} `json:"policyProfile"`
+	Defaults    bool        `json:"defaults"`
+	CreatedDate int64       `json:"createdDate"`
+	StartDate   interface{} `json:"startDate"`
+	EndDate     interface{} `json:"endDate"`
+	Links       []struct {
+		Rel  string `json:"rel"`
+		Href string `json:"href"`
+	} `json:"links"`
+}

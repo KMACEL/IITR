@@ -20,9 +20,10 @@ import (
 //It is designed in such a way that the administration is easy.
 
 const (
-	profile = "profile/"
-	push    = "/push/"
-	list    = "list"
+	profile  = "profile/"
+	push     = "/push/"
+	list     = "list"
+	policies = "/policies"
 )
 
 // https://api.ardich.com/api/v3/profile/{setMode}/push/{workingset}
@@ -50,6 +51,15 @@ func getProfileLink(setProfileName string) string {
 	u := rest.GetAPITemplate()
 	u.Path = u.Path + profile
 	u.RawQuery = data.Encode()
+
+	return u.String()
+}
+
+// https://api.ardich.com/api/v3/profile/{PROFILE_CODE}/policies
+func getProfileInPolicyListLink(profileCode string) string {
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + profile + profileCode + policies
+	fmt.Println(u.String())
 
 	return u.String()
 }

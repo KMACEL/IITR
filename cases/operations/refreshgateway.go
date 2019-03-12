@@ -30,17 +30,17 @@ type RefreshGateway struct {
 }
 
 //Start is
-func (o RefreshGateway) Start(devicesID ...string) {
+func (r RefreshGateway) Start(devicesID ...string) {
 	var (
 		devices device.Device
 	)
 	for i, deviceID := range devicesID {
 		fmt.Println("Device : ", deviceID)
-		devices.RefreshGatewayInfo(devices.DeviceID2Code(deviceID), o.RefreshParam)
-		time.Sleep(o.DelayTime * time.Second)
+		devices.RefreshGatewayInfo(devices.DeviceID2Code(deviceID), r.RefreshParam)
+		time.Sleep(r.DelayTime * time.Second)
 		if i%10 == 0 {
 			fmt.Println(i+1, "/", len(devicesID))
 		}
 	}
-	fmt.Println("Refresh Succes")
+	fmt.Println("Refresh Succes : ", r.RefreshParam)
 }

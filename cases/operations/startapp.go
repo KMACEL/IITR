@@ -18,7 +18,7 @@ import (
 ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝           ╚═╝  ╚═╝╚═╝     ╚═╝
 */
 // For use Example:
-//     var startApp util.StartApp
+//     var startApp operations.StartApp
 //     startApp.StartPackageName="com.estoty.game2048"
 //     startApp.Start("867377020740787")
 
