@@ -5,7 +5,6 @@ import (
 
 	"github.com/KMACEL/IITR/errc"
 	"github.com/KMACEL/IITR/rest"
-	"github.com/KMACEL/IITR/rest/device"
 	"github.com/KMACEL/IITR/rest/workingset"
 )
 
@@ -63,15 +62,11 @@ func (p Profile) PushMode(workingset string, setMode string, setPolicy string) s
 func (p Profile) PushModeAuto(setMode string, setPolicy string, devicesID ...string) string {
 	var (
 		workingsets              workingset.Workingset
-		devices                  device.Device
 		modeResponseJSONVariable ModeResponseJSON
 	)
 
 	workingsetKey := workingsets.CreateWorkingset()
-
-	for _, deviceID := range devicesID {
-		workingsets.AddDeviceWorkingSet(workingsetKey, devices.DeviceID2Code(deviceID))
-	}
+	workingsets.AddDeviceWorkingSet(workingsetKey, devicesID...)
 
 	setAddress := pushProfileLink(setMode, workingsetKey)
 

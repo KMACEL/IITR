@@ -1,6 +1,9 @@
 package workingset
 
-import "strconv"
+import (
+	"encoding/json"
+	"strconv"
+)
 
 /*
 ██╗     ██╗███╗   ██╗██╗  ██╗███████╗
@@ -63,8 +66,16 @@ func sendRichMessage(workingsetKey string) string {
 	return workingset + workingsetKey + controlAd
 }
 
+// {"message": "string", "time": "string", "timeType": "string", "type": "string"}
 func sendRichMessageBody(message string, messageType string, timeType string, time int64) string {
-	return `{"message":"` + message + `","type":"` + messageType + `","timeType":"` + timeType + `","time":` + strconv.FormatInt(time, 10) + `}`
+	var sendRichMessageBodyJSONVar sendRichMessageBodyJSON
+	sendRichMessageBodyJSONVar.Message = message
+	sendRichMessageBodyJSONVar.Type = messageType
+	sendRichMessageBodyJSONVar.TimeType = timeType
+	sendRichMessageBodyJSONVar.Time = strconv.FormatInt(time, 10)
+	jsonConvert, _ := json.Marshal(sendRichMessageBodyJSONVar)
+
+	return string(jsonConvert)
 }
 
 func contentTypeJSON() map[string]string {

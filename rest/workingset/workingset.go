@@ -18,17 +18,13 @@ import (
 //CreateWorkingset is
 func (w Workingset) CreateWorkingset() string {
 	setAddress := createWorkingsetLink()
-	header := make(map[string]string)
-	header["content-type"] = "application/json"
-
-	query, _ := queryVariable.PostQuery(setAddress, "", header, rest.Invisible)
+	query, _ := queryVariable.PostQuery(setAddress, "", contentTypeJSON(), rest.Invisible)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
 			json.Unmarshal(query, &workingsetJSONVariable)
 			return workingsetJSONVariable.Code
 		}
 		return rest.ResponseNotFound
-
 	}
 	return rest.ResponseNil
 }
@@ -45,17 +41,11 @@ func (w Workingset) CreateWorkingset() string {
 //AddDeviceWorkingSet is
 func (w Workingset) AddDeviceWorkingSet(workingsetKey string, deviceCode ...string) string {
 	setAdres := addDeviceWorkingSetLink(workingsetKey)
+	var addDeviceWorkingSetBodyVar addDeviceWorkingSetBody
+	addDeviceWorkingSetBodyVar.DeviceList = deviceCode
+	setBody, _ := json.Marshal(addDeviceWorkingSetBodyVar.DeviceList)
 
-	var deviceList string
-	for i, code := range deviceCode {
-		if i < len(deviceCode)-1 {
-			deviceList = ",\"" + code + "\"" + deviceList
-		} else {
-			deviceList = "\"" + code + "\"" + deviceList
-		}
-	}
-	setBody := "[" + deviceList + "]"
-	query, _ := queryVariable.PutQuery(setAdres, setBody, contentTypeJSON(), rest.Invisible)
+	query, _ := queryVariable.PutQuery(setAdres, string(setBody), contentTypeJSON(), rest.Invisible)
 
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {

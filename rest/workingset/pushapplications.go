@@ -26,10 +26,7 @@ func (w Workingset) PushApplications(applicationCode string, notifyUser bool, de
 	var workingsetVariables Workingset
 
 	workingsetKey := workingsetVariables.CreateWorkingset()
-
-	for _, devices := range deviceID {
-		workingsetVariables.AddDeviceWorkingSet(workingsetKey, device.Device{}.DeviceID2Code(devices))
-	}
+	workingsetVariables.AddDeviceWorkingSet(workingsetKey, deviceID...)
 	// todo workingsete array olarak ver
 	fmt.Println("Workingset Device List : ", w.GetWorkingsetDevices(workingsetKey))
 
@@ -68,15 +65,15 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, notify
 
 	workingsetKey := workingsetVariables.CreateWorkingset()
 
-	for _, devices := range deviceID {
-		workingsetVariables.AddDeviceWorkingSet(workingsetKey, device.Device{}.DeviceID2Code(devices))
-	}
-	// todo workingsete array olarak ver
+	workingsetVariables.AddDeviceWorkingSet(workingsetKey, deviceID...)
+
 	fmt.Println("Workingset Device List : ", w.GetWorkingsetDevices(workingsetKey))
 
 	setQueryAddress := pushApplicationsExternalLink(workingsetKey)
 
 	// todo json olarak veriyi al
+	//var pushExternalApplicationBodyJSONVar PushExternalApplicationBodyJSON
+
 	body := `{
 	  "deviceIds"	:[],
 	"expireDate":	0,

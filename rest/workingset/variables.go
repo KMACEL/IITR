@@ -158,3 +158,25 @@ type responsePushApplicationJSON struct {
 	Response string        `json:"response"`
 	Links    []interface{} `json:"links"`
 }
+
+type addDeviceWorkingSetBody struct {
+	DeviceList []string
+}
+
+type sendRichMessageBodyJSON struct {
+	Message  string `json:"message"`
+	Time     string `json:"time"`
+	TimeType string `json:"timeType"`
+	Type     string `json:"type"`
+}
+
+type pushExternalApplicationBodyJSON struct {
+	DeviceIds   []string `json:"deviceIds"`
+	ExpireDate  int      `json:"expireDate"`
+	FileName    string   `json:"fileName"`
+	NotifyUser  bool     `json:"notifyUser"`
+	PackageName string   `json:"packageName"`
+	Token       string   `json:"token"`
+	URL         string   `json:"url"`
+	VersionCode string   `json:"versionCode"`
+}

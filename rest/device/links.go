@@ -18,11 +18,12 @@ import (
 //It is designed in such a way that the administration is easy.
 
 const (
-	dev     = "device/"
-	control = "/control/"
-	status  = "status"
-	wipe    = "wipe"
-	label   = "/label"
+	dev            = "device/"
+	control        = "/control/"
+	status         = "status"
+	wipe           = "wipe"
+	label          = "/label"
+	takescreenshot = "take-screenshot"
 )
 
 const (
