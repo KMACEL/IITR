@@ -19,19 +19,18 @@ import (
 ╚═╝      ╚═════╝ ╚══════╝╚═╝  ╚═╝            ╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 */
 // For use Example :
-//     workingset.Workingset{}.PushApplications("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA", false, "1234","1234")
+//     workingset.Workingset{}.PushApplications([]string{"AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA","BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB"}, false, "1234","1234")
 
 // PushApplications is
-func (w Workingset) PushApplications(applicationCode string, notifyUser bool, deviceID ...string) bool {
+func (w Workingset) PushApplications(applicationCode []string, notifyUser bool, deviceID ...string) bool {
 	var workingsetVariables Workingset
 
 	workingsetKey := workingsetVariables.CreateWorkingset()
 	workingsetVariables.AddDeviceWorkingSet(workingsetKey, deviceID...)
-	// todo workingsete array olarak ver
 	fmt.Println("Workingset Device List : ", w.GetWorkingsetDevices(workingsetKey))
 
 	setQueryAddress := pushApplicationsLink(workingsetKey)
-	body := pushApplicationsBody(applicationCode, notifyUser)
+	body := pushApplicationsBody(notifyUser, applicationCode...)
 
 	query, err := queryVariable.PostQuery(setQueryAddress, body, contentTypeJSON(), true)
 	errc.ErrorCenter("Push Application :", err)
@@ -74,6 +73,7 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, notify
 	// todo json olarak veriyi al
 	//var pushExternalApplicationBodyJSONVar PushExternalApplicationBodyJSON
 
+	// KÖTÜ KOD : TEST EDİLECEK, STRUCT OLARAK ALINACAK, STRİNG DEĞİL
 	body := `{
 	  "deviceIds"	:[],
 	"expireDate":	0,

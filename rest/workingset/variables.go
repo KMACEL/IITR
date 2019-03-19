@@ -180,3 +180,14 @@ type pushExternalApplicationBodyJSON struct {
 	URL         string   `json:"url"`
 	VersionCode string   `json:"versionCode"`
 }
+
+type pushApplicationsBodyJSON struct {
+	Apps []struct {
+		Code string `json:"code"`
+	} `json:"apps"`
+	NotifyUser bool `json:"notifyUser"`
+}
+
+type apps struct {
+	Code string `json:"code"`
+}

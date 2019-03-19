@@ -42,8 +42,17 @@ func pushApplicationsLink(workingsetKey string) string {
 	return workingset + workingsetKey + application + applicationInstall
 }
 
-func pushApplicationsBody(applicationCode string, notifyUser bool) string {
-	return `{"apps": [{"code": "` + applicationCode + `"}],"notifyUser":` + strconv.FormatBool(notifyUser) + `}`
+// {"apps":[{"code":"XXXX-YYYY"},{"code":"ZZZZ-TTTT"}],"notifyUser":TRUE/FALSE}
+func pushApplicationsBody(notifyUser bool, applicationCode ...string) string {
+	var pushApplicationsBodyJSONVar pushApplicationsBodyJSON
+	pushApplicationsBodyJSONVar.NotifyUser = notifyUser
+
+	for _, appCode := range applicationCode {
+		pushApplicationsBodyJSONVar.Apps = append(pushApplicationsBodyJSONVar.Apps, apps{Code: appCode})
+	}
+	jsonConvert, _ := json.Marshal(pushApplicationsBodyJSONVar)
+
+	return string(jsonConvert)
 }
 
 func pushApplicationsExternalLink(workingsetKey string) string {
@@ -54,8 +63,16 @@ func uninstallInstallApplicationLink(workingsetKey string) string {
 	return workingset + workingsetKey + application + applicationReistall
 }
 
-func pushApplicationsExternalBody(applicationCode string, notifyUser bool) string {
-	return `{"apps": [{"code": "` + applicationCode + `"}],"notifyUser":` + strconv.FormatBool(notifyUser) + `}`
+func pushApplicationsExternalBody(notifyUser bool, applicationCode ...string) string {
+	var pushApplicationsBodyJSONVar pushApplicationsBodyJSON
+	pushApplicationsBodyJSONVar.NotifyUser = notifyUser
+
+	for _, appCode := range applicationCode {
+		pushApplicationsBodyJSONVar.Apps = append(pushApplicationsBodyJSONVar.Apps, apps{Code: appCode})
+	}
+	jsonConvert, _ := json.Marshal(pushApplicationsBodyJSONVar)
+
+	return string(jsonConvert)
 }
 
 func getWorkingsetDevicesLink(workingsetKey string) string {

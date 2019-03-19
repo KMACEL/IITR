@@ -12,7 +12,6 @@ import (
 	"github.com/KMACEL/IITR/databasecenter"
 	"github.com/KMACEL/IITR/rest"
 	"github.com/KMACEL/IITR/rest/device"
-	"github.com/KMACEL/IITR/rest/workingset"
 	"github.com/KMACEL/IITR/writefile"
 )
 
@@ -254,7 +253,7 @@ func (o OtaOp) pushApplicationOperation(db *sql.DB, ota OtaDeviceArray) {
 // to the device with the properties reported in the beginning
 // if the application has no application and the corresponding field in the database is "0".
 func (o OtaOp) pushApplication(db *sql.DB, otaDevice string) {
-	var (
+	/*var (
 		workingsets workingset.Workingset
 	)
 
@@ -262,7 +261,7 @@ func (o OtaOp) pushApplication(db *sql.DB, otaDevice string) {
 		o.dataBase.Update(db, o.tableName, pushApplication, "1", imei, otaDevice)
 		o.dataBase.Update(db, o.tableName, pushTime, time.Now().String(), imei, otaDevice)
 		fmt.Println("Updating...")
-	}
+	}*/
 }
 
 // The controlPushApplication function checks if the "pushApplication" value is 1, that is,
