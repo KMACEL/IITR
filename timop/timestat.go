@@ -51,6 +51,11 @@ func GetTimeNamesFormatDays() string {
 	return strconv.Itoa(time.Now().Day()) + "_" + strconv.Itoa(int(time.Now().Month())) + "_" + strconv.Itoa(time.Now().Year())
 }
 
+//GetTimeNamesFormatDaysTYPE2 is
+func GetTimeNamesFormatDaysTYPE2() string {
+	return time.Now().Format("2006_01_02")
+}
+
 //CreateEpochTime is
 func CreateEpochTime(year int, month int, day int, hour int, minute int, second int, miliSecond int, timeZone int) int64 {
 	var (

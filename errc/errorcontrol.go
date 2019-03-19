@@ -29,7 +29,7 @@ func errorFile(args ...interface{}) {
 		os.MkdirAll("./errc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("errc/errorLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("errc/errorLogFile_"+timop.GetTimeNamesFormatDaysTYPE2()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("Error IITR - Error File : Error opening file: %v", err)
 	}

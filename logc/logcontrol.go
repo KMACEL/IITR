@@ -13,7 +13,7 @@ func QueryPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/queryLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/queryLogFile_"+timop.GetTimeNamesFormatDaysTYPE2()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -29,7 +29,7 @@ func ConnectionPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/connectionLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/connectionLogFile_"+timop.GetTimeNamesFormatDaysTYPE2()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -45,7 +45,7 @@ func OperationPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/_"+timop.GetTimeNamesFormatDays()+"operationLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/_"+timop.GetTimeNamesFormatDaysTYPE2()+"operationLogFile.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -61,7 +61,7 @@ func ReportPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/reportLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/reportLogFile_"+timop.GetTimeNamesFormatDaysTYPE2()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -77,7 +77,7 @@ func TestPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/testLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/testLogFile_"+timop.GetTimeNamesFormatDaysTYPE2()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -94,7 +94,7 @@ func GlobalPrint(args ...interface{}) {
 		os.MkdirAll("./logc", os.ModePerm)
 	}
 
-	f, err := os.OpenFile("logc/globalLogFile_"+timop.GetTimeNamesFormatDays()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile("logc/globalLogFile_"+timop.GetTimeNamesFormatDaysTYPE2()+".txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
