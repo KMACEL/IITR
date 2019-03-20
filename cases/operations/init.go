@@ -42,6 +42,7 @@ const (
 	caseLabel        = "label"
 	caseDeleteDrom   = "deletedrom"
 	caseClearLicense = "clearlicense"
+	caseAddDrom      = "caseadddrom"
 )
 
 func init() {
@@ -51,7 +52,8 @@ func init() {
 	_case := flag.String("case", "", "Operations Case Type : \n\t"+
 		caseLabel+"        : this case updates the label of the device. DeviceID to be selected for use DeviceID, Label <newline>\n\t"+
 		caseClearLicense+" : this case deletes the license defined on the device. File content to be selected for use: DeviceID <newline>\n\t"+
-		caseDeleteDrom+"   : this case deletes the drom defined on the device. File content to be selected for use: DeviceID <newline>\n\t")
+		caseDeleteDrom+"   : this case deletes the drom defined on the device. File content to be selected for use: DeviceID <newline>\n\t"+
+		caseAddDrom+"  	   : this case add the drom defined on the device. File content to be selected for use: ConfigurationnName <newline> DeviceID <newline>\n\t")
 
 	flag.Parse()
 
@@ -59,16 +61,18 @@ func init() {
 	initPath = *_path
 	operationsCase = *_case
 
+	if len(operationsCase) != 0 {
+		setPassword()
+	}
+
 	if operationsCase == caseLabel {
 		start(AddLabel{})
 	} else if operationsCase == caseClearLicense {
 		start(ClearLicense{})
 	} else if operationsCase == caseDeleteDrom {
 		start(DeleteDrom{})
-	}
-
-	if len(operationsCase) != 0 {
-		setPassword()
+	} else if operationsCase == caseAddDrom {
+		start(AddDrom{})
 	}
 }
 
