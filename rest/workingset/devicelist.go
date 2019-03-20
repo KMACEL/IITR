@@ -15,6 +15,9 @@ import (
  ╚═════╝ ╚══════╝   ╚═╝            ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝   ╚═╝           ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝ ╚═════╝╚══════╝╚══════╝
 */
 
+// For use Example :
+//		workingset.Workingset{}.GetWorkingsetDevices({WORKING_SET_CODE})
+
 // GetWorkingsetDevices returns all devices in the workingset
 func (w Workingset) GetWorkingsetDevices(workingsetKey string) []string {
 	setQueryAddress := getWorkingsetDevicesLink(workingsetKey)

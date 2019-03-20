@@ -3,7 +3,6 @@ package workingset
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/KMACEL/IITR/errc"
 	"github.com/KMACEL/IITR/rest"
@@ -58,32 +57,14 @@ func (w Workingset) PushApplications(applicationCode []string, notifyUser bool, 
 */
 
 // PushApplicationsExternal is
-func (w Workingset) PushApplicationsExternal(fileName string, url string, notifyUser bool, deviceID ...string) bool {
-
+func (w Workingset) PushApplicationsExternal(fileName string, url string, versionCode int, notifyUser bool, deviceID ...string) bool {
 	var workingsetVariables Workingset
-
 	workingsetKey := workingsetVariables.CreateWorkingset()
-
 	workingsetVariables.AddDeviceWorkingSet(workingsetKey, deviceID...)
-
 	fmt.Println("Workingset Device List : ", w.GetWorkingsetDevices(workingsetKey))
 
 	setQueryAddress := pushApplicationsExternalLink(workingsetKey)
-
-	// todo json olarak veriyi al
-	//var pushExternalApplicationBodyJSONVar PushExternalApplicationBodyJSON
-
-	// KÖTÜ KOD : TEST EDİLECEK, STRUCT OLARAK ALINACAK, STRİNG DEĞİL
-	body := `{
-	  "deviceIds"	:[],
-	"expireDate":	0,
-	"fileName":	"` + fileName + `",
-	"notifyUser":` + strconv.FormatBool(notifyUser) + `,
-	"packageName":""	,
-	"token":""	,
-	"url":	"` + url + `",
-	"versionCode":	"0"
-	}`
+	body := pushApplicationsExternalBody(fileName, url, versionCode, notifyUser)
 
 	query, err := queryVariable.PostQuery(setQueryAddress, body, contentTypeJSON(), true)
 	errc.ErrorCenter("Push Application :", err)
@@ -95,7 +76,6 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, notify
 			return true
 		}
 		return false
-
 	}
 	return false
 }
@@ -110,7 +90,7 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, notify
 */
 
 //UninstallInstallApplication is
-func (w Workingset) UninstallInstallApplication(applicationCode string, notifyUser bool, deviceID ...string) bool {
+func (w Workingset) UninstallInstallApplication(applicationCode []string, notifyUser bool, deviceID ...string) bool {
 	var workingsetVariables Workingset
 	workingsetKey := workingsetVariables.CreateWorkingset()
 	for _, devices := range deviceID {
@@ -121,14 +101,7 @@ func (w Workingset) UninstallInstallApplication(applicationCode string, notifyUs
 
 	setQueryAddress := uninstallInstallApplicationLink(workingsetKey)
 
-	body := `{
-		"notifyUser":` + strconv.FormatBool(notifyUser) + `,
-		"apps": [
-			{
-				"code": "` + applicationCode + `"
-			}
-		]
-	}`
+	body := pushApplicationsBody(notifyUser, applicationCode...)
 
 	query, err := queryVariable.PostQuery(setQueryAddress, body, contentTypeJSON(), true)
 	errc.ErrorCenter("Push Application :", err)
@@ -142,5 +115,4 @@ func (w Workingset) UninstallInstallApplication(applicationCode string, notifyUs
 		return false
 	}
 	return false
-
 }

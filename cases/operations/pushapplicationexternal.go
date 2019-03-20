@@ -16,6 +16,7 @@ type PushApplicationExternal struct {
 	ApplicationCode string
 	DeviceID        []string
 	URL             string
+	Version         int
 }
 
 //Start is
@@ -24,5 +25,5 @@ func (p PushApplicationExternal) Start() {
 		workingsets workingset.Workingset
 	)
 
-	workingsets.PushApplicationsExternal(p.ApplicationCode, p.URL, workingset.NotNotifyUser, p.DeviceID...)
+	workingsets.PushApplicationsExternal(p.ApplicationCode, p.URL, p.Version, workingset.NotNotifyUser, p.DeviceID...)
 }

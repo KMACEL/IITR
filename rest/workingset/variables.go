@@ -178,7 +178,7 @@ type pushExternalApplicationBodyJSON struct {
 	PackageName string   `json:"packageName"`
 	Token       string   `json:"token"`
 	URL         string   `json:"url"`
-	VersionCode string   `json:"versionCode"`
+	VersionCode int      `json:"versionCode"`
 }
 
 type pushApplicationsBodyJSON struct {
