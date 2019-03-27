@@ -32,8 +32,8 @@ import (
 //			DeviceNodeInventory
 //			DeviceFlowInventory
 //			DeviceConfigInventory
-func (d Device) RefreshGatewayInfo(deviceCode string, specificParameter ...string) string {
-	setAddress := refreshGatewayInfoLink(deviceCode, specificParameter...)
+func (d Device) RefreshGatewayInfo(deviceID string, specificParameter ...string) string {
+	setAddress := refreshGatewayInfoLink(deviceID, specificParameter...)
 	query, _ := q.PostQuery(setAddress, "", contentTypeJSON(), true)
 	if query != nil {
 		if string(query) != rest.ResponseNotFound {
