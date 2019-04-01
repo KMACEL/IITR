@@ -16,6 +16,14 @@ import (
 ╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚══════╝         ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝
 */
 
+/*
+	var w workgroup.WorkGroupRequirements
+	w.AddToWorkGroupDeviceCode = []string{"{YOUR_DEVICE}", "{YOUR_DEVICE}"}
+	w.WorkGroupName = "{NEW_GROUP_NAME}" // new group
+	w.GroupCodes = []string{workgroup.WorkGroup{}.GetGroupID("{GROUP_NAME}", false)}
+	workgroup.WorkGroup{}.MoveWorkGroup(w)
+*/
+
 // MoveWorkGroup is
 func (a WorkGroup) MoveWorkGroup(wgr WorkGroupRequirements) string {
 	setAddress := moveWorkGroupLink()
@@ -25,6 +33,7 @@ func (a WorkGroup) MoveWorkGroup(wgr WorkGroupRequirements) string {
 		workGroupBodyJSON.Devices = append(workGroupBodyJSON.Devices, CodeJSON{Code: addDevice})
 	}
 	workGroupBodyJSON.Name = wgr.WorkGroupName
+	workGroupBodyJSON.GroupCodes = wgr.GroupCodes
 
 	jsonConvert, _ := json.Marshal(workGroupBodyJSON)
 	fmt.Println(string(jsonConvert))
