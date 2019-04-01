@@ -1,6 +1,7 @@
 package reports
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -25,27 +26,30 @@ import (
 ╚═════╝ ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝        ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 */
 
-/*
-For use Example:
-	var detail reports.DetailAllReportReal
-	detail.FileName = "DetailReport_" + timop.GetTimeNamesFormat() + ".csv"
-	detail.DeviceList = []string{"0000", "1111", "2222"}
-	detail.Start("package_name_1", "package_name_2")
-*/
-
-//DetailAllReportReal is
+// DetailAllReportReal is provides a detailed report by using REST APIs.
+// For use Example:
+//	var detail reports.DetailAllReportReal
+//	detail.FileName = "DetailReport_" + timop.GetTimeNamesFormat() + ".csv"
+//	detail.ControlAppPackage = []string{"package_name_1", "package_name_2"}
+//
+//	detail.DeviceList = []string{"0000", "1111", "2222"}
+//	//or
+//	detail.DevicesListFilePath = "REPORT_DEVICES.txt"
+//	detail.Start()
 type DetailAllReportReal struct {
-	writeCsvArray    []string
-	devices          device.Device
-	actions          action.Action
-	detailReportFile *os.File
-	FileName         string
-	DeviceList       []string
-	Unit             int
+	writeCsvArray       []string
+	devices             device.Device
+	actions             action.Action
+	detailReportFile    *os.File
+	FileName            string
+	DeviceList          []string
+	DevicesListFilePath string
+	Unit                int
+	ControlAppPackage   []string
 }
 
 //Start is DetailAllReport. These Cases were created to get detailed reports
-func (d DetailAllReportReal) Start(setControlPackage ...string) {
+func (d DetailAllReportReal) Start() {
 	// It performs the writing process in one step, not in every step of the way. The goal is to increase
 	// the speed and reduce the memory footprint. It is also used to write multiple files at the same time
 	writefile.CreateFile(d.FileName)
@@ -55,8 +59,8 @@ func (d DetailAllReportReal) Start(setControlPackage ...string) {
 	// His section allows you to write them in the title if the number of applications to be checked is reached.
 	// The reason for the substitution assignment is that it will be used later when writing csv
 	var packageHeader string
-	if setControlPackage != nil {
-		for i, packageHeaderName := range setControlPackage {
+	if d.ControlAppPackage != nil {
+		for i, packageHeaderName := range d.ControlAppPackage {
 			if i == 0 {
 				packageHeader = packageHeaderName + "," + packageHeaderName + "," + packageHeaderName
 			} else {
@@ -85,12 +89,27 @@ func (d DetailAllReportReal) Start(setControlPackage ...string) {
 	// Working Group: Any workgroup should be aware of this.
 	//d.writeCsvArray = append(d.writeCsvArray, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "\n")
 	writefile.WriteText(d.detailReportFile, "Device ID", packageHeader, "Drom Count", "Presence", "Active Profile Name", "Active Policy Name", "Current Profile Name", "Policy Name", "Latitude", "Longitude", "Last Online Time", "Read Time", "Working Group", "Modiverse Version", "OS Version", "Report Time")
-	//todo başlık ekle
 
 	var deviceList []string
 	location := make(map[string]map[string]string)
 	//TODO AÇIKLAMA EKLE
-	if d.DeviceList == nil {
+
+	if len(d.DevicesListFilePath) != 0 {
+		file, err := os.Open(d.DevicesListFilePath)
+		if err != nil {
+			panic(d.DevicesListFilePath + " is not openned!!!")
+		}
+		defer file.Close()
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			deviceList = append(deviceList, scanner.Text())
+			latitude, longitude := d.devices.LocationDevice(scanner.Text())
+
+			location[scanner.Text()] = map[string]string{
+				"Latitude":  latitude,
+				"Longitude": longitude}
+		}
+	} else if d.DeviceList == nil {
 		query := d.devices.LocationMap(rest.NOMarshal, rest.Invisible)
 		if query != nil {
 			if string(query) != rest.ResponseNotFound {
@@ -105,13 +124,6 @@ func (d DetailAllReportReal) Start(setControlPackage ...string) {
 						"Latitude":  getDeviceID.Latitude,
 						"Longitude": getDeviceID.Longitude}
 				}
-				if d.Unit == 0 {
-					if len(deviceCode.Extras) > 10 {
-						d.Unit = 10
-					} else {
-						d.Unit = 1
-					}
-				}
 			}
 		} //TODO DURUM KONTROL EKLE
 	} else {
@@ -124,12 +136,13 @@ func (d DetailAllReportReal) Start(setControlPackage ...string) {
 				"Latitude":  latitude,
 				"Longitude": longitude}
 		}
-		if d.Unit == 0 {
-			if len(deviceList) > 10 {
-				d.Unit = 10
-			} else {
-				d.Unit = 1
-			}
+	}
+
+	if d.Unit == 0 {
+		if len(deviceList) > 10 {
+			d.Unit = 10
+		} else {
+			d.Unit = 1
 		}
 	}
 
@@ -140,11 +153,11 @@ func (d DetailAllReportReal) Start(setControlPackage ...string) {
 		if i%unit == 0 {
 			fmt.Println("Begin : ", i-unit, " End : ", i)
 			threadValue++
-			go d.controlReport(setControlPackage, packageHeader, location, threadValue, deviceList[i-unit:i]...)
+			go d.controlReport(d.ControlAppPackage, packageHeader, location, threadValue, deviceList[i-unit:i]...)
 		}
 		if i%unit == 0 && i+unit > len(deviceList) {
 			threadValue++
-			go d.controlReport(setControlPackage, packageHeader, location, threadValue, deviceList[i:]...)
+			go d.controlReport(d.ControlAppPackage, packageHeader, location, threadValue, deviceList[i:]...)
 			fmt.Println("Begin : ", i, " End : ", len(deviceList))
 		}
 	}
