@@ -8,7 +8,7 @@ import (
 	"github.com/KMACEL/IITR/rest"
 )
 
-// GetApplications is
+// GetAllApplications is
 func (a Application) GetAllApplications() []byte {
 
 	setAddress := getAllApplicationsLink()

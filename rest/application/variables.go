@@ -70,3 +70,22 @@ type ResponseApplicationList struct {
 		Number        int `json:"number"`
 	} `json:"page"`
 }
+
+// UninstallApplicationJSON is
+type UninstallApplicationJSON struct {
+	Apps []struct {
+		PackageName string `json:"packageName"`
+	} `json:"apps"`
+	Devices []struct {
+		Code string `json:"code"`
+	} `json:"devices"`
+	NotifyUser bool `json:"notifyUser"`
+}
+
+type deviceJSON struct {
+	Code string `json:"code"`
+}
+
+type packageNameJSON struct {
+	PackageName string `json:"packageName"`
+}

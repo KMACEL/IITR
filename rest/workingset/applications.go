@@ -6,7 +6,6 @@ import (
 
 	"github.com/KMACEL/IITR/errc"
 	"github.com/KMACEL/IITR/rest"
-	"github.com/KMACEL/IITR/rest/device"
 )
 
 /*
@@ -93,10 +92,8 @@ func (w Workingset) PushApplicationsExternal(fileName string, url string, versio
 func (w Workingset) UninstallInstallApplication(applicationCode []string, notifyUser bool, deviceID ...string) bool {
 	var workingsetVariables Workingset
 	workingsetKey := workingsetVariables.CreateWorkingset()
-	for _, devices := range deviceID {
-		workingsetVariables.AddDeviceWorkingSet(workingsetKey, device.Device{}.DeviceID2Code(devices))
-	}
-	// todo workingsete array olarak ver
+	workingsetVariables.AddDeviceWorkingSet(workingsetKey, deviceID...)
+
 	fmt.Println("Workingset Device List : ", w.GetWorkingsetDevices(workingsetKey))
 
 	setQueryAddress := uninstallInstallApplicationLink(workingsetKey)

@@ -33,18 +33,6 @@ const (
 	ad                 = "ad"
 )
 
-/*const (
-	workingset          = "https://api.ardich.com/api/v3/workingset/"
-	empty               = "empty"
-	deviceAdd           = "/devices/add/"
-	application         = "/application/"
-	applicationInstall  = "install"
-	applicationReistall = "reinstall"
-	externalApp         = "install-external-app"
-	devices             = "/device?page=0&size=500"
-	controlAd = "/control/ad"
-)*/
-
 //createWorkingsetLink is return
 //https://api.ardich.com/api/v3/workingset/empty
 func createWorkingsetLink() string {
