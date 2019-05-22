@@ -46,6 +46,7 @@ var (
 	instantApplicationInfoJSONVariable    InstantApplicationInfoJSON
 	presenceHistroyJSONVariable           PresenceHistroyJSON
 	sensorDataJSONVariable                SensorDataJSON
+	nodeInventoryJSONVariable             NodeInventoryJSON
 )
 
 const (
@@ -612,6 +613,28 @@ type SensorDataJSON struct {
 		CloudDate  int64  `json:"cloudDate"`
 	} `json:"data"`
 	Ok bool `json:"ok"`
+}
+
+// NodeInventoryJSON is
+type NodeInventoryJSON struct {
+	Code    string `json:"code"`
+	Status  string `json:"status"`
+	Success string `json:"success"`
+	Extras  struct {
+		Nodes []struct {
+			NodeID      string `json:"nodeId"`
+			Connected   int    `json:"connected"`
+			Description string `json:"description"`
+			Things      []struct {
+				ID          string `json:"id"`
+				Type        string `json:"type"`
+				Vendor      string `json:"vendor"`
+				Connected   int    `json:"connected"`
+				Description string `json:"description"`
+				Actuator    bool   `json:"actuator"`
+			} `json:"things"`
+		} `json:"nodes"`
+	} `json:"extras"`
 }
 
 //AddIOTLabelJSON is

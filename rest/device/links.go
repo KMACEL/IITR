@@ -18,12 +18,16 @@ import (
 //It is designed in such a way that the administration is easy.
 
 const (
-	dev            = "device/"
-	control        = "/control/"
-	status         = "status"
-	wipe           = "wipe"
-	label          = "/label"
-	takescreenshot = "take-screenshot"
+	dev                 = "device/"
+	control             = "/control/"
+	status              = "status"
+	wipe                = "wipe"
+	label               = "/label"
+	takescreenshot      = "take-screenshot"
+	sensorData          = "/sensor-data"
+	nodeID              = "nodeId"
+	sensorID            = "sensorId"
+	deviceNodeInventory = "/device-node-inventory"
 )
 
 const (
@@ -54,9 +58,6 @@ const (
 	deviceParam            = "?device="
 	devicesParam           = "?devices="
 	location               = "location"
-	sensorData             = "/sensor-data"
-	nodeID                 = "nodeId="
-	sensorID               = "sensorId="
 	iotLabel               = "iotlabel/label/multi"
 )
 
@@ -192,8 +193,23 @@ func refreshGatewayInfoLink(deviceCode string, specificParameter ...string) stri
 	return u.String()
 }
 
+// https://api.ardich.com/api/v3/device/{YOUR_DEVICE_ID}/sensor-data?nodeId={YOUR_NODE_ID}&sensorId=D{YOUR_SENSOR_ID}
 func getSensorDataLink(deviceID string, nodeName string, sensorName string) string {
-	return device + deviceID + sensorData + "?" + nodeID + nodeName + "&" + sensorID + sensorName
+	u := rest.GetAPITemplate()
+	data := url.Values{}
+	data.Add(nodeID, nodeName)
+	data.Add(sensorID, sensorName)
+	u.RawQuery = data.Encode()
+	u.Path = u.Path + dev + deviceID + sensorData
+
+	return u.String()
+}
+
+// https://api.ardich.com:443/api/v3/device/{YOUR_DEVICE_ID}/device-node-inventory
+func getNodeInventoryLink(setDeviceID string) string {
+	u := rest.GetAPITemplate()
+	u.Path = u.Path + dev + setDeviceID + deviceNodeInventory
+	return u.String()
 }
 
 func addIOTLabelLink() string {

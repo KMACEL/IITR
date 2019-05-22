@@ -17,7 +17,7 @@ import (
 */
 
 /*
-drom.Drom{}.SendDrom(true, "{YOUR_DEVICE_ID}")
+drom.Drom{}.SendDrom("{YOUR_DEVICE_ID}", true)
 */
 
 // SendDrom carries out the transmission of the drom configuration to
