@@ -47,6 +47,7 @@ var (
 	presenceHistroyJSONVariable           PresenceHistroyJSON
 	sensorDataJSONVariable                SensorDataJSON
 	nodeInventoryJSONVariable             NodeInventoryJSON
+	sensorDataHistoryJSONVariable         SensorDataHistoryJSON
 )
 
 const (
@@ -613,6 +614,21 @@ type SensorDataJSON struct {
 		CloudDate  int64  `json:"cloudDate"`
 	} `json:"data"`
 	Ok bool `json:"ok"`
+}
+
+// SensorDataHistoryJSON is
+type SensorDataHistoryJSON struct {
+	List []struct {
+		DeviceID   string `json:"deviceId"`
+		Command    string `json:"command"`
+		Data       string `json:"data"`
+		CreateDate int64  `json:"createDate"`
+		NodeID     string `json:"nodeId"`
+		SensorID   string `json:"sensorId"`
+		CloudDate  int64  `json:"cloudDate"`
+	} `json:"list"`
+	Count  int    `json:"count"`
+	LastID string `json:"lastId"`
 }
 
 // NodeInventoryJSON is

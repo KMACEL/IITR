@@ -2,6 +2,7 @@ package device
 
 import (
 	"net/url"
+	"strconv"
 
 	"github.com/KMACEL/IITR/rest"
 )
@@ -28,6 +29,8 @@ const (
 	nodeID              = "nodeId"
 	sensorID            = "sensorId"
 	deviceNodeInventory = "/device-node-inventory"
+	sensorDataHistory   = "/sensor-data-history"
+	pageSize            = "pageSize"
 )
 
 const (
@@ -193,7 +196,7 @@ func refreshGatewayInfoLink(deviceCode string, specificParameter ...string) stri
 	return u.String()
 }
 
-// https://api.ardich.com/api/v3/device/{YOUR_DEVICE_ID}/sensor-data?nodeId={YOUR_NODE_ID}&sensorId=D{YOUR_SENSOR_ID}
+// https://api.ardich.com/api/v3/device/{YOUR_DEVICE_ID}/sensor-data?nodeId={YOUR_NODE_ID}&sensorId={YOUR_SENSOR_ID}
 func getSensorDataLink(deviceID string, nodeName string, sensorName string) string {
 	u := rest.GetAPITemplate()
 	data := url.Values{}
@@ -201,6 +204,19 @@ func getSensorDataLink(deviceID string, nodeName string, sensorName string) stri
 	data.Add(sensorID, sensorName)
 	u.RawQuery = data.Encode()
 	u.Path = u.Path + dev + deviceID + sensorData
+
+	return u.String()
+}
+
+// https://api.ardich.com:443/api/v3/device/{YOUR_DEVICE_ID}/sensor-data-history?nodeId={YOUR_NODE_ID}&sensorId={YOUR_SENSOR_ID}&pageSize={GET_LAST_FATA_SIZE}
+func getSensorDataHistoryLink(deviceID string, nodeName string, sensorName string, lastDataSize int) string {
+	u := rest.GetAPITemplate()
+	data := url.Values{}
+	data.Add(nodeID, nodeName)
+	data.Add(sensorID, sensorName)
+	data.Add(pageSize, strconv.Itoa(lastDataSize))
+	u.RawQuery = data.Encode()
+	u.Path = u.Path + dev + deviceID + sensorDataHistory
 
 	return u.String()
 }
