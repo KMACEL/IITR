@@ -65,3 +65,10 @@ func CreateEpochTime(year int, month int, day int, hour int, minute int, second 
 	hour = hour - timeZone
 	return time.Date(year, monthT, day, hour, minute, second, miliSecond, time.UTC).Unix() * 1000
 }
+
+// ReportTimeFormat is
+func ReportTimeFormat(epochTime int64) string {
+	t := time.Unix(0, epochTime*1000000)
+	t = time.Time.In(t, time.FixedZone("UTC+3", 3*60*60))
+	return t.Format("2006-01-02 15:04:05.567")
+}
