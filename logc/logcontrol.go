@@ -9,10 +9,11 @@ import (
 
 var Debug = true
 var ConnectionPrintDebug = true
+var QueryPrintDebug = true
 
 // QueryPrint is
 func QueryPrint(args ...interface{}) {
-	if Debug {
+	if ConnectionPrintDebug {
 		if _, err := os.Stat("./logc"); os.IsNotExist(err) {
 			os.MkdirAll("./logc", os.ModePerm)
 		}
