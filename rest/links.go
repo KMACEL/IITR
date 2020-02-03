@@ -47,6 +47,12 @@ const (
 	headerBearer = "Bearer "
 )
 
+var (
+	scheme string
+	host   string
+	path   string
+)
+
 func loginLink() string {
 	u := GetAPITemplate()
 	u.Path = u.Path + oauth
@@ -70,8 +76,36 @@ func refleshTokenBodyLink() string {
 
 // GetAPITemplate is
 func GetAPITemplate() url.URL {
+	if len(scheme) == 0{
+		scheme=APIScheme
+	}
+
+	if len(host) == 0{
+		host=APIHost
+	}
+
+	if len(path) == 0{
+		path=APIPath
+	}
+
 	return url.URL{
-		Scheme: APIScheme,
-		Host:   APIHost,
-		Path:   APIPath}
+		Scheme: scheme,
+		Host:   host,
+		Path:   path}
 }
+
+// SetScheme is
+func SetScheme(schm string)  {
+	scheme= schm
+}
+
+// SetHost is
+func SetHost(hst string)  {
+	host= hst
+}
+
+// SetPath is
+func SetPath(pth string)  {
+	path= pth
+}
+
